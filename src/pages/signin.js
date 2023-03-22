@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import {
     TextInput,
     Checkbox,
@@ -14,9 +14,18 @@ import { Layout } from "../../components/Layout";
 
 import { auth } from "../../firebase/firebaseConfig";
 import { useAuth } from "../../context/authContext";
+import { useRouter } from "next/router";
 
 export default function Home() {
-    const { SignUp, SignUpWithGoogle } = useAuth();
+    const { SignUp, SignUpWithGoogle, currentUser } = useAuth();
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (currentUser) {
+            router.push("/dashboard");
+        }
+    }, [currentUser]);
 
     const SignUpUser = async (formValues) => {
         try {
@@ -86,7 +95,6 @@ export default function Home() {
                     <form
                         onSubmit={form.onSubmit((values) => {
                             SignUpUser(values);
-                            console.log(values);
                         })}
                     >
                         <TextInput

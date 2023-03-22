@@ -24,6 +24,7 @@ import {
     IconChevronDown,
 } from "@tabler/icons-react";
 // import { MantineLogo } from "@mantine/ds";
+import { useAuth } from "../context/authContext";
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -148,6 +149,7 @@ const data = {
 };
 
 export function HeaderTabsColored() {
+    const { currentUser, SignOut } = useAuth();
     const { user, tabs } = data;
     const { classes, theme, cx } = useStyles();
     const [opened, { toggle }] = useDisclosure(false);
@@ -176,125 +178,138 @@ export function HeaderTabsColored() {
                         color={theme.white}
                     />
 
-                    <Menu
-                        width={260}
-                        position="bottom-end"
-                        transitionProps={{ transition: "pop-top-right" }}
-                        onClose={() => setUserMenuOpened(false)}
-                        onOpen={() => setUserMenuOpened(true)}
-                        withinPortal
-                    >
-                        <Menu.Target>
-                            <UnstyledButton
-                                className={cx(classes.user, {
-                                    [classes.userActive]: userMenuOpened,
-                                })}
-                            >
-                                <Group spacing={7}>
-                                    <Avatar
-                                        src={user.image}
-                                        alt={user.name}
-                                        radius="xl"
-                                        size={20}
-                                    />
-                                    <Text
-                                        weight={500}
-                                        size="sm"
-                                        sx={{
-                                            lineHeight: 1,
-                                            color: theme.white,
-                                        }}
-                                        mr={3}
-                                    >
-                                        {user.name}
-                                    </Text>
-                                    <IconChevronDown
-                                        size={rem(12)}
-                                        stroke={1.5}
-                                    />
-                                </Group>
-                            </UnstyledButton>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Item
-                                icon={
-                                    <IconHeart
-                                        size="0.9rem"
-                                        stroke={1.5}
-                                        color={theme.colors.red[6]}
-                                    />
-                                }
-                            >
-                                Liked posts
-                            </Menu.Item>
-                            <Menu.Item
-                                icon={
-                                    <IconStar
-                                        size="0.9rem"
-                                        stroke={1.5}
-                                        color={theme.colors.yellow[6]}
-                                    />
-                                }
-                            >
-                                Saved posts
-                            </Menu.Item>
-                            <Menu.Item
-                                icon={
-                                    <IconMessage
-                                        size="0.9rem"
-                                        stroke={1.5}
-                                        color={theme.colors.blue[6]}
-                                    />
-                                }
-                            >
-                                Your comments
-                            </Menu.Item>
+                    {currentUser && (
+                        <Menu
+                            width={260}
+                            position="bottom-end"
+                            transitionProps={{ transition: "pop-top-right" }}
+                            onClose={() => setUserMenuOpened(false)}
+                            onOpen={() => setUserMenuOpened(true)}
+                            withinPortal
+                        >
+                            <Menu.Target>
+                                <UnstyledButton
+                                    className={cx(classes.user, {
+                                        [classes.userActive]: userMenuOpened,
+                                    })}
+                                >
+                                    <Group spacing={7}>
+                                        <Avatar
+                                            src={currentUser.photoURL}
+                                            alt={currentUser.displayName}
+                                            radius="xl"
+                                            size={20}
+                                        />
+                                        <Text
+                                            weight={500}
+                                            size="sm"
+                                            sx={{
+                                                lineHeight: 1,
+                                                color: theme.white,
+                                            }}
+                                            mr={3}
+                                        >
+                                            {currentUser.displayName}
+                                        </Text>
+                                        <IconChevronDown
+                                            size={rem(12)}
+                                            stroke={1.5}
+                                        />
+                                    </Group>
+                                </UnstyledButton>
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                                <Menu.Item
+                                    icon={
+                                        <IconHeart
+                                            size="0.9rem"
+                                            stroke={1.5}
+                                            color={theme.colors.red[6]}
+                                        />
+                                    }
+                                >
+                                    Liked posts
+                                </Menu.Item>
+                                <Menu.Item
+                                    icon={
+                                        <IconStar
+                                            size="0.9rem"
+                                            stroke={1.5}
+                                            color={theme.colors.yellow[6]}
+                                        />
+                                    }
+                                >
+                                    Saved posts
+                                </Menu.Item>
+                                <Menu.Item
+                                    icon={
+                                        <IconMessage
+                                            size="0.9rem"
+                                            stroke={1.5}
+                                            color={theme.colors.blue[6]}
+                                        />
+                                    }
+                                >
+                                    Your comments
+                                </Menu.Item>
 
-                            <Menu.Label>Settings</Menu.Label>
-                            <Menu.Item
-                                icon={
-                                    <IconSettings size="0.9rem" stroke={1.5} />
-                                }
-                            >
-                                Account settings
-                            </Menu.Item>
-                            <Menu.Item
-                                icon={
-                                    <IconSwitchHorizontal
-                                        size="0.9rem"
-                                        stroke={1.5}
-                                    />
-                                }
-                            >
-                                Change account
-                            </Menu.Item>
-                            <Menu.Item
-                                icon={<IconLogout size="0.9rem" stroke={1.5} />}
-                            >
-                                Logout
-                            </Menu.Item>
+                                <Menu.Label>Settings</Menu.Label>
+                                <Menu.Item
+                                    icon={
+                                        <IconSettings
+                                            size="0.9rem"
+                                            stroke={1.5}
+                                        />
+                                    }
+                                >
+                                    Account settings
+                                </Menu.Item>
+                                <Menu.Item
+                                    icon={
+                                        <IconSwitchHorizontal
+                                            size="0.9rem"
+                                            stroke={1.5}
+                                        />
+                                    }
+                                >
+                                    Change account
+                                </Menu.Item>
+                                <Menu.Item
+                                    icon={
+                                        <IconLogout
+                                            size="0.9rem"
+                                            stroke={1.5}
+                                        />
+                                    }
+                                    onClick={() => SignOut()}
+                                >
+                                    Logout
+                                </Menu.Item>
 
-                            <Menu.Divider />
+                                <Menu.Divider />
 
-                            <Menu.Label>Danger zone</Menu.Label>
-                            <Menu.Item
-                                icon={
-                                    <IconPlayerPause
-                                        size="0.9rem"
-                                        stroke={1.5}
-                                    />
-                                }
-                            >
-                                Pause subscription
-                            </Menu.Item>
-                            <Menu.Item
-                                color="red"
-                                icon={<IconTrash size="0.9rem" stroke={1.5} />}
-                            >
-                                Delete account
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
+                                <Menu.Label>Danger zone</Menu.Label>
+                                <Menu.Item
+                                    icon={
+                                        <IconPlayerPause
+                                            size="0.9rem"
+                                            stroke={1.5}
+                                        />
+                                    }
+                                >
+                                    Pause subscription
+                                </Menu.Item>
+                                <Menu.Item
+                                    color="red"
+                                    icon={
+                                        <IconTrash size="0.9rem" stroke={1.5} />
+                                    }
+                                >
+                                    Delete account
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
+                    )}
                 </Group>
             </Container>
             <Container>

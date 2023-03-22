@@ -14,11 +14,18 @@ import { Layout } from "../../components/Layout";
 
 import { auth } from "../../firebase/firebaseConfig";
 import { useAuth } from "../../context/authContext";
+import { useRouter } from "next/router";
 
 export default function Home() {
-    const { LogIn, LoginWithGoogle } = useAuth();
+    const { LogIn, LoginWithGoogle, currentUser } = useAuth();
+    const router = useRouter();
 
-    const [formData, setFormData] = useState();
+    useEffect(() => {
+        if (currentUser) {
+            router.push("/dashboard");
+        }
+    }, [currentUser]);
+
     /// need to check if the user is existing or not , if not , redirect back to Signup
 
     const LogInUser = async (formValues) => {
@@ -84,8 +91,6 @@ export default function Home() {
                 >
                     <form
                         onSubmit={form.onSubmit((values) => {
-                            setFormData(values);
-                            // console.log(values);
                             LogInUser(values);
                         })}
                     >
