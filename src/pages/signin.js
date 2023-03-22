@@ -15,6 +15,7 @@ import { Layout } from "../../components/Layout";
 import { auth } from "../../firebase/firebaseConfig";
 import { useAuth } from "../../context/authContext";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function Home() {
     const { SignUp, SignUpWithGoogle, currentUser } = useAuth();
@@ -124,6 +125,15 @@ export default function Home() {
                     </form>
                     <a>Or </a>
                     <Button
+                        leftIcon={
+                            <Image
+                                src="/google.svg"
+                                alt="Google Logo"
+                                width={24}
+                                height={24}
+                            />
+                        }
+                        variant="default"
                         onClick={() => {
                             SignUpUserGoogle();
                         }}
