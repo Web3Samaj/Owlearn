@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     TextInput,
     Checkbox,
@@ -8,6 +8,7 @@ import {
     Box,
     PasswordInput,
     Anchor,
+    Center,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Layout } from "../../components/Layout";
@@ -16,9 +17,11 @@ import { auth } from "../../firebase/firebaseConfig";
 import { useAuth } from "../../context/authContext";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
     const { SignUp, SignUpWithGoogle, currentUser } = useAuth();
+    const [isLensWallet, setIsLensWallet] = useState(false);
 
     const router = useRouter();
 
@@ -51,6 +54,7 @@ export default function Home() {
         validateInputOnChange: true,
         initialValues: {
             email: "",
+            name: "",
             password: "",
             confirmPassword: "",
         },
@@ -58,6 +62,8 @@ export default function Home() {
         validate: {
             email: (value) =>
                 /^\S+@\S+$/.test(value) ? null : "Invalid email",
+            name: (value) =>
+                value.length < 3 ? "Name must be at least 3 characters" : null,
             password: (value) =>
                 value.length < 6
                     ? "Password must be at least 6 characters"
@@ -93,19 +99,30 @@ export default function Home() {
                         }
                     }
                 >
+                    <ConnectButton />
                     <form
                         onSubmit={form.onSubmit((values) => {
                             SignUpUser(values);
                         })}
                     >
                         <TextInput
+                            mt="sm"
                             withAsterisk
                             label="Email"
                             placeholder="your@email.com"
                             {...form.getInputProps("email")}
                         />
 
+                        <TextInput
+                            mt="sm"
+                            withAsterisk
+                            label="Name"
+                            placeholder="Your name"
+                            {...form.getInputProps("name")}
+                        />
+
                         <PasswordInput
+                            mt="sm"
                             label="Password"
                             placeholder="Password"
                             {...form.getInputProps("password")}
@@ -123,23 +140,25 @@ export default function Home() {
                             <Anchor href="/login">Login instead?</Anchor>
                         </Group>
                     </form>
-                    <a>Or </a>
-                    <Button
-                        leftIcon={
-                            <Image
-                                src="/google.svg"
-                                alt="Google Logo"
-                                width={24}
-                                height={24}
-                            />
-                        }
-                        variant="default"
-                        onClick={() => {
-                            SignUpUserGoogle();
-                        }}
-                    >
-                        Signup with Google
-                    </Button>
+                    <Center mt="md">
+                        <Button
+                            leftIcon={
+                                <Image
+                                    src="/google.svg"
+                                    alt="Google Logo"
+                                    width={24}
+                                    height={24}
+                                />
+                            }
+                            variant="default"
+                            onClick={() => {
+                                SignUpUserGoogle();
+                            }}
+                            size="md"
+                        >
+                            Signup with Google
+                        </Button>
+                    </Center>
                 </Box>
             </main>
         </Layout>

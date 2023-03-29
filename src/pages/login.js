@@ -8,6 +8,7 @@ import {
     Box,
     PasswordInput,
     Anchor,
+    Center,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Layout } from "../../components/Layout";
@@ -113,23 +114,26 @@ export default function Home() {
                             <Anchor href="/signin">Sigin instead?</Anchor>
                         </Group>
                     </form>
-                    <a>Or </a>
-                    <Button
-                        leftIcon={
-                            <Image
-                                src="/google.svg"
-                                alt="Google Logo"
-                                width={24}
-                                height={24}
-                            />
-                        }
-                        variant="default"
-                        onClick={() => {
-                            LogInUserGoogle();
-                        }}
-                    >
-                        Login with Google
-                    </Button>
+
+                    <Center mt="md">
+                        <Button
+                            leftIcon={
+                                <Image
+                                    src="/google.svg"
+                                    alt="Google Logo"
+                                    width={24}
+                                    height={24}
+                                />
+                            }
+                            variant="default"
+                            onClick={() => {
+                                LogInUserGoogle();
+                            }}
+                            size="md"
+                        >
+                            Login with Google
+                        </Button>
+                    </Center>
                 </Box>
             </main>
         </Layout>

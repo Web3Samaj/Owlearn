@@ -2,7 +2,9 @@ import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
     ConnectButton,
+    darkTheme,
     getDefaultWallets,
+    lightTheme,
     RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
@@ -41,7 +43,10 @@ export default function App({ Component, pageProps }) {
     return (
         <AuthProvider>
             <WagmiConfig client={wagmiClient}>
-                <RainbowKitProvider chains={chains}>
+                <RainbowKitProvider
+                    chains={chains}
+                    theme={colorScheme === "dark" ? darkTheme() : lightTheme()}
+                >
                     <ColorSchemeProvider
                         colorScheme={colorScheme}
                         toggleColorScheme={toggleColorScheme}
