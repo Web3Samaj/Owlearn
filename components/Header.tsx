@@ -25,6 +25,8 @@ import {
 } from "@tabler/icons-react";
 // import { MantineLogo } from "@mantine/ds";
 import { useAuth } from "../context/authContext";
+import { ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { IconSun, IconMoonStars } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -149,6 +151,8 @@ const data = {
 };
 
 export function HeaderTabsColored() {
+    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+    const dark = colorScheme === "dark";
     const { currentUser, SignOut } = useAuth();
     const { user, tabs } = data;
     const { classes, theme, cx } = useStyles();
@@ -313,17 +317,31 @@ export function HeaderTabsColored() {
                 </Group>
             </Container>
             <Container>
-                <Tabs
-                    defaultValue="Home"
-                    variant="outline"
-                    classNames={{
-                        root: classes.tabs,
-                        tabsList: classes.tabsList,
-                        tab: classes.tab,
-                    }}
-                >
-                    <Tabs.List>{items}</Tabs.List>
-                </Tabs>
+                <Group>
+                    <Tabs
+                        defaultValue="Home"
+                        variant="outline"
+                        classNames={{
+                            root: classes.tabs,
+                            tabsList: classes.tabsList,
+                            tab: classes.tab,
+                        }}
+                    >
+                        <Tabs.List>{items}</Tabs.List>
+                    </Tabs>
+                    <ActionIcon
+                        variant="outline"
+                        color={dark ? "yellow" : "blue"}
+                        onClick={() => toggleColorScheme()}
+                        title="Toggle color scheme"
+                    >
+                        {dark ? (
+                            <IconSun size="1.1rem" />
+                        ) : (
+                            <IconMoonStars size="1.1rem" />
+                        )}
+                    </ActionIcon>
+                </Group>
             </Container>
         </div>
     );
