@@ -330,7 +330,7 @@ export function HeaderTabsColored() {
                         <Tabs.List>{items}</Tabs.List>
                     </Tabs>
                     <ActionIcon
-                        variant="outline"
+                        variant={dark ? "filled" : "light"}
                         color={dark ? "yellow" : "blue"}
                         onClick={() => toggleColorScheme()}
                         title="Toggle color scheme"
