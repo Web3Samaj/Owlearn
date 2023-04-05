@@ -13,6 +13,8 @@ import {
 import { auth } from "../firebase/firebaseConfig";
 import { publicPaths } from "../constants/publicPaths";
 
+import { useActiveWallet } from "@lens-protocol/react";
+
 const googleProvider = new GoogleAuthProvider();
 
 const AuthContext = createContext();
@@ -26,6 +28,9 @@ export function AuthProvider({ children }) {
   const userInfo = useRef();
   const router = useRouter();
   const user = auth.currentUser;
+
+  // lens Wallet
+  const { data: wallet } = useActiveWallet();
 
   const [authorized, setAuthorized] = useState(false);
 
@@ -124,9 +129,10 @@ export function AuthProvider({ children }) {
       router.events.off("routeChangeStart", preventAccess);
       router.events.off("routeChangeComplete", authCheck);
     };
-  }, [router, router.events, currentUser]);
+  }, [router, router.events, currentUser, wallet]);
 
   const value = {
+    wallet,
     user,
     currentUser,
     LogIn,
