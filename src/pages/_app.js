@@ -9,6 +9,7 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { polygon } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
+import { AuthContextProvider } from '@/modules/auth/contexts/AuthContext'
 
 const { chains, provider } = configureChains(
     [polygon],
@@ -33,7 +34,9 @@ export default function App({ Component, pageProps }) {
     return (
         <WagmiConfig client={wagmiClient}>
             <RainbowKitProvider chains={chains}>
-                <Component {...pageProps} />
+                <AuthContextProvider>
+                    <Component {...pageProps} />
+                </AuthContextProvider>
             </RainbowKitProvider>
         </WagmiConfig>
     )
