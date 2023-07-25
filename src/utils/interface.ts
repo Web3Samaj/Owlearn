@@ -7,5 +7,6 @@ export interface IrestInput {
   courseTitle: string
   description: string
   category: string
-  price: number
+  thumbnail: File | null
+  price: number | string
 }

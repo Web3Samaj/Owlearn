@@ -87,6 +87,7 @@ const Upload = ({
 
         <input
           name="video"
+          accept="video/mp4,video/x-m4v,video/*"
           type="file"
           className="hidden"
           onChange={handlevideo}
