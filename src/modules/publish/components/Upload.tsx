@@ -12,6 +12,7 @@ const Upload = ({
   const vidcomp = useRef(null!)
 
   const [val, setVal] = useState<IUploadComp>({
+    idx,
     video: vid,
     title: tit,
   })
@@ -44,6 +45,7 @@ const Upload = ({
     vidcomp.current.src = ''
     setDragComp(true)
     setVal({
+      idx: idx,
       video: null,
       title: '',
     })

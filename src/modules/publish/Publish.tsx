@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Upload from './components/Upload'
 import { IUploadComp, IrestInput } from '@/src/utils/interface'
 import { useStore } from '@/src/store/store'
@@ -8,12 +8,19 @@ const Publish = () => {
   const allCourse = useStore((store) => store.courseData)
   const preview = useRef(null!)
   const inputRefs = useRef<(HTMLInputElement | HTMLTextAreaElement)[]>([])
-  const [uploadComp, setUploadComp] = useState<IUploadComp[]>([
-    {
-      video: null,
-      title: '',
-    },
-  ])
+  const [uploadComp, setUploadComp] = useState<IUploadComp[]>([])
+
+  useEffect(() => {
+    setUploadComp([
+      {
+        idx: crypto.randomUUID(),
+        video: null,
+        title: '',
+      },
+    ])
+  }, [])
+
+  console.log('uploadComp', uploadComp)
 
   const [restInp, setRestInp] = useState<IrestInput>({
     courseTitle: '',
@@ -70,6 +77,7 @@ const Publish = () => {
       return [
         ...prev,
         {
+          idx: crypto.randomUUID(),
           video: null,
           title: '',
         },
@@ -77,26 +85,31 @@ const Publish = () => {
     })
   }
 
-  function handleVideoChange(idx: number, vid: File) {
+  function getVideo(arr: IUploadComp[], idx: string) {
+    const vid = arr.find((val) => val.idx === idx)
+    return vid
+  }
+
+  function handleVideoChange(idx: string, vid: File) {
     setUploadComp((prev) => {
       const mock = prev
-      mock[idx].video = vid
+      getVideo(mock, idx).video = vid
       return mock
     })
   }
 
-  function handleTitleChange(idx: number, title: string) {
+  function handleTitleChange(idx: string, title: string) {
     setUploadComp((prev) => {
       const mock = prev
-      mock[idx].title = title
+      getVideo(mock, idx).title = title
       return mock
     })
   }
   // console.log(uploadComp)
-  function deleteVidComp(idx: number) {
+  function deleteVidComp(idx: string) {
     if (uploadComp.length === 1) return
     setUploadComp((prev) => {
-      const updated = prev.filter((_, i) => i !== idx)
+      const updated = prev.filter((val, i) => val.idx !== idx)
       return updated
     })
   }
@@ -169,9 +182,9 @@ const Publish = () => {
         <div className={`max-w-full flex  flex-wrap justify-start`}>
           {uploadComp.map((val, idx) => (
             <Upload
-              key={idx}
+              key={val.idx}
               deleteComp={deleteVidComp}
-              idx={idx}
+              idx={val.idx}
               handleVideoChange={handleVideoChange}
               handleTitleChange={handleTitleChange}
               vid={val.video}

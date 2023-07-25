@@ -1,4 +1,5 @@
 export interface IUploadComp {
+  idx: string
   video: File | null
   title: string
 }
