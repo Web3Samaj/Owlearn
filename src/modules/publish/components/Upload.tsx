@@ -82,6 +82,7 @@ const Upload = ({
           className={`hidden w-[10rem]`}
           controls
           autoPlay
+          muted
           loop
         >
           Your browser does not support the video tag.
