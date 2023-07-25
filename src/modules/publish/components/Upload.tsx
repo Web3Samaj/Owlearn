@@ -1,12 +1,52 @@
+import { IUploadComp } from '@/src/utils/interface'
 import React, { useRef, useState } from 'react'
 
-const Upload = ({ deleteComp, idx, handleChange }) => {
+const Upload = ({
+  deleteComp,
+  idx,
+  handleTitleChange,
+  handleVideoChange,
+  vid,
+  tit,
+}) => {
   const vidcomp = useRef(null!)
-  const vid = useRef(null!)
+
+  const [val, setVal] = useState<IUploadComp>({
+    video: vid,
+    title: tit,
+  })
+
   const [dragcomp, setDragComp] = useState(true)
 
+  function handlevideo(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files[0]
+    if (!file) return
+    const blobUrl = URL.createObjectURL(file)
+    vidcomp.current.style.display = 'block'
+    vidcomp.current.src = blobUrl
+    setDragComp(false)
+    setVal((prev) => {
+      return { ...prev, video: e.target.files[0] }
+    })
+    handleVideoChange(idx, e.target.files[0])
+  }
+
+  function handletitle(e: React.ChangeEvent<HTMLInputElement>) {
+    setVal((prev) => {
+      return { ...prev, [e.target.name]: e.target.value }
+    })
+
+    handleTitleChange(idx, e.target.value)
+  }
+
   function deleteit() {
-    // console.log(vid)
+    vidcomp.current.style.display = 'hidden'
+    vidcomp.current.src = ''
+    setDragComp(true)
+    setVal({
+      video: null,
+      title: '',
+    })
     deleteComp(idx)
   }
 
@@ -15,7 +55,7 @@ const Upload = ({ deleteComp, idx, handleChange }) => {
       <label className="flex mx-2 mt-2 w-[8.5rem]  h-[5.5rem] flex-col rounded-t-md bg-black py-2 px-4 border-dashed   group text-center overflow-hidden">
         <div
           className={`pointer-none text-gray-500 text-xs text-center flex flex-col items-center  ${
-            dragcomp ? 'block' : 'hidden group-hover:flex mb-4    '
+            dragcomp ? 'block mb-4' : 'hidden group-hover:flex mb-4    '
           } `}
         >
           <svg
@@ -32,14 +72,12 @@ const Upload = ({ deleteComp, idx, handleChange }) => {
               d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
             />
           </svg>
-          <span className={`text-xs`}>Drag and drop your files here</span>
+          <span className={`text-xs `}>Drag and drop your files here</span>
         </div>
 
         <video
           ref={vidcomp}
-          className={`hidden w-[10rem]  
-                       
-                    `}
+          className={`hidden w-[10rem]`}
           controls
           autoPlay
           loop
@@ -50,26 +88,17 @@ const Upload = ({ deleteComp, idx, handleChange }) => {
         <input
           name="video"
           type="file"
-          className="hidden "
-          onChange={(e) => {
-            const file = e.target.files[0]
-            if (!file) return
-            const blobURL = URL.createObjectURL(file)
-            // document.querySelector("video").style.display = 'block';
-            vidcomp.current.style.display = 'block'
-            setDragComp(false)
-            vidcomp.current.src = blobURL
-            vid.current = e.target.files[0]
-          }}
-          // onClick={deleteit}
+          className="hidden"
+          onChange={handlevideo}
         />
       </label>
       <input
+        value={val.title}
         name="title"
         type="text"
         placeholder="Video title"
         className=" bg-stone-900 placeholder:text-white/60 w-[8.5rem] h-8 truncate placeholder:px-2 placeholder:text-center text-xs rounded-b-md mx-2 active:outline-none  focus:outline-none px-2"
-        onChange={(e) => handleChange(idx, vid.current, e.target.value)}
+        onChange={handletitle}
       />
 
       <img

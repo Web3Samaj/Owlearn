@@ -1,22 +1,15 @@
 import React, { useRef, useState } from 'react'
 import Upload from './components/Upload'
+import { IUploadComp, IrestInput } from '@/src/utils/interface'
+import { useStore } from '@/src/store/store'
 
-interface IUploadComp {
-  video: any
-  title: string
-}
-
-interface IrestInput {
-  courseTitle: string
-  description: string
-  category: string
-  price: number
-}
 const Publish = () => {
-  const [uploadNo, setUploadNo] = useState<number>(1)
+  const addingCourse = useStore((store) => store.setCourseData)
+  const allCourse = useStore((store) => store.courseData)
+
   const [uploadComp, setUploadComp] = useState<IUploadComp[]>([
     {
-      video: '',
+      video: null,
       title: '',
     },
   ])
@@ -43,19 +36,25 @@ const Publish = () => {
       return [
         ...prev,
         {
-          video: '',
+          video: null,
           title: '',
         },
       ]
     })
   }
 
-  function handleVideoChange(idx: number, vid: string, title: string) {
+  function handleVideoChange(idx: number, vid: File) {
+    setUploadComp((prev) => {
+      const mock = prev
+      mock[idx].video = vid
+      return mock
+    })
+  }
+
+  function handleTitleChange(idx: number, title: string) {
     setUploadComp((prev) => {
       const mock = prev
       mock[idx].title = title
-      mock[idx].video = vid
-
       return mock
     })
   }
@@ -71,10 +70,23 @@ const Publish = () => {
   function uploadAll() {
     console.log(uploadComp)
     console.log(restInp)
+    if (
+      !restInp.category &&
+      !restInp.courseTitle &&
+      !restInp.description &&
+      !restInp.price
+    )
+      return
+    const fresh: IUploadComp[] = uploadComp.filter(
+      (val) => val.title !== '' && val.video !== null
+    )
+    // console.log(fresh)
+    addingCourse(fresh, restInp)
   }
+
   return (
     <div
-      className={`bg-black flex flex-col py-10 items-center justify-start w-full min-h-screen `}
+      className={`bg-black text-white flex flex-col py-10 items-center justify-start w-full min-h-screen `}
     >
       <div className={`w-[60%] bg-stone-800 p-5 rounded-xl`}>
         <h1 className={`text-2xl font-semibold`}>Course Name & Description </h1>
@@ -96,12 +108,15 @@ const Publish = () => {
         <p className={`mt-4`}>Upload Videos</p>
 
         <div className={`max-w-full flex  flex-wrap justify-start`}>
-          {uploadComp.map((_, idx) => (
+          {uploadComp.map((val, idx) => (
             <Upload
               key={idx}
               deleteComp={deleteVidComp}
               idx={idx}
-              handleChange={handleVideoChange}
+              handleVideoChange={handleVideoChange}
+              handleTitleChange={handleTitleChange}
+              vid={val.video}
+              tit={val.title}
             />
           ))}
           <button
