@@ -5,7 +5,7 @@ import Navbar from '../components/nav'
 export default function App({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      <Navbar />
+      {/* <Navbar /> */}
       <Component {...pageProps} />
     </AuthContextProvider>
   )
