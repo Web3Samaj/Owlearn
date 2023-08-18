@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Upload from './components/Upload'
 import { IUploadComp, IrestInput } from '@/src/utils/interface'
 import { useStore } from '@/src/store/store'
-import { useAsset, useCreateAsset } from '@livepeer/react'
+import { uploadVideo } from './utils'
 
 const Publish = () => {
   const addingCourse = useStore((store) => store.setCourseData)
@@ -11,87 +11,6 @@ const Publish = () => {
   const inputRefs = useRef<(HTMLInputElement | HTMLTextAreaElement)[]>([])
   const [uploadComp, setUploadComp] = useState<IUploadComp[]>([])
   const [loading, setLoading] = useState(false)
-
-  const sources = uploadComp.map((video) => {
-    return {
-      name: video.title,
-      file: video.video,
-      storage: {
-        ipfs: true,
-        metadata: {
-          name: video.title,
-          // description: 'a great description of the video',
-        },
-      },
-    }
-  })
-  console.log('sources', sources)
-  const {
-    mutate: createAsset,
-    data: assets,
-    status,
-    progress,
-    error,
-  } = useCreateAsset(
-    // we use a `const` assertion here to provide better Typescript types
-    // for the returned data
-    uploadComp.length > 0
-      ? {
-          sources: sources,
-        }
-      : null
-  )
-  console.log('upload data', { assets, status, progress, error })
-
-  const totalProgress = progress
-    ? (progress.reduce((acc, curr) => {
-        if (curr.phase === 'uploading') {
-          return acc + curr.progress
-        } else if (curr.phase === 'processing') {
-          // uploading is done and now it's processing
-          return acc + curr.progress + 1
-        } else if (curr.phase === 'ready') {
-          return acc + 2 // curr.progress should be 1 here
-        }
-        return acc
-      }, 0) *
-        100) /
-      (2 * progress.length) // 2 phases: uploading and processing
-    : 0
-
-  console.log('totalProgress', totalProgress)
-
-  useEffect(() => {
-    if (status === 'error') {
-      console.log('error', error)
-    }
-    if (!assets) return
-    let isAnyUploadFailed = false
-    let isAllUploadReady = true
-    for (let i = 0; i < progress.length; i++) {
-      if (progress[i].phase === 'failed') {
-        isAnyUploadFailed = true
-      }
-      if (progress[i].phase !== 'ready') {
-        isAllUploadReady = false
-      }
-      // no need to check further if any upload failed and not all uploads are ready
-      if (isAnyUploadFailed && !isAllUploadReady) {
-        break
-      }
-    }
-    if (isAnyUploadFailed) {
-      console.log('At least one upload failed')
-      return
-    }
-    if (!isAllUploadReady) {
-      console.log('Not all uploads are ready')
-      return
-    }
-    console.log('All uploads are ready')
-    const ipfsUrls = assets.map((asset) => asset.storage.ipfs.nftMetadata.cid)
-    // upload course details to get cid for course and then create a transaction to create course.
-  }, [status, progress, error, assets])
 
   useEffect(() => {
     setUploadComp([
@@ -102,8 +21,6 @@ const Publish = () => {
       },
     ])
   }, [])
-
-  console.log('uploadComp', uploadComp)
 
   const [restInp, setRestInp] = useState<IrestInput>({
     courseTitle: '',
@@ -155,6 +72,7 @@ const Publish = () => {
       }
     })
   }
+
   function addUploads() {
     setUploadComp((prev) => {
       return [
@@ -217,7 +135,6 @@ const Publish = () => {
       }
     }
     setLoading(true)
-    createAsset?.()
     // const fresh: IUploadComp[] = uploadComp.filter(
     //   (val) => val.title !== '' && val.video !== null
     // )
