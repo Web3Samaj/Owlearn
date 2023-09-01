@@ -115,7 +115,7 @@ const Publish = () => {
     })
   }
 
-  function uploadAll() {
+  async function uploadAll() {
     // console.log(uploadComp)
     // console.log(restInp)
     if (
@@ -135,20 +135,40 @@ const Publish = () => {
       }
     }
     setLoading(true)
-    // const fresh: IUploadComp[] = uploadComp.filter(
-    //   (val) => val.title !== '' && val.video !== null
-    // )
-    // addingCourse(fresh, restInp)
 
-    // setRestInp({
-    //   courseTitle: '',
-    //   description: '',
-    //   category: '',
-    //   thumbnail: null,
-    //   price: '',
-    // })
+    const courseRes = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(restInp),
+      }
+    )
+    const { cid: courseCid } = await courseRes.json()
 
-    // setUploadComp([])
+    const lecturesUploaded = []
+
+    for (let i = 0; i < uploadComp.length; i++) {
+      const res = await uploadVideo(uploadComp[i].title, uploadComp[i].video)
+      const jsonData = {
+        title: uploadComp[i].title,
+        video: res.playbackId,
+      }
+      const cidRes = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData),
+        }
+      )
+      const { cid } = await cidRes.json()
+      lecturesUploaded.push(cid)
+    }
   }
 
   return (
