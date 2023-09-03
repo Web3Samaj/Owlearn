@@ -9,7 +9,12 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        shadow: ['ShadowHand'],
+        meri: ['Merienda', 'cursive'],
+      },
+    },
   },
   plugins: [require('tailwind-scrollbar-hide')],
 }
