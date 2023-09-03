@@ -11,7 +11,7 @@ const Navbar = () => {
     >
       <div
         className={`  flex flex-col items-center justify-between  min-h-screen  rounded-r-md bg-black/90 backdrop-blur-sm transition-all duration-100 ease-linear relative ${
-          open ? 'w-[12rem]' : 'w-[4rem]'
+          open ? 'w-[12rem]' : 'w-[0rem]'
         } `}
       >
         <div
@@ -33,12 +33,14 @@ const Navbar = () => {
         <div
           onClick={() => setOpen((prev) => !prev)}
           className={`bg-stone-700 gap-3 py-5 w-full  flex ${
-            open ? 'flex-row-reverse' : 'flex-col'
-          } items-center justify-center cursor-pointer `}
+            open
+              ? 'flex-row-reverse'
+              : 'flex-col absolute w-16 md:w-20 h-20 top-0 left-0 rounded-r-full '
+          } items-center justify-center cursor-pointer   `}
         >
           <span
             className={`text-semibold transition-all duration-300 ease-linear px-2 ${
-              open ? 'text-xl' : 'text-xs'
+              open ? 'text-xl' : 'text-xs px-1 '
             }`}
           >
             Owlearn
