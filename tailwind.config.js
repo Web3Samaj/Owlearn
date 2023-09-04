@@ -13,6 +13,8 @@ module.exports = {
       fontFamily: {
         shadow: ['ShadowHand'],
         meri: ['Merienda', 'cursive'],
+        reeni: ['Reenie Beanie', 'cursive'],
+        kabl: ['Kablammo', 'cursive'],
       },
     },
   },

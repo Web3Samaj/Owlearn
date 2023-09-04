@@ -30,23 +30,25 @@ const Navbar = () => {
             />
           )}
         </div>
+
         <div
           onClick={() => setOpen((prev) => !prev)}
-          className={`bg-stone-700 gap-3 py-5 w-full  flex ${
+          className={`bg-stone-700 gap-3 py-5 w-[4.5rem]   flex ${
             open
-              ? 'flex-row-reverse'
-              : 'flex-col absolute w-16 md:w-20 h-20 top-0 left-0 rounded-r-full '
+              ? 'flex-row-reverse w-[100%]'
+              : 'flex-col absolute   md:w-22 h-20 top-0 left-0 pr-2  z-20 rounded-r-full '
           } items-center justify-center cursor-pointer   `}
         >
           <span
-            className={`text-semibold transition-all duration-300 ease-linear px-2 ${
-              open ? 'text-xl' : 'text-xs px-1 '
+            className={`text-semibold transition-all duration-300 ease-linear px-2.5 ${
+              open ? 'text-xl' : 'text-xs md:px-1  '
             }`}
           >
             Owlearn
           </span>
           <img src="/asset/nav/owl.png" alt="img" className={`w-8`} />
         </div>
+
         <div className={` flex flex-col w-full px-4`}>
           <Link
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}

@@ -8,33 +8,23 @@ const Hero = () => {
 
   useEffect(() => {
     gsap.to('.parallaxdiv', {
-      // yes, we can add it to an entire timeline!
       scrollTrigger: {
         trigger: '.parallaxdiv',
-        //pin: vidpannel.current,   // pin the trigger element while active
-        start: 'top top', // when the top of the trigger hits the top of the viewport
-        end: 'bottom', // end after scrolling 500px beyond the start
-        scrub: 0.5, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-
-        // endTrigger : b.current
+        start: 'clamp(top top)',
+        end: 'clamp(bottom)',
+        scrub: 0.5,
       },
       y: -200,
-      // rotation : 360,
     })
 
     gsap.to('.parallaximg2', {
-      // yes, we can add it to an entire timeline!
       scrollTrigger: {
         trigger: '.parallaxdiv',
-        //pin: vidpannel.current,   // pin the trigger element while active
-        start: 'top top', // when the top of the trigger hits the top of the viewport
-        end: 'bottom', // end after scrolling 500px beyond the start
-        scrub: 0.5, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-
-        // endTrigger : b.current
+        start: 'clamp(top top)',
+        end: 'clamp(bottom)',
+        scrub: 0.5,
       },
       y: -250,
-      // rotation : 360,
     })
   }, [])
 
@@ -44,10 +34,12 @@ const Hero = () => {
       className={`w-full min-h-screen flex flex-col items-center justify-center bg-[#001219] relative `}
     >
       <div
-        className={`font-shadow text-9xl absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 tracking-widest font-bold flex flex-col items-center justify-center text-center`}
+        className={`font-kabl md:text-9xl text-6xl absolute md:top-[40%] top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 tracking-widest font-bold flex flex-col items-center justify-center text-center  bg-black/40 md:bg-transparent py-2 px-4 rounded-xl md:rounded-none backdrop-blur-md md:backdrop-blur-none text-[#fcfbf8]`}
       >
         Owlearn
-        <p className={`text-2xl mt-4 font-meri tracking-wide text-white/70 `}>
+        <p
+          className={`md:text-2xl text-lg md:mt-4 mt-2 font-reeni  tracking-wide text-white/70 `}
+        >
           {' '}
           A Decentralized EdTech That Ignites Your Curiosity and Fuels Your
           Educational Journey to New Heights
@@ -61,14 +53,14 @@ const Hero = () => {
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg  ml-[15%]   h-[16rem] w-[12rem]  transition-transform duration-500 ease-linear `}
+            className={` parallaximg  ml-[15%]  h-[12rem] w-[8rem] md:h-[16rem] md:w-[12rem]  transition-transform duration-500 ease-linear `}
           />
           <img
             src="asset/landing/eth.png"
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg2  ml-auto mr-[30%] h-[10rem] w-[8rem]  transition-transform duration-500 ease-linear `}
+            className={` parallaximg2  ml-auto md:mr-[30%]  mr-[20%] md:h-[10rem] h-[7rem] w-[6rem]  md:w-[8rem]  transition-transform duration-500 ease-linear `}
           />
         </div>
 
@@ -78,10 +70,10 @@ const Hero = () => {
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg2 rounded-3xl ml-[5%]   h-[10rem] w-[17rem] -rotate-12  transition-transform duration-500 ease-linear `}
+            className={` parallaximg2 rounded-3xl ml-[2%]   md:h-[10rem] h-[6rem] w-[8rem] md:w-[17rem] -rotate-12  transition-transform duration-500 ease-linear `}
           />
           <video
-            className={` w-[12rem] h-[15rem] mr-[10%] rounded-3xl `}
+            className={` w-[12rem] h-[15rem] md:mr-[10%] mr-[2%] rounded-3xl `}
             autoPlay
             loop
             muted
@@ -100,14 +92,14 @@ const Hero = () => {
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg  ml-[28%]   h-[19rem] w-[15rem]  transition-transform duration-500 ease-linear `}
+            className={` parallaximg  md:ml-[28%] ml-[6%]   md:h-[19rem] h-[12rem] md:w-[15rem] w-[10rem]  transition-transform duration-500 ease-linear `}
           />
           <img
             src="asset/landing/h7.jpeg"
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg2  ml-auto mr-[18%]  mt-[5%] h-[22rem] w-[15rem]  transition-transform duration-500 ease-linear `}
+            className={` parallaximg2  ml-auto md:mr-[18%] mr-[5%]  mt-[5%] md:h-[22rem] h-[16rem] md:w-[15rem] w-[8rem] transition-transform duration-500 ease-linear `}
           />
         </div>
       </div>

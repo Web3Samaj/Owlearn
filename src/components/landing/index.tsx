@@ -4,13 +4,15 @@ import CoursesOffer from './CoursesOffer'
 import Hero from './Hero'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+import CallToAction from './CTA'
 
 const Landing = () => {
   return (
     <div className={`w-full min-h-screen overflow-hidden`}>
-      <Hero />
-      <Overview />
+      {/* <Hero /> */}
+      {/* <Overview /> */}
       <CoursesOffer />
+      {/* <CallToAction/> */}
     </div>
   )
 }

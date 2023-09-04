@@ -12,11 +12,6 @@ const Overview = () => {
   const inputRefs = useRef<HTMLImageElement[]>([])
   // const vidpannel = useRef<HTMLDivElement>(null!)
 
-  const addInputRef = (ref: HTMLImageElement) => {
-    if (ref && !inputRefs.current.includes(ref)) {
-      inputRefs.current.push(ref)
-    }
-  }
   // console.log(inputRefs);
   const rawData = [
     {
@@ -57,6 +52,11 @@ const Overview = () => {
 
   // }, []);
 
+  const addInputRef = (ref: HTMLImageElement) => {
+    if (ref && !inputRefs.current?.includes(ref)) {
+      inputRefs.current?.push(ref)
+    }
+  }
   useEffect(() => {
     intervalfunc.current = () => {
       slidenum.current = slidenum.current + 1
@@ -70,14 +70,13 @@ const Overview = () => {
       //   .getElementById(`${num}xxx`)
       //   .scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' })
 
-      console.log(num)
-      inputRefs.current.forEach((img, idx) => {
+      inputRefs.current?.forEach((img, idx) => {
         if (num === idx) {
           img.style.transform = `translateY(0%)`
           heading.current.textContent = rawData[num].h
           paragaph.current.textContent = rawData[num].p
         } else {
-          img.style.transform = `translateY(150%)`
+          img.style.transform = `translateY(200%)`
         }
       })
 
@@ -108,13 +107,13 @@ const Overview = () => {
   // console.log(vidpannel.current.children.length);
   return (
     <div
-      className={`flex  flex-col items-center w-full max-h-screen text-white min-h-screen  `}
+      className={`flex  flex-col items-center w-full  text-white min-h-screen `}
     >
       <div
-        className={`max-h-screen flex items-center  overflow-hidden relative bg-[#001219] bg-cover bg-absolute w-full bgimg px-24`}
+        className={`min-h-screen flex items-center  overflow-hidden relative bg-[#001219] bg-cover bg-absolute w-full  bgimg md:px-24 px-5 py-20`}
       >
         <div
-          className={`text-3xl absolute top-1/2 z-20 -translate-y-1/2 left-[50%] sm:left-[15%] -translate-x-1/2  bg-black/20 p-10 sm:pt-5 sm:text-center rounded-2xl sm:w-[25vw] backdrop-blur-md text-center`}
+          className={`text-3xl absolute md:top-1/2 top-[70%] z-20 -translate-y-1/2 left-[50%] sm:left-[15%] -translate-x-1/2  bg-black/20 p-10 sm:pt-5 sm:text-center rounded-2xl sm:w-[25vw] backdrop-blur-md text-center`}
         >
           <span ref={heading} className={`font-shadow mx-auto`}>
             {rawData[slidenum.current].h}
@@ -134,40 +133,40 @@ const Overview = () => {
         </button> */}
         <div
           // ref={vidpannel}
-          className={` w-[100vw] pb-36   min-h-screen flex flex-col justify-between  items-end overflow-y-hidden scrollbar-hide md:pannel select-none relative transition-transform duration-500 `}
+          className={` w-[100vw] md:pb-36   min-h-screen flex flex-col justify-between  items-end overflow-hidden scrollbar-hide md:pannel select-none relative transition-transform duration-500 `}
         >
           <img
-            ref={(ref) => addInputRef(ref)}
+            ref={(ref: HTMLImageElement) => addInputRef(ref)}
             id="0xxx"
             src="asset/landing/1.png"
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` translate-y-[0%]  absolute h-[70vh] mt-10 md:h-[62vh] w-full md:w-[75vw]  mx-auto md:mr-20 md:mt-40  rounded-3xl transition-transform duration-500 ease-linear `}
+            className={` translate-y-[0%]  absolute h-[50vh] mt-10 md:h-[62vh] w-[100vw] md:w-[75vw]  mx-auto md:mr-20 md:mt-40  rounded-3xl transition-transform duration-500 ease-linear `}
           />
           <img
-            ref={(ref) => addInputRef(ref)}
+            ref={(ref: HTMLImageElement) => addInputRef(ref)}
             id="1xxx"
             src="asset/landing/2.png"
             alt="landingimg"
             loading="lazy"
-            className={` translate-y-[150%] absolute  h-[70vh] mt-10 md:h-[62vh] w-full md:w-[75vw]  mx-auto md:mr-20 md:mt-40   rounded-3xl transition-transform duration-500 ease`}
+            className={`  md:translate-y-[150%] absolute  h-[50vh] mt-10 md:h-[62vh] w-full md:w-[75vw]  mx-auto md:mr-20 md:mt-40   rounded-3xl transition-transform duration-500 ease`}
           />
           <img
-            ref={(ref) => addInputRef(ref)}
+            ref={(ref: HTMLImageElement) => addInputRef(ref)}
             id="2xxx"
             src="asset/landing/3.png"
             alt="landingimg"
             loading="lazy"
-            className={` translate-y-[150%] absolute h-[70vh] mt-10 md:h-[62vh] w-full md:w-[75vw]  mx-auto md:mr-20 md:mt-40  rounded-3xl transition-transform duration-500 ease`}
+            className={`  md:translate-y-[150%] absolute h-[50vh] mt-10 md:h-[62vh] w-full md:w-[75vw]  mx-auto md:mr-20 md:mt-40  rounded-3xl transition-transform duration-500 ease`}
           />
           <img
-            ref={(ref) => addInputRef(ref)}
+            ref={(ref: HTMLImageElement) => addInputRef(ref)}
             id="3xxx"
             src="asset/landing/4.png"
             alt="landingimg"
             loading="lazy"
-            className={` translate-y-[150%] absolute h-[70vh] mt-10 md:h-[62vh] w-full md:w-[75vw]  mx-auto md:mr-20 md:mt-40   rounded-3xl transition-transform duration-500 ease`}
+            className={`  md:translate-y-[150%] absolute h-[50vh] mt-10 md:h-[62vh] w-full md:w-[75vw]  mx-auto md:mr-20 md:mt-40   rounded-3xl transition-transform duration-500 ease`}
           />
         </div>
       </div>
