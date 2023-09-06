@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import AuthButton from '@/modules/auth/components/AuthButton'
 import Publish from '../modules/publish/Publish'
+import WatchCourse from '@/modules/watch-course/components/WatchCourse'
 
 export const APP_VERSION = 'v1.0.0'
 
@@ -15,8 +16,14 @@ export default function Home(): JSX.Element {
       </Head>
       <main>
         <div className="flex min-h-screen justify-start items-start">
-          <Publish />
+          {/* <Publish /> */}
           {/* <AuthButton /> */}
+          <WatchCourse
+            cids={[
+              'bafkreifami5tmfbt2glxioar5x7gbtm7wdswbcjans2lqy4ur6efrpwpua',
+              'bafkreidxbfshubnuz32rzfo4op5nlmbhbt7tfsx2ztvpvtgrt5ow6ll6ii',
+            ]}
+          />
         </div>
       </main>
     </>
