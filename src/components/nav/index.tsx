@@ -33,10 +33,10 @@ const Navbar = () => {
 
         <div
           onClick={() => setOpen((prev) => !prev)}
-          className={`bg-stone-700 gap-3 py-5 w-[4.5rem]   flex ${
+          className={`bg-stone-700 gap-3 py-5    flex ${
             open
               ? 'flex-row-reverse w-[100%]'
-              : 'flex-col absolute   md:w-22 h-20 top-0 left-0 pr-2  z-20 rounded-r-full '
+              : 'flex-col absolute  w-[4.5rem] md:w-22 h-20 top-0 left-0 pr-2  z-20 rounded-r-full '
           } items-center justify-center cursor-pointer   `}
         >
           <span
