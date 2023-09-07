@@ -6,19 +6,19 @@ export interface Icard {
   author: string
   rating: number
   price: number
-  description: string
+  description?: string
 }
 const Card = ({ src, title, author, rating, price, description }: Icard) => {
   return (
     <div
-      className={` bg-white h-min w-[85%] text-black backdrop-blur-sm rounded-md overflow-hidden  pb-5 flex flex-col`}
+      className={` bg-white/30 backdrop-blur-md h-min w-[90%] text-black backdrop-blur-sm pb-5 rounded-md overflow-hidden text-white  flex flex-col`}
     >
       <img
         src={src}
         alt="courseimg"
         loading="lazy"
         draggable="false"
-        className={`w-full h-[10rem]`}
+        className={`w-full h-[7rem]`}
       />
       <div className={`w-full px-4 `}>
         <h1

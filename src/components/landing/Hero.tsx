@@ -66,7 +66,7 @@ const Hero = () => {
 
         <div className={`flex items-center justify-center `}>
           <span
-            className={`bg-[#5EF8BF] p-3 border-4 border-dashed border-black rounded-full text-black`}
+            className={`bg-[#5EF8BF] p-5 border-4 text-center border-dashed border-black rounded-full text-black`}
           >
             Owl
           </span>
@@ -86,7 +86,7 @@ const Hero = () => {
           </span>
         </div>
         <p
-          className={`md:text-xl  text-sm  md:mt-8 mt-4 font-mono font-thin  tracking-wider text-white/70 `}
+          className={`md:text-2xl  text-sm  md:mt-8 mt-4 font-reeni font-thin  tracking-wider text-white/70 `}
         >
           {' '}
           A Decentralized EdTech That Ignites Your Curiosity and Fuels Your
@@ -99,18 +99,25 @@ const Hero = () => {
       >
         <div className={`flex`}>
           <img
-            src="asset/landing/h1.avif"
+            src="asset/landing/medal.png"
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg  ml-[15%]  h-[12rem] w-[8rem] md:h-[16rem] md:w-[12rem]  transition-transform duration-500 ease-linear `}
+            className={` parallaximg  ml-[10%] pb-[%]  h-[12rem] w-[8rem] md:h-[16rem] md:w-[12rem]  transition-transform duration-500 ease-linear `}
+          />
+          <img
+            src="asset/landing/atom.png"
+            alt="landingimg"
+            loading="lazy"
+            draggable="false"
+            className={` parallaximg2  ml-auto md:mr-[15%]  mr-[10%] md:h-[7rem] h-[7rem] w-[6rem]  md:w-[6rem]  transition-transform duration-500 ease-linear `}
           />
           <img
             src="asset/landing/eth.png"
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg2  ml-auto md:mr-[30%]  mr-[20%] md:h-[10rem] h-[7rem] w-[6rem]  md:w-[8rem]  transition-transform duration-500 ease-linear `}
+            className={` parallaximg  ml-[5%] mr-[7%] h-[8rem] w-[8rem] md:h-[12rem] md:w-[12rem]  transition-transform duration-500 ease-linear `}
           />
         </div>
 
@@ -152,11 +159,11 @@ const Hero = () => {
             className={` parallaximg md:ml-[5%] ml-[2%] mt-[5%]  h-[7rem]  md:w-[10rem] w-[5rem]  transition-transform duration-500 ease-linear `}
           />
           <img
-            src="asset/landing/h3.avif"
+            src="asset/landing/note.png"
             alt="landingimg"
             loading="lazy"
             draggable="false"
-            className={` parallaximg md:ml-[7%] ml-[6%] mt-[10%]  md:h-[19rem] h-[12rem] md:w-[15rem] w-[10rem]  transition-transform duration-500 ease-linear `}
+            className={` parallaximg2 md:ml-[7%] ml-[6%] mt-[8%]  md:h-[16rem] h-[12rem] md:w-[15rem] w-[10rem]  transition-transform duration-500 ease-linear `}
           />
           <img
             src="asset/landing/bag.png"
