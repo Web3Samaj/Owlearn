@@ -69,7 +69,7 @@ const Navbar = () => {
           </Link>
           <Link
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
-            href={'/Dashboard'}
+            href={'/dashboard'}
           >
             <img
               src={'/asset/nav/dash.png'}
