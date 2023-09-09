@@ -39,24 +39,33 @@ const FAQSection = () => {
         className={` invert mix-blend-screen  transition-all duration-300 ease-linear w-[30rem]   `}
       />
       <p className="text-4xl text-white w-full text-center pt-10 pb-20">FAQ</p>
-      <div className=" mx-auto bg-stone-800 text-white md:w-[40%] w-[80%]  overflow-hidden py-4 rounded-xl   ">
+      <div className=" mx-auto  text-white md:w-[40%] w-[80%]  overflow-hidden py-4 rounded-xl   ">
         {faqData.map((item, index) => (
-          <div key={index} className="   select-none py-2 px-4 ">
+          <div
+            key={index}
+            className=" rounded-3xl my-4 bg-stone-800 select-none py-2 px-4 "
+          >
             <div
-              className="cursor-pointer flex justify-between"
+              className="cursor-pointer flex items-center justify-between"
               onClick={() => toggleAnswer(index)}
             >
-              <h3 className="text-lg font-semibold  ">{item.question}</h3>
-              {activeIndex === index ? (
-                <span>&#8679;</span>
-              ) : (
-                <span>&#8681;</span>
-              )}
+              <h3 className="text-base font-semibold  ">{item.question}</h3>
+
+              <img
+                src={'asset/landing/next.png'}
+                alt="icon"
+                className={` transition-all ${
+                  activeIndex === index ? '-rotate-90' : 'rotate-90'
+                } duration-200 ease-linear w-10 rounded-full cursor-pointer `}
+                draggable="false"
+              />
             </div>
-            {activeIndex === index && <p className="my-2 ">{item.answer}</p>}
-            <div
+            {activeIndex === index && (
+              <p className="my-2 text-xs ">{item.answer}</p>
+            )}
+            {/* <div
               className={`w-full border border-stone-700 mx-auto my-2 `}
-            ></div>
+            ></div> */}
           </div>
         ))}
       </div>

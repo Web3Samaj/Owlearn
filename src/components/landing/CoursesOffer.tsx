@@ -77,17 +77,17 @@ const CoursesOffer = () => {
 
   return (
     <div className=" containerizer rounded-b-3xl overflow-hidden">
-      <div className={` min-h-screen flex w-[400vw]   bg-[#252525] `}>
+      <div className={` min-h-screen flex w-full  bg-[#252525] `}>
         <section
-          className={` w-[100vw]  relative  flex flex-col items-start justify-start md:pb-10 pb-20  pt-16 bg-[#252525]`}
+          className={` w-[100vw]  relative  flex flex-col items-start justify-start md:pb-10 pb-20  pt-32 bg-[#252525]`}
         >
           <h1
-            className={` pinnedContainer  w-[90%] mb-3 font-titan text-3xl text-start mx-auto  `}
+            className={` pinnedContainer  w-[90%] mb-4 font-bold font-jakarta text-3xl text-start mx-auto  `}
           >
             Courses we offer
           </h1>
           <div
-            className={`flex  items-start justify-start w-[90%] mx-auto bg-stone-700 rounded-2xl overflow-hidden  `}
+            className={`flex  items-center justify-start w-[90%] mx-auto bg-stone-700 rounded-2xl overflow-hidden  `}
           >
             <img
               src="asset/landing/search.png"
@@ -101,7 +101,7 @@ const CoursesOffer = () => {
               name="search"
               id=""
               placeholder="Patrik Collins Blockchain Course"
-              className={` w-full bg-stone-700 placeholder:text-white/70 text-xl font-thin py-2 px-4 rounded-md   focus:outline-none focus:border-none active:outline-none active:border-none `}
+              className={` w-full bg-stone-700 placeholder:text-white/70 text-lg font-thin py-1 px-2 rounded-md   focus:outline-none focus:border-none active:outline-none active:border-none `}
             />
           </div>
 

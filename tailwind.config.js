@@ -11,11 +11,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        shadow: ['ShadowHand'],
-        meri: ['Merienda', 'cursive'],
         reeni: ['Reenie Beanie', 'cursive'],
         kabl: ['Kablammo', 'cursive'],
-        titan: ['Titan One', 'cursive'],
+        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
       },
       animation: {
         slide: 'slide 20s linear infinite',

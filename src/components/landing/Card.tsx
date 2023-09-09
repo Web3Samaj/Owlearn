@@ -9,9 +9,15 @@ export interface Icard {
   description?: string
 }
 const Card = ({ src, title, author, rating, price, description }: Icard) => {
+  function giveStars(num: number) {
+    if (num > 4.5) return '⭐️⭐️⭐️⭐️⭐️'
+    if (num > 3.5) return '⭐️⭐️⭐️⭐️'
+    if (num > 2.5) return '⭐️⭐️⭐️'
+    if (num > 1.5) return '⭐️⭐️'
+  }
   return (
     <div
-      className={` bg-white/30 backdrop-blur-md h-min w-[90%] text-black backdrop-blur-sm pb-5 rounded-md overflow-hidden text-white  flex flex-col`}
+      className={` bg-white/10  h-min w-[90%] backdrop-blur-sm pb-5 rounded-md overflow-hidden text-white  flex flex-col`}
     >
       <img
         src={src}
@@ -22,22 +28,23 @@ const Card = ({ src, title, author, rating, price, description }: Icard) => {
       />
       <div className={`w-full px-4 `}>
         <h1
-          className={`w-full flex-wrap text-md   py-2 tracking-tighter font-mono leading-6   `}
+          className={`w-full  text-md font-bold  pt-2 tracking- truncate font-jakarta    `}
         >
           {title}
         </h1>
-        <p className={`text-sm text-black/80 font-reeni pt-1`}>{author}</p>
-        <p className={`text-sm font-bold py-1 mb-1`}>
-          {rating} 🌟🌟🌟🌟🌟 (2,000+)
+        <p className={`text-sm text-white/80 font-reeni pt-1`}>{author}</p>
+        <p className={`text-xs font-bold py-1 mb-1`}>
+          {giveStars(rating)} {rating}
         </p>
 
-        <span className="text-red-950 font-bold text-xl mr-3 pt-1 ">
+        <div className="text-white font-bold text-xl mr-3 pt-2 flex items-center justify-between">
           ${price}
-        </span>
-
-        <span className={`bg-red-500 text-white py-1 px-3 text-xs rounded   `}>
-          Bestseller
-        </span>
+          <span
+            className={`bg-red-500 text-white py-1 px-3 text-xs rounded   `}
+          >
+            Bestseller
+          </span>
+        </div>
         {/* <p className={`text-sm text-black/60 font-sans py-3`}>
         {description}
       </p> */}

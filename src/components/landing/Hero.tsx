@@ -86,7 +86,7 @@ const Hero = () => {
           </span>
         </div>
         <p
-          className={`md:text-2xl  text-sm  md:mt-8 mt-4 font-reeni font-thin  tracking-wider text-white/70 `}
+          className={`md:text-lg  text-sm  md:mt-8 mt-4 font-jakarta font-thin  tracking-wider text-white/70 `}
         >
           {' '}
           A Decentralized EdTech That Ignites Your Curiosity and Fuels Your

@@ -66,14 +66,14 @@ const Overview = () => {
     <div
       className={`flex  flex-col items-center w-full  text-white min-h-screen    `}
     >
-      <div className={` font-kabl w-full ml-[20%] flex text-4xl pt-48`}>
+      <div className={`  w-full ml-[20%] flex text-4xl pt-48`}>
         <img
           src={'/asset/landing/curl.png'}
           alt="icon"
           className={`  invert mix-blend-screen  rotate-180 transition-all duration-300 ease-linear w-20   `}
         />
         <span
-          className={` bg-[#ffd60a] p-5 border-4 text-center border-dashed border-black rounded-full text-black tracking-wider`}
+          className={` bg-[#ffd60a] p-5 border-4 text-center border-dashed border-black rounded-full text-black tracking-wider font-jakarta font-bold`}
         >
           Expect
         </span>
@@ -84,13 +84,13 @@ const Overview = () => {
         <div
           className={`text-3xl absolute md:top-1/2 top-[70%] z-20 -translate-y-1/2 left-[50%] sm:left-[15%] -translate-x-1/2  bg-black/20 px-10 pb-10  sm:text-center rounded-2xl sm:w-[25vw] backdrop-blur-md text-center`}
         >
-          <span ref={heading} className={`font-shadow mx-auto`}>
+          <span
+            ref={heading}
+            className={`font-jakarta  leading-tighter mx-auto`}
+          >
             {rawData[slidenum.current].h}
           </span>
-          <p
-            ref={paragaph}
-            className={`text-sm font-sans text-white/70 pt-1.5`}
-          >
+          <p ref={paragaph} className={`text-xs font-sans text-white/70 pt-3`}>
             {rawData[slidenum.current].p}
           </p>
         </div>

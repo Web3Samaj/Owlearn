@@ -8,9 +8,9 @@ function Footer() {
 
   return (
     <footer className="bg-stone-800 text-white p-4">
-      <div className="container mx-auto flex justify-between font-mono items-center">
-        <div className={`text-sm w-auto`}>
-          <p className="font-bold ">Copyright ©2023 Owlearn</p>
+      <div className="container mx-auto flex justify-between font-jakarta items-center">
+        <div className={`text-sm w-auto text-white/60`}>
+          <p className="font-semibold ">Copyright ©2023 Owlearn</p>
           <p>All right reserved</p>
         </div>
 

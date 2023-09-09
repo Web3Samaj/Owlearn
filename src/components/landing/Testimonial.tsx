@@ -119,14 +119,14 @@ const Testimonial = () => {
   }
   return (
     <div
-      className={`min-h-screen w-full bg-[#252525] flex flex-col items-center justify-center relative select-none md:pb-40 pb-20`}
+      className={`min-h-screen w-full bg-[#252525] flex flex-col items-center justify-center relative select-none md:pb-40 pb-20 pt-32 `}
     >
       <div className=" absolute top-60 left-16 w-[20rem] h-[20rem] bg-[#44f7df] rounded-full   filter blur-xl  animate-blob m-4"></div>
       <div className=" absolute top-48 left-60 w-[20rem] h-[20rem] bg-[#ffe877] rounded-full  animation-delay-2000 filter blur-xl  animate-blob m-4"></div>
       <div className=" absolute top-96 left-56 w-[20rem] h-[20rem] bg-[#ffd2fa] rounded-full  animation-delay-4000 filter blur-xl  animate-blob m-4"></div>
 
       <div
-        className={` font-kabl w-full flex items-end justify-end md:text-2xl text-xl py-10 pt-20  md:py-20 pr-[10%]  `}
+        className={`  w-full flex items-end justify-end md:text-2xl text-xl py-10   md:py-20 pr-[10%]  `}
       >
         <img
           src={'/asset/landing/curl.png'}
@@ -134,10 +134,10 @@ const Testimonial = () => {
           className={`  invert mix-blend-screen  rotate-180 transition-all duration-300 ease-linear w-20   `}
         />
         <span
-          className={` bg-[#8338ec] p-5 border-4 text-center border-dashed border-white rounded-full text-white tracking-wider flex flex-col`}
+          className={` bg-[#8338ec] p-5 border-4 text-center border-dashed border-white rounded-full text-white tracking-wide font-bold flex flex-col font-jakarta`}
         >
-          DON&apos;T BELIEVE BLINDLY
-          <span className="text-sm font-thin font-reeni">
+          Don&apos;t Just Believe BLINDLY
+          <span className="text-[1.2rem] font-thin font-reeni">
             See what people are saying
           </span>
         </span>
@@ -168,11 +168,13 @@ const Testimonial = () => {
                   className={` transition-all duration-300 ease-linear w-20 h-16  rounded-full  `}
                 />
                 <div className={`flex flex-col items-start justify-center `}>
-                  <p className={`text-xs font-thin  font-mono`}>
+                  <p className={`text-xs font-thin  font-jakarta`}>
                     {' '}
                     {giveStars(data.rating)} {data.rating} Stars
                   </p>
-                  <p className={`text-xs font-thin tracking-wider font-titan`}>
+                  <p
+                    className={`text-xs font-thin tracking-wider font-jakarta`}
+                  >
                     {' '}
                     by {data.name}
                   </p>
