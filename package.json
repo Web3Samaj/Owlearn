@@ -18,10 +18,12 @@
         "eslint": "8.35.0",
         "eslint-config-next": "13.2.1",
         "ethers": "5.7.2",
+        "gsap": "^3.12.2",
         "next": "13.2.1",
         "nft.storage": "^7.1.1",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "tailwind-scrollbar-hide": "^1.1.7",
         "wagmi": "^0.12.1",
         "zustand": "^4.3.9"
     },

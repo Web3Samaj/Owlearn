@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { IUploadComp, IrestInput } from '../utils/interface'
 
-const store = (set) => ({
+const store = (set: any) => ({
   courseData: {
     videoWithTitle: [] as IUploadComp[],
     otherInputs: {} as IrestInput,
