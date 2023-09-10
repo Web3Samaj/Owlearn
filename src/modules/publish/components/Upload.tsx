@@ -1,4 +1,4 @@
-import { IUploadComp } from '@/src/utils/interface'
+import { IUploadComp, IUpload } from '@/src/utils/interface'
 import React, { useRef, useState } from 'react'
 
 const Upload = ({
@@ -8,8 +8,8 @@ const Upload = ({
   handleVideoChange,
   vid,
   tit,
-}) => {
-  const vidcomp = useRef(null!)
+}: IUpload) => {
+  const vidcomp = useRef<HTMLVideoElement>(null!)
 
   const [val, setVal] = useState<IUploadComp>({
     idx,
@@ -20,16 +20,17 @@ const Upload = ({
   const [dragcomp, setDragComp] = useState(true)
 
   function handlevideo(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files[0]
+    const file = e.target.files?.[0]
     if (!file) return
+    if (!vidcomp.current) return
     const blobUrl = URL.createObjectURL(file)
     vidcomp.current.style.display = 'block'
     vidcomp.current.src = blobUrl
     setDragComp(false)
     setVal((prev) => {
-      return { ...prev, video: e.target.files[0] }
+      return { ...prev, video: e.target.files?.[0] || null }
     })
-    handleVideoChange(idx, e.target.files[0])
+    handleVideoChange(idx, e.target.files?.[0] as File)
   }
 
   function handletitle(e: React.ChangeEvent<HTMLInputElement>) {
@@ -109,7 +110,7 @@ const Upload = ({
         src="https://img.icons8.com/stencil/32/000000/close-window.png"
         alt="close"
         className={` ${
-          idx === 0 ? 'hidden' : 'absolute'
+          +idx === 0 ? 'hidden' : 'absolute'
         } right-3 top-3 w-4 cursor-pointer`}
         onClick={deleteit}
       />

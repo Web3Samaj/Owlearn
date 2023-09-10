@@ -7,7 +7,7 @@ import { uploadVideo } from './utils'
 const Publish = () => {
   const addingCourse = useStore((store) => store.setCourseData)
   const allCourse = useStore((store) => store.courseData)
-  const preview = useRef(null!)
+  const preview = useRef<HTMLImageElement>(null!)
   const inputRefs = useRef<(HTMLInputElement | HTMLTextAreaElement)[]>([])
   const [uploadComp, setUploadComp] = useState<IUploadComp[]>([])
   const [loading, setLoading] = useState(false)
@@ -54,13 +54,15 @@ const Publish = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     if (e.target.name === 'thumbnail') {
-      if (!(e.target as HTMLInputElement).files[0]) return
-      const src = URL.createObjectURL((e.target as HTMLInputElement).files[0])
-      preview.current = src
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (!file) return
+      const src = URL.createObjectURL(file)
+      if (!preview.current) return
+      preview.current.src = src
       setRestInp((prev) => {
         return {
           ...prev,
-          thumbnail: (e.target as HTMLInputElement).files[0],
+          thumbnail: file,
         }
       })
     }
@@ -93,17 +95,27 @@ const Publish = () => {
 
   function handleVideoChange(idx: string, vid: File) {
     setUploadComp((prev) => {
-      const mock = prev
-      getVideo(mock, idx).video = vid
-      return mock
+      const updatedUploadComp = prev.map((uploadComp) => {
+        if (uploadComp.idx === idx) {
+          return { ...uploadComp, video: vid }
+        }
+        return uploadComp
+      })
+
+      return updatedUploadComp
     })
   }
 
   function handleTitleChange(idx: string, title: string) {
     setUploadComp((prev) => {
-      const mock = prev
-      getVideo(mock, idx).title = title
-      return mock
+      const updatedUploadComp = prev.map((uploadComp) => {
+        if (uploadComp.idx === idx) {
+          return { ...uploadComp, title }
+        }
+        return uploadComp
+      })
+
+      return updatedUploadComp
     })
   }
   // console.log(uploadComp)
@@ -151,7 +163,10 @@ const Publish = () => {
     const lecturesUploaded = []
 
     for (let i = 0; i < uploadComp.length; i++) {
-      const res = await uploadVideo(uploadComp[i].title, uploadComp[i].video)
+      const res = await uploadVideo(
+        uploadComp[i].title,
+        uploadComp[i].video as File
+      )
       const jsonData = {
         title: uploadComp[i].title,
         video: res.playbackId,
@@ -199,7 +214,7 @@ const Publish = () => {
           className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 resize-none h-32  active:outline-none  focus:outline-none`}
         />
         <p className={`mt-4`}>Course Thumbnail</p>
-        {restInp.thumbnail ? <img src={preview.current} alt="img" /> : null}
+        {restInp.thumbnail ? <img ref={preview} alt="img" /> : null}
         <input
           onChange={handleInputChange}
           className="block w-1/2 mt-2 text-xs text-white rounded-md cursor-pointer bg-black  focus:outline-none "
