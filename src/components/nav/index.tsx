@@ -51,6 +51,7 @@ const Navbar = () => {
 
         <div className={` flex flex-col w-full px-4`}>
           <Link
+            onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
             href={'/'}
           >
@@ -68,6 +69,7 @@ const Navbar = () => {
             </span>
           </Link>
           <Link
+            onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
             href={'/dashboard'}
           >
@@ -85,6 +87,7 @@ const Navbar = () => {
             </span>
           </Link>
           <Link
+            onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
             href={'/Publish'}
           >
@@ -102,6 +105,7 @@ const Navbar = () => {
             </span>
           </Link>
           <Link
+            onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
             href={'/MyCourses'}
           >
