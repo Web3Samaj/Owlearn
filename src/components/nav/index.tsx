@@ -86,24 +86,7 @@ const Navbar = () => {
               Dashboard
             </span>
           </Link>
-          <Link
-            onClick={() => setOpen(false)}
-            className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
-            href={'/Publish'}
-          >
-            <img
-              src={'/asset/nav/publish.png'}
-              alt="icon"
-              className={` group-hover:scale-110  transition-all duration-300 ease-linear w-8 z-20 `}
-            />
-            <span
-              className={` bg-black w-full text-center z-10 mt-1 group-hover:bg-white group-hover:text-black rounded-md mx-2 transition-all duration-300 ease-linear ${
-                open ? 'block' : 'scale-0 hidden'
-              }`}
-            >
-              Publish
-            </span>
-          </Link>
+
           <Link
             onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}

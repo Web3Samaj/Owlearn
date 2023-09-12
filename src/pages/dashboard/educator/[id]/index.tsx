@@ -68,11 +68,25 @@ const Educator = () => {
   //have to make a useeffect to route to a 404 page if someone else other than xtry to access the page
 
   return (
-    <div className=" flex flex-col bg-[#252525] items-center font-jakarta justify-center w-full min-h-screen py-20 relative">
-      <h1 className={`w-full ml-[20%] text-xl `}>Hii,</h1>
-      <h1 className={`w-full ml-[20%] text-4xl `}>{data?.name}</h1>
+    <div className=" flex flex-col bg-[#252525] text-white items-center font-jakarta justify-center w-full min-h-screen py-20 relative overflow-hidden">
+      <h1 className={`w-full pl-[10%] text-xl `}>Hii,</h1>
+      <h1 className={`w-full pl-[10%] text-4xl `}>{data?.name}</h1>
+      <div className={`   w-full pl-[10%] mt-5 `}>
+        <Link
+          className={`  w-max cursor-pointer flex items-center justify-center gap-3 bg-lime-900 py-2 px-4 rounded-lg hover:bg-lime-800 hover:-translate-y-0.5 transition-all duration-200 ease-linear hover:shadow-md hover:shadow-black `}
+          href={'/Publish'}
+        >
+          <img
+            src={'/asset/manageCourse/add.png'}
+            alt="icon"
+            className={`  w-8 z-20 `}
+          />
+          <span className={`  cursor-pointer `}>Publish New Course</span>
+        </Link>
+      </div>
+
       <div
-        className={`flex mt-10 mb-16 w-full justify-between px-[5%] md:px-[10%] `}
+        className={`flex mt-8 mb-10 w-full justify-between px-[5%] md:px-[10%] `}
       >
         <div className={` flex flex-col items-center`}>
           <p className="truncate md:text-lg te  text-white/50">Your Courses</p>

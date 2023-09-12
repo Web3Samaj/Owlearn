@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import { Player } from '@livepeer/react'
 
 const ManageCourse = () => {
   const router = useRouter()
@@ -18,51 +19,64 @@ const ManageCourse = () => {
       {
         id: 'jsdaj',
         title: 'The Introduction',
-        playbackId: 'the id which we have stored to ipfs',
+        playbackId:
+          'bafybeigtqixg4ywcem3p6sitz55wy6xvnr565s6kuwhznpwjices3mmxoe',
         description:
-          'this video is all about the what we are going to do in the video',
+          'Magni ab excepturi at sunt ipsa, ea aliquam commodi aut expedita reprehenderit fuga tenetur necessitatibus culpa animi hic consequuntur dolorum quia minus? Reprehenderit',
         assignments: [
           {
-            id: 'abc', //will take this input from the user and will sort in ascending order in frontend
+            id: 'abc',
             links: [
               'external link of the assignment or ipfs link to assignment',
             ],
           },
           {
-            id: 'def', //will take this input from the user and will sort in ascending order in frontend
+            id: 'def',
             links: [
               'external link of the assignment or ipfs link to assignment',
             ],
           },
         ],
         resources: [
-          'should be in the format like this is the abc link ---> https://twitter.com/owlearn',
-          'another link ---> https://ethereum.com ',
+          {
+            id: 'sahl',
+            links: 'https://twitter.com/kajdkjajf',
+          },
+          {
+            id: 'dashdh',
+            links: 'https://aksjflasdlfhd.com ',
+          },
         ],
       },
       {
         id: 'sgdi',
         title: 'The second vid',
-        playbackId: 'the id which we have stored to ipfs',
+        playbackId: 'f5eese9wwl88k4g8',
         description:
-          'this second video is all about the what we are going to do in the video',
+          'tempore esse? Ipsam incidunt quaerat ad dolorum quasi, temporibus beatae non autem amet praesentium aperiam, id veritatis. Magni ab excepturi at sunt ipsa, ea aliquam commodi aut expedita reprehenderit fuga tenetur necessitatibus culpa',
         assignments: [
           {
-            id: 'ds', //will take this input from the user and will sort in ascending order in frontend
+            id: 'ds',
             links: [
               'external link of the assignment or ipfs link to assignment',
             ],
           },
           {
-            id: 'gs', //will take this input from the user and will sort in ascending order in frontend
+            id: 'gs',
             links: [
               'external link of the assignment or ipfs link to assignment',
             ],
           },
         ],
         resources: [
-          'should be in the format like this is the abc link ---> https://twitter.com/owlearn',
-          'another link ---> https://ethereum.com ',
+          {
+            id: 'jg',
+            links: 'https://twitter.com/owlearn',
+          },
+          {
+            id: 'dsjh',
+            links: 'https://ethereum.com ',
+          },
         ],
       },
     ],
@@ -71,9 +85,9 @@ const ManageCourse = () => {
   function manageEdits(id: string) {}
 
   return (
-    <div className="  w-full min-h-screen bg-[#252525] text-white py-20 md:px-20 px-10 ">
+    <div className="  overflow-hidden w-full min-h-screen bg-[#252525] text-white py-20 md:px-20 px-10 ">
       <div className={` w-full  flex flex-col`}>
-        <img src={courseData.img} alt="img" className={`w-full`} />
+        <img src={courseData.img} alt="img" className={`w-full rounded-md`} />
 
         <div className={` flex flex-col md:text-6xl text-4xl items-start pt-5`}>
           <p className="truncate text-lg   text-white/50">Total Earnings</p>
@@ -107,17 +121,27 @@ const ManageCourse = () => {
         </h1>
       </div>
 
-      <div className=" grid md:grid-cols-[1fr_2fr]  pt-7 w-full   ">
-        <div className={`w-full md:px-4 px-2  `}>
+      <div className=" grid md:grid-cols-[1fr_2fr]  md:pt-10 pt-7  w-full   ">
+        <div className={`w-full md:px-4 px-2 pb-4 md:pb-0`}>
           {courseData.allvideos.map((data) => {
             return (
               <div
                 key={data.id}
                 onClick={() => setEditSlide(data.id)}
-                className=" hover:-translate-y-0.5 hover:shadow-md hover:shadow-black transition-all duration-200 ease-linear bg-stone-700 mb-2 rounded-md  cursor-pointer  w-full flex items-center justify-between py-2 px-4  "
+                className={`hover:-translate-y-0.5 hover:shadow-md hover:shadow-black transition-all duration-200 ease-linear mb-2 ${
+                  editSlide === data.id
+                    ? 'bg-[#5EF8BF] text-black'
+                    : ' bg-stone-700'
+                } rounded-md  cursor-pointer  w-full flex items-center justify-between py-2 px-4 `}
               >
                 <span className={`truncate  `}>{data.title}</span>
-                <span className={`text-xs text-white/50  `}>Edit </span>
+                <span
+                  className={`text-xs ${
+                    editSlide === data.id ? ' text-black' : ' text-white/50'
+                  }  `}
+                >
+                  Edit{' '}
+                </span>
               </div>
             )
           })}
@@ -126,13 +150,51 @@ const ManageCourse = () => {
           {editSlide ? (
             courseData.allvideos.map((vid) => {
               if (vid.id !== editSlide) return
-              return <div key={vid.id}>{vid.title}</div>
+              return (
+                <div key={vid.id}>
+                  <Player
+                    title="course"
+                    playbackId={vid.playbackId}
+                    loop
+                    autoPlay
+                    showTitle={false}
+                    muted
+                    showPipButton
+                    objectFit="cover"
+                    priority
+                    // jwt={jwt}  we can also use jwt for protecting
+                  />
+                  <div className={`px-2`}>
+                    <h1 className={` md:text-3xl text-2xl pt-3 pb-2 `}>
+                      {vid.title}
+                    </h1>
+                    <p className={`text-xs text-white/50   `}>Description </p>
+                    <p className={`text-sm  pb-3 `}>{vid.description}</p>
+                    <p className={`text-xs text-white/50   `}>Assignments </p>
+                    {vid.assignments.map((assign) => {
+                      return (
+                        <div key={assign.id} className={`text-sm  `}>
+                          {assign.links}
+                        </div>
+                      )
+                    })}
+                    <p className={`text-xs text-white/50  pt-3 `}>Resources </p>
+                    {vid.resources.map((rec) => {
+                      return (
+                        <div key={rec.id} className={`text-sm  `}>
+                          {rec.links}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
             })
           ) : (
             <img
               src={'/asset/manageCourse/manage.png'}
               alt="icon"
-              className={` max-h-[50vh] mx-auto invert mix-blend-screen  transition-all duration-300 ease-linear    `}
+              className={` max-h-[50vh] mx-auto invert mix-blend-screen      `}
             />
           )}
         </div>
