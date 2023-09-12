@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`z-50 flex fixed flex-col items-center   transition-all duration-500 ease-linear  min-h-screen w-max `}
+      className={`z-50 flex fixed flex-col items-center   transition-all duration-500 ease-linear  min-h-screen w-max text-white `}
     >
       <div
         className={`  flex flex-col items-center justify-between  min-h-screen  rounded-r-md bg-black/90 backdrop-blur-sm transition-all duration-100 ease-linear relative ${
