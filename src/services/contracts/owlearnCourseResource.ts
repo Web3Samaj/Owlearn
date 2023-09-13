@@ -19,23 +19,27 @@ export const courseResource = async (
   })
 
   const editCourseURI = async (newCourseURI: string) => {
-    const data = await publicClient.simulateContract({
-      account,
-      address: COURSE_RESOURCE_ADDRESS,
-      abi: COURSE_RESOURCE_ABI,
-      functionName: 'setBaseURI',
-      args: [newCourseURI],
-    })
+    try {
+      const data = await publicClient.simulateContract({
+        account,
+        address: COURSE_RESOURCE_ADDRESS,
+        abi: COURSE_RESOURCE_ABI,
+        functionName: 'setBaseURI',
+        args: [newCourseURI],
+      })
 
-    if (!walletClient) {
-      return
+      if (!walletClient) {
+        return
+      }
+      const tx = await walletClient.writeContract(data.request)
+      console.log('Transaction Sent')
+      const transaction = await publicClient.waitForTransactionReceipt({
+        hash: tx,
+      })
+      console.log('Transaction completed')
+      console.log(transaction)
+    } catch (error) {
+      console.log(error)
     }
-    const tx = await walletClient.writeContract(data.request)
-    console.log('Transaction Sent')
-    const transaction = await publicClient.waitForTransactionReceipt({
-      hash: tx,
-    })
-    console.log('Transaction completed')
-    console.log(transaction)
   }
 }
