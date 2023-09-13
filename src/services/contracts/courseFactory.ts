@@ -6,10 +6,17 @@ import {
 } from '../../constants/courseFactory'
 import { decodeFunctionResult, getContract } from 'viem'
 
-export const courseFactory = () => {
-  // const { address: account } = useAccount()
-  // const publicClient = usePublicClient()
-  // const { data: walletClient } = useWalletClient()
+export const courseFactory = async () => {
+  const { address: account } = getAccount()
+  const publicClient = getPublicClient()
+  const walletClient = await getWalletClient()
+  if (!walletClient) {
+    return
+  }
+  const courseFactory = getContract({
+    address: COURSE_FACTORY_ADDRESS,
+    abi: COURSE_FACTORY_ABI,
+  })
 
   const createCourse = async (
     creatorId: bigint,
@@ -18,17 +25,10 @@ export const courseFactory = () => {
     courseURI: string,
     courseNFTURIs: string[],
     certificateBaseURI: string
-  ) => {
+  ): Promise<[`0x${string}`, bigint] | undefined> => {
     try {
-      const { address: account } = getAccount()
-      const publicClient = getPublicClient()
-      const walletClient = await getWalletClient()
-
       /** DIRECT CONTRACT OBJECT INTERACTION METHOD */
 
-      // if (!walletClient) {
-      //   return
-      // }
       // const courseFactory = getContract({
       //   address: COURSE_FACTORY_ADDRESS,
       //   abi: [...COURSE_FACTORY_ABI],
@@ -71,7 +71,25 @@ export const courseFactory = () => {
       console.log(transaction)
       console.log(data.result)
     } catch (error) {
-      return error
+      console.log(error)
+    }
+  }
+
+  const getCourse = async (
+    courseId: bigint
+  ): Promise<`0x${string}` | undefined> => {
+    try {
+      const { address: account } = getAccount()
+      const publicClient = getPublicClient()
+      const result = await publicClient.readContract({
+        account,
+        address: COURSE_FACTORY_ADDRESS,
+        abi: COURSE_FACTORY_ABI,
+        functionName: 'getCourse',
+        args: [courseId],
+      })
+      return result
+    } catch (error) {
       console.log(error)
     }
   }
