@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import {
   allCourseQuery,
+  allCourseSearchQuery,
   allEducatorQuery,
   allEnrolledCourseQuery,
   indivCertificateQuery,
@@ -24,6 +25,25 @@ export const getAllCourses = (courseToFetch: number) => {
       query: allCourseQuery,
       variables: {
         first: courseToFetch,
+      },
+    })
+    .then((res) => {
+      console.log(res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      return err
+    })
+}
+
+export const searchCourses = (courseToFetch: number, searchQuery: string) => {
+  client
+    .query({
+      query: allCourseSearchQuery,
+      variables: {
+        first: courseToFetch,
+        search: searchQuery,
       },
     })
     .then((res) => {
