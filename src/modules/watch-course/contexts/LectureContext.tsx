@@ -22,7 +22,7 @@ const LectureContext = createContext<LectureContextProps>({
   setCompleted: () => {},
 })
 
-export const LectureContextProvider = ({ children }) => {
+export const LectureContextProvider = ({ children }: any) => {
   const [lectureIndex, setLectureIndex] = useState<number>(0)
   const [title, setTitle] = useState<string>('')
   const [playbackId, setPlaybackId] = useState<string>('')
