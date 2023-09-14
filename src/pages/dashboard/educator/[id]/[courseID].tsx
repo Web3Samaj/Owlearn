@@ -1,12 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Player } from '@livepeer/react'
+import { CourseData } from '@/src/utils/interface'
 
 const ManageCourse = () => {
   const router = useRouter()
+  const textAreaRef = useRef<HTMLTextAreaElement>(null!)
   const [editSlide, setEditSlide] = useState<string | null>(null)
+  const [data, setData] = useState<CourseData>({
+    courseId: '',
+    totalearnings: 0,
+    enrolledStudent: 0,
+    prize: 0,
+    rating: 0,
+    courseName: '',
+    img: '',
+    description: '',
+    allvideos: [
+      {
+        id: '',
+        title: '',
+        playbackId: '',
+        vdescription: '',
+        assignments: [
+          {
+            id: '',
+            alinks: '',
+          },
+        ],
+        resources: [
+          {
+            id: '',
+            rlinks: '',
+          },
+        ],
+      },
+    ],
+  })
+
   const courseData = {
-    courseId: router.query.courseID,
+    // courseId: router.query.courseID as string ,
     totalearnings: 9074,
     enrolledStudent: 938433,
     prize: 23,
@@ -21,30 +54,28 @@ const ManageCourse = () => {
         title: 'The Introduction',
         playbackId:
           'bafybeigtqixg4ywcem3p6sitz55wy6xvnr565s6kuwhznpwjices3mmxoe',
-        description:
+        vdescription:
           'Magni ab excepturi at sunt ipsa, ea aliquam commodi aut expedita reprehenderit fuga tenetur necessitatibus culpa animi hic consequuntur dolorum quia minus? Reprehenderit',
         assignments: [
           {
             id: 'abc',
-            links: [
+            alinks:
               'external link of the assignment or ipfs link to assignment',
-            ],
           },
           {
             id: 'def',
-            links: [
+            alinks:
               'external link of the assignment or ipfs link to assignment',
-            ],
           },
         ],
         resources: [
           {
             id: 'sahl',
-            links: 'https://twitter.com/kajdkjajf',
+            rlinks: 'https://twitter.com/kajdkjajf',
           },
           {
             id: 'dashdh',
-            links: 'https://aksjflasdlfhd.com ',
+            rlinks: 'https://aksjflasdlfhd.com ',
           },
         ],
       },
@@ -52,37 +83,77 @@ const ManageCourse = () => {
         id: 'sgdi',
         title: 'The second vid',
         playbackId: 'f5eese9wwl88k4g8',
-        description:
+        vdescription:
           'tempore esse? Ipsam incidunt quaerat ad dolorum quasi, temporibus beatae non autem amet praesentium aperiam, id veritatis. Magni ab excepturi at sunt ipsa, ea aliquam commodi aut expedita reprehenderit fuga tenetur necessitatibus culpa',
         assignments: [
           {
             id: 'ds',
-            links: [
+            alinks:
               'external link of the assignment or ipfs link to assignment',
-            ],
           },
           {
             id: 'gs',
-            links: [
+            alinks:
               'external link of the assignment or ipfs link to assignment',
-            ],
           },
         ],
         resources: [
           {
             id: 'jg',
-            links: 'https://twitter.com/owlearn',
+            rlinks: 'https://twitter.com/owlearn',
           },
           {
             id: 'dsjh',
-            links: 'https://ethereum.com ',
+            rlinks: 'https://ethereum.com ',
           },
         ],
       },
     ],
   }
 
-  function manageEdits(id: string) {}
+  useEffect(() => {
+    setData(courseData)
+  }, [])
+
+  useEffect(() => {
+    if (!textAreaRef.current) return
+    textAreaRef.current.style.height = '0px'
+    const scrollHeight = textAreaRef.current?.scrollHeight
+    textAreaRef.current.style.height = scrollHeight + 'px'
+  }, [textAreaRef.current, data?.description])
+
+  function manageEdits(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id?: number
+  ) {
+    setData((prev: any) => {
+      if (e.target.name === 'prize') {
+        return {
+          ...prev,
+          [e.target.name]: +e.target.value,
+        }
+      }
+      if (e.target.name === 'title') {
+        // const alter = data.allvideos.find(val => val.id === id)
+        const temp = { ...prev }
+        if (id === undefined) return
+        // console.log(temp.allvideos[id]);
+        temp.allvideos[id].title = e.target.value
+        console.log(temp.allvideos[id].title)
+
+        return {
+          ...temp,
+          // prev.allvideos[id].title : e.taget.value
+        }
+      }
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      }
+    })
+  }
+
+  console.log(data)
 
   return (
     <div className="  overflow-hidden w-full min-h-screen bg-[#252525] text-white py-20 md:px-20 px-10 ">
@@ -91,18 +162,30 @@ const ManageCourse = () => {
 
         <div className={` flex flex-col md:text-6xl text-4xl items-start pt-5`}>
           <p className="truncate text-lg   text-white/50">Total Earnings</p>
-          <p> ${courseData?.totalearnings} </p>
+          <p className="">${data.totalearnings}</p>
+
+          {/* <input type='number' name='totalearnings' value={data.totalearnings} onChange={manageEdits} className={`focus:outline-none bg-inherit [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`} />  */}
         </div>
-        <div
-          className={`w-full md:text-4xl text-3xl flex justify-between   items-center flex-wrap-reverse pt-7 `}
-        >
-          {courseData?.courseName}
-        </div>
+        <input
+          type="text"
+          name="courseName"
+          value={data?.courseName}
+          onChange={manageEdits}
+          className={`w-full md:text-4xl text-3xl flex justify-between bg-inherit   items-center flex-wrap-reverse mt-7 focus:outline-none`}
+        />
+        {/* {courseData?.courseName} */}
+        {/* </input> */}
 
         <div className={` md:w-[50%] w-full py-3  flex justify-between`}>
           <div className={` flex flex-col items-start`}>
             <p className="truncate md:text-lg te  text-white/50">Prize</p>
-            <p>${courseData.prize} 💶</p>
+            <input
+              type="number"
+              name="prize"
+              value={data?.prize}
+              onChange={manageEdits}
+              className={`focus:outline-none bg-inherit [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+            />
           </div>
           <div className={` flex flex-col items-center`}>
             <p className="truncate md:text-lg te  text-white/50">Rating</p>
@@ -116,14 +199,19 @@ const ManageCourse = () => {
           </div>
         </div>
 
-        <h1 className={`w-full text-lg text-white/70`}>
-          {courseData?.description}
-        </h1>
+        <textarea
+          onChange={manageEdits}
+          name="description"
+          spellCheck="false"
+          ref={textAreaRef}
+          value={data?.description}
+          className={`max-w-full focus:outline-none resize-none  bg-inherit text-lg text-white/70`}
+        />
       </div>
 
       <div className=" grid md:grid-cols-[1fr_2fr]  md:pt-10 pt-7  w-full   ">
-        <div className={`w-full md:px-4 px-2 pb-4 md:pb-0`}>
-          {courseData.allvideos.map((data) => {
+        <div className={`w-full truncate md:px-4 px-2 pb-4 md:pb-0`}>
+          {data?.allvideos.map((data) => {
             return (
               <div
                 key={data.id}
@@ -132,9 +220,9 @@ const ManageCourse = () => {
                   editSlide === data.id
                     ? 'bg-[#5EF8BF] text-black'
                     : ' bg-stone-700'
-                } rounded-md  cursor-pointer  w-full flex items-center justify-between py-2 px-4 `}
+                } rounded-md  cursor-pointer truncate w-full flex items-center justify-between py-2 px-4 `}
               >
-                <span className={`truncate  `}>{data.title}</span>
+                <span className={`truncate max-w-full  `}>{data.title}</span>
                 <span
                   className={`text-xs ${
                     editSlide === data.id ? ' text-black' : ' text-white/50'
@@ -148,7 +236,7 @@ const ManageCourse = () => {
         </div>
         <div className={` w-full min-h-[50vh]  `}>
           {editSlide ? (
-            courseData.allvideos.map((vid) => {
+            data?.allvideos.map((vid, idx) => {
               if (vid.id !== editSlide) return
               return (
                 <div key={vid.id}>
@@ -164,17 +252,24 @@ const ManageCourse = () => {
                     priority
                     // jwt={jwt}  we can also use jwt for protecting
                   />
-                  <div className={`px-2`}>
-                    <h1 className={` md:text-3xl text-2xl pt-3 pb-2 `}>
+                  <div className={`px-2 `}>
+                    <input
+                      type="text"
+                      name="title"
+                      value={vid.title}
+                      onChange={(e) => manageEdits(e, idx)}
+                      className={`w-full bg-inherit focus:outline-none md:text-3xl text-2xl pt-3 pb-2  truncate`}
+                    />
+                    {/* <h1 className={` md:text-3xl text-2xl pt-3 pb-2 `}>
                       {vid.title}
-                    </h1>
+                    </h1> */}
                     <p className={`text-xs text-white/50   `}>Description </p>
-                    <p className={`text-sm  pb-3 `}>{vid.description}</p>
+                    <p className={`text-sm  pb-3 `}>{vid.vdescription}</p>
                     <p className={`text-xs text-white/50   `}>Assignments </p>
                     {vid.assignments.map((assign) => {
                       return (
                         <div key={assign.id} className={`text-sm  `}>
-                          {assign.links}
+                          {assign.alinks}
                         </div>
                       )
                     })}
@@ -182,7 +277,7 @@ const ManageCourse = () => {
                     {vid.resources.map((rec) => {
                       return (
                         <div key={rec.id} className={`text-sm  `}>
-                          {rec.links}
+                          {rec.rlinks}
                         </div>
                       )
                     })}

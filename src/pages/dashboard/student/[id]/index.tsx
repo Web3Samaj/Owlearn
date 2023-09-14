@@ -160,11 +160,11 @@ const Student = () => {
             <p className=" truncate md:text-4xl text-4xl  font-bold ">
               {studentData.boughtCourses.length} Courses
             </p>
-            <img
+            {/* <img
               src={`/asset/manageCourse/chart.png`}
               alt="chart"
               className={` invert  lg:h-20 h-12   p-2.5   rounded-md`}
-            />
+            /> */}
           </div>
         </div>
 
@@ -188,11 +188,11 @@ const Student = () => {
             <p className=" truncate md:text-3xl text-xl  font-bold ">
               {studentData.nfts.length} NFTs & Certificates
             </p>
-            <img
+            {/* <img
               src={`/asset/manageCourse/chart.png`}
               alt="chart"
               className={` invert  lg:h-20 h-12   p-2.5   rounded-md`}
-            />
+            /> */}
           </div>
         </div>
 
@@ -216,11 +216,11 @@ const Student = () => {
 
           <div className=" flex  items-center md:justify-around justify-between  mt-2 w-full ">
             <p className=" truncate md:text-4xl text-4xl  font-bold ">8 PDFs</p>
-            <img
+            {/* <img
               src={`/asset/manageCourse/chart.png`}
               alt="chart"
               className={` invert  lg:h-20 h-12   p-2.5   rounded-md`}
-            />
+            /> */}
           </div>
         </div>
       </div>
