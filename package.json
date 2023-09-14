@@ -11,6 +11,7 @@
     "format": "prettier src --check --ignore-path .gitignore"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.3",
     "@livepeer/react": "^2.8.0",
     "@rainbow-me/rainbowkit": "^1",
     "@web3auth/base": "^6.1.4",
@@ -18,6 +19,7 @@
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
     "ethers": "5.7.2",
+    "graphql": "^16.8.0",
     "next": "13.2.1",
     "nft.storage": "^7.1.1",
     "react": "18.2.0",
@@ -27,6 +29,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@graphprotocol/client-cli": "^3.0.0",
     "@types/node": "^20.3.1",
     "@types/react": "^18.2.12",
     "@typescript-eslint/eslint-plugin": "^5.59.11",

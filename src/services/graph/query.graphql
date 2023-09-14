@@ -1,0 +1,14 @@
+query AllCourseQuery {
+  courses(first: 5) {
+    id
+    creatorId
+    courseId
+    address
+    certificateAddress
+    courseURI
+    mintModule
+    name
+    resourceAddress
+    symbol
+  }
+}
