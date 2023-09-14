@@ -148,17 +148,17 @@ const Publish = () => {
     }
     setLoading(true)
 
-    const courseRes = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(restInp),
-      }
-    )
-    const { cid: courseCid } = await courseRes.json()
+    // const courseRes = await fetch(
+    //   process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(restInp),
+    //   }
+    // )
+    // const { cid: courseCid } = await courseRes.json()
 
     const lecturesUploaded = []
 
@@ -171,6 +171,7 @@ const Publish = () => {
         title: uploadComp[i].title,
         video: res.playbackId,
       }
+      console.log('jsonData : ', jsonData)
       const cidRes = await fetch(
         process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
         {
@@ -184,6 +185,7 @@ const Publish = () => {
       const { cid } = await cidRes.json()
       lecturesUploaded.push(cid)
     }
+    console.log('lecturesUploaded :', lecturesUploaded)
   }
 
   return (
