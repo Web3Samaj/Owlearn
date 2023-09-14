@@ -8,10 +8,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
+// Caching can be done too , for almost instant response
+
 export const getCourses = () => {
   client
     .query({
-      query: gql(allCourseQuery),
+      query: allCourseQuery,
       variables: {},
     })
     .then((res) => {
