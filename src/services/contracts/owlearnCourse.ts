@@ -93,14 +93,14 @@ const owlearnCouse = async (OWLEARN_COURSE_ADDRESS: `0x${string}`) => {
     }
   }
 
-  const editCourseNFT = async (tokenId: bigint, courseNFTURIs: string) => {
+  const editCourseNFT = async (tokenId: bigint, courseNFTURI: string) => {
     try {
       const data = await publicClient.simulateContract({
         account,
         address: OWLEARN_COURSE_ADDRESS,
         abi: OWLEARN_COURSE_ABI,
         functionName: 'editCourseNFT',
-        args: [tokenId, courseNFTURIs],
+        args: [tokenId, courseNFTURI],
       })
 
       if (!walletClient) {
