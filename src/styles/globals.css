@@ -1,26 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kablammo&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: 'ShadowHand';
+  src: url('https://2ttf.com/webfont/UIswCwhB/webfont.ttf') format('truetype');
+}
+@layer utilities {
+  .bgimg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23070707' points='1600 160 0 460 0 350 1600 50'/%3E%3Cpolygon fill='%230f0f0f' points='1600 260 0 560 0 450 1600 150'/%3E%3Cpolygon fill='%23161616' points='1600 360 0 660 0 550 1600 250'/%3E%3Cpolygon fill='%231e1e1e' points='1600 460 0 760 0 650 1600 350'/%3E%3Cpolygon fill='%23252525' points='1600 800 0 800 0 750 1600 450'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .pannel {
+    transform: perspective(95vw) rotateY(-40deg) rotateX(7deg);
+  }
+
+  .isactive {
+    transform: translateX(100%) perspective(90vw) rotateY(-40deg) rotateX(7deg);
+  }
+
+  .pause {
+    animation-play-state: paused;
+    /* animation-duration: 40s; */
+  }
+
+  .shad {
+    box-shadow: inset 0 0em 3em rgba(0, 0, 0, 0.8),
+      0 0 0 2rem rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  }
+  .bookk {
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .bookk svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+  }
+
+  .bookk .shape-fill {
+    fill: #252525;
+  }
+}
 
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html,
 body {
-    max-width: 100vw;
-    overflow-x: hidden;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 @media (prefers-color-scheme: dark) {
-    html {
-        color-scheme: dark;
-    }
+  html {
+    color-scheme: dark;
+  }
 }
