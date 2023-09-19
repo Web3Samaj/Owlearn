@@ -1,0 +1,9 @@
+# .graphclientrc.yml
+sources:
+  - name: owlearn
+    handler:
+      graphql:
+        endpoint: https://api.studio.thegraph.com/query/46388/owlearn/version/latest
+
+documents:
+  - ./src/services/graph/query.graphql

@@ -1,0 +1,9 @@
+{
+  "name": "String - Name of the Course",
+  "description": "String - Description of the course , requirements , or Who this course for",
+  "thumbnailURI": "String - Thumbnail image URI - IPFS one",
+  "language": "String ",
+  "extraMetadataURI": "String - dynamic server URI , serving the seq",
+  "courseContent?": "String - can be stored on Chain , or even cached off chain",
+  "attributes": "Array of objects {key-value} pair"
+}
