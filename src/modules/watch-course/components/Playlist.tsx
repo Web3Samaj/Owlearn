@@ -18,7 +18,7 @@ export default function Home({ cids }: PlaylistProps): JSX.Element {
   }, [])
 
   return (
-    <div className="flex flex-col overflow-y-auto h-screen gap-2 pt-2">
+    <div className="flex flex-col overflow-y-auto h-screen gap-2 pt-2 md:px-4 px-2 pb-4 md:pb-0">
       {cids.map((cid, i) => {
         return <Lecture key={i} cid={cid} index={i} />
       })}
