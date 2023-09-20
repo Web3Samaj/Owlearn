@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`z-50 flex fixed flex-col items-center   transition-all duration-500 ease-linear  min-h-screen w-max `}
+      className={`z-50 flex fixed flex-col items-center   transition-all duration-500 ease-linear  min-h-screen w-max text-white `}
     >
       <div
         className={`  flex flex-col items-center justify-between  min-h-screen  rounded-r-md bg-black/90 backdrop-blur-sm transition-all duration-100 ease-linear relative ${
@@ -51,6 +51,7 @@ const Navbar = () => {
 
         <div className={` flex flex-col w-full px-4`}>
           <Link
+            onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
             href={'/'}
           >
@@ -68,8 +69,9 @@ const Navbar = () => {
             </span>
           </Link>
           <Link
+            onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
-            href={'/Dashboard'}
+            href={'/dashboard'}
           >
             <img
               src={'/asset/nav/dash.png'}
@@ -84,24 +86,9 @@ const Navbar = () => {
               Dashboard
             </span>
           </Link>
+
           <Link
-            className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
-            href={'/Publish'}
-          >
-            <img
-              src={'/asset/nav/publish.png'}
-              alt="icon"
-              className={` group-hover:scale-110  transition-all duration-300 ease-linear w-8 z-20 `}
-            />
-            <span
-              className={` bg-black w-full text-center z-10 mt-1 group-hover:bg-white group-hover:text-black rounded-md mx-2 transition-all duration-300 ease-linear ${
-                open ? 'block' : 'scale-0 hidden'
-              }`}
-            >
-              Publish
-            </span>
-          </Link>
-          <Link
+            onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
             href={'/MyCourses'}
           >

@@ -20,3 +20,34 @@ export interface IUpload {
   vid: File | null
   tit: string
 }
+
+interface Assignment {
+  id: string
+  alinks: string
+}
+
+interface Resource {
+  id: string
+  rlinks: string
+}
+
+interface Video {
+  id: string
+  title: string
+  playbackId: string
+  vdescription: string
+  assignments: Assignment[]
+  resources: Resource[]
+}
+
+export interface CourseData {
+  courseId?: string
+  totalearnings: number
+  enrolledStudent: number
+  prize: number
+  rating: number
+  courseName: string
+  img: string
+  description: string
+  allvideos: Video[]
+}

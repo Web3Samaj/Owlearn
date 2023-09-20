@@ -134,7 +134,7 @@ const Testimonial = () => {
           className={`  invert mix-blend-screen  rotate-180 transition-all duration-300 ease-linear w-20   `}
         />
         <span
-          className={` bg-[#8338ec] p-5 border-4 text-center border-dashed border-white rounded-full text-white tracking-wide font-bold flex flex-col font-jakarta`}
+          className={` bg-[#8338ec] p-5 border-4 text-center border-dashed border-white rounded-full text-white tracking-wide font-bold flex flex-col font-jakarta z-20`}
         >
           Don&apos;t Just Believe BLINDLY
           <span className="text-[1.2rem] font-thin font-reeni">

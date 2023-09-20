@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
-import owl from 'public/asset/landing/owl.svg'
+
 const Hero = () => {
   gsap.registerPlugin(ScrollTrigger)
   const parentHeroRef = useRef<HTMLDivElement>(null!)

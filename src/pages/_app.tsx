@@ -6,6 +6,7 @@ import {
   createReactClient,
   studioProvider,
 } from '@livepeer/react'
+import NextNProgress from 'nextjs-progressbar'
 
 const client = createReactClient({
   provider: studioProvider({
@@ -18,6 +19,8 @@ export default function App({ Component, pageProps }: any) {
     <div className={`relative`}>
       <AuthContextProvider>
         <LivepeerConfig client={client}>
+          <NextNProgress color={'#5EF8BF'} options={{ showSpinner: false }} />
+
           <Navbar />
           <Component {...pageProps} />
         </LivepeerConfig>
