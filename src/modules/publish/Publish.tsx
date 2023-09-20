@@ -7,11 +7,11 @@ import { uploadVideo } from './utils'
 const Publish = () => {
   const addingCourse = useStore((store) => store.setCourseData)
   const allCourse = useStore((store) => store.courseData)
-  const preview = useRef<HTMLImageElement>(null!)
+  const preview = useRef<string | undefined>(undefined)
   const inputRefs = useRef<(HTMLInputElement | HTMLTextAreaElement)[]>([])
   const [uploadComp, setUploadComp] = useState<IUploadComp[]>([])
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState<boolean>(false)
+  const [steps, setSteps] = useState<number>(1)
   useEffect(() => {
     setUploadComp([
       {
@@ -57,8 +57,7 @@ const Publish = () => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (!file) return
       const src = URL.createObjectURL(file)
-      if (!preview.current) return
-      preview.current.src = src
+      preview.current = src
       setRestInp((prev) => {
         return {
           ...prev,
@@ -66,7 +65,7 @@ const Publish = () => {
         }
       })
     }
-
+    console.log(e.target.name)
     setRestInp((prev) => {
       return {
         ...prev,
@@ -190,96 +189,169 @@ const Publish = () => {
 
   return (
     <div
-      className={`bg-black text-white flex flex-col py-10 items-center justify-start w-full min-h-screen `}
+      className={`bg-black text-white flex flex-col py-20 items-center justify-start w-full min-h-screen `}
     >
-      <div className={`w-[60%] bg-stone-800 p-5 rounded-xl`}>
-        <h1 className={`text-2xl font-semibold`}>Course Name & Description </h1>
-        <p className={`mt-4`}>Course Title</p>
-        <input
-          value={restInp.courseTitle}
-          ref={(ref) => addInputRef(ref)}
-          onKeyDown={(e) => handleKeyPress(e, 0)}
-          onChange={handleInputChange}
-          name="courseTitle"
-          type="text"
-          placeholder="Enter Course Name"
-          className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 active:outline-none  focus:outline-none`}
-        />
-        <p className={`mt-4`}>Course Desciption</p>
-        <textarea
-          value={restInp.description}
-          ref={(ref) => addInputRef(ref)}
-          onKeyDown={(e) => handleKeyPress(e, 1)}
-          onChange={handleInputChange}
-          name="description"
-          placeholder="Add a description of a course"
-          className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 resize-none h-32  active:outline-none  focus:outline-none`}
-        />
-        <p className={`mt-4`}>Course Thumbnail</p>
-        {restInp.thumbnail ? <img ref={preview} alt="img" /> : null}
-        <input
-          onChange={handleInputChange}
-          className="block w-1/2 mt-2 text-xs text-white rounded-md cursor-pointer bg-black  focus:outline-none "
-          name="thumbnail"
-          accept="image/png, image/gif, image/jpeg"
-          type="file"
-        />
-        <p className={`mt-4`}>Upload Videos</p>
-
-        <div className={`max-w-full flex  flex-wrap justify-start`}>
-          {uploadComp.map((val, idx) => (
-            <Upload
-              key={val.idx}
-              deleteComp={deleteVidComp}
-              idx={val.idx}
-              handleVideoChange={handleVideoChange}
-              handleTitleChange={handleTitleChange}
-              vid={val.video}
-              tit={val.title}
-            />
-          ))}
-          <button
-            disabled={loading}
-            className={`w-[8.5rem] h-[7rem] bg-black m-3 rounded-xl flex items-center justify-center`}
-            onClick={addUploads}
-          >
-            <img
-              src="https://img.icons8.com/emoji/48/000000/plus-emoji.png"
-              alt="add"
-              className={`select-none`}
-            />
-          </button>
-        </div>
-        <p className={`mt-4`}>Course Category</p>
-        <input
-          value={restInp.category}
-          ref={(ref) => addInputRef(ref)}
-          onKeyDown={(e) => handleKeyPress(e, 2)}
-          name="category"
-          onChange={handleInputChange}
-          type="text"
-          placeholder="Enter Course Category"
-          className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 active:outline-none  focus:outline-none`}
-        />
-        <p className={`mt-4`}>Course Price</p>
-        <input
-          value={restInp.price}
-          ref={(ref) => addInputRef(ref)}
-          onKeyDown={(e) => handleKeyPress(e, 3)}
-          onChange={handleInputChange}
-          name="price"
-          type="number"
-          min={0}
-          placeholder="Enter Course Price - $$"
-          className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 active:outline-none  focus:outline-none`}
-        />
-        <button
-          disabled={loading}
-          onClick={uploadAll}
-          className={`bg-stone-500 mt-4 placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full  active:outline-none  focus:outline-none`}
+      <div
+        className={`md:w-[60%] w-[80%] relative h-10 flex items-center  overflow-hidden  mb-10 `}
+      >
+        <div
+          className={`flex items-center justify-between absolute w-full z-30`}
         >
-          Publish
-        </button>
+          <div
+            className={` w-10 h-10 rounded-full bg-[#5EF8BF] text-black flex items-center justify-center `}
+          >
+            1
+          </div>
+          <div
+            className={` w-10 h-10 rounded-full ${
+              steps >= 2 ? 'bg-[#5EF8BF]' : 'bg-stone-600 text-white'
+            } text-black flex items-center justify-center `}
+          >
+            2
+          </div>
+          <div
+            className={`${
+              steps >= 3 ? 'bg-[#5EF8BF]' : 'bg-stone-600 text-white'
+            }  w-10 h-10 rounded-full bg-[#5EF8BF] text-black flex items-center justify-center `}
+          >
+            3
+          </div>
+        </div>
+        <div className={`w-full h-1.5 bg-stone-600  relative `}>
+          <div
+            className={` absolute ${steps === 1 && 'w-0'} ${
+              steps === 2 && 'w-1/2'
+            } ${steps === 3 && 'w-full'}  h-1.5 bg-[#5EF8BF]  `}
+          ></div>
+        </div>
+      </div>
+      <div className={`md:w-[60%] w-[80%] bg-stone-800 p-5 rounded-xl`}>
+        <h1 className={`text-2xl font-semibold`}>Publishing Course </h1>
+        <h1 className={`text-base font-semibold mt-3`}>Step {steps} </h1>
+        {steps === 1 && (
+          <>
+            <p className={` mt-2  `}>Course Title</p>
+            <input
+              value={restInp.courseTitle}
+              ref={(ref) => addInputRef(ref)}
+              onKeyDown={(e) => handleKeyPress(e, 0)}
+              onChange={handleInputChange}
+              name="courseTitle"
+              type="text"
+              placeholder="Enter Course Name"
+              className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 active:outline-none  focus:outline-none`}
+            />
+            <p className={`mt-4`}>Course Desciption</p>
+            <textarea
+              value={restInp.description}
+              ref={(ref) => addInputRef(ref)}
+              onKeyDown={(e) => handleKeyPress(e, 1)}
+              onChange={handleInputChange}
+              name="description"
+              placeholder="Add a description of a course"
+              className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 resize-none h-32 mb-4  active:outline-none  focus:outline-none`}
+            />
+          </>
+        )}
+
+        {steps === 2 && (
+          <>
+            <p className={`mt-4 mb-2`}>Course Thumbnail</p>
+            <img
+              src={preview.current}
+              alt="img"
+              className={`${
+                preview.current === undefined ? 'hidden' : 'block'
+              } `}
+            />
+            <input
+              onChange={handleInputChange}
+              className="block w-1/2 mt-3 text-xs text-white rounded-md cursor-pointer bg-black  focus:outline-none "
+              name="thumbnail"
+              accept="image/png, image/gif, image/jpeg"
+              type="file"
+            />
+            <p className={`mt-4`}>Upload Videos</p>
+
+            <div className={`w-full flex  flex-col justify-start`}>
+              {uploadComp.map((val, idx) => (
+                <Upload
+                  key={val.idx}
+                  deleteComp={deleteVidComp}
+                  idx={val.idx}
+                  handleVideoChange={handleVideoChange}
+                  handleTitleChange={handleTitleChange}
+                  vid={val.video}
+                  tit={val.title}
+                />
+              ))}
+              <button
+                disabled={loading}
+                className={`w-[20%] mx-auto h-[4rem] mt-4 bg-lime-900/50  mr-auto rounded-xl flex items-center justify-center`}
+                onClick={addUploads}
+              >
+                <img
+                  src="/asset/manageCourse/add.png"
+                  alt="add"
+                  className={`select-none w-10 `}
+                />
+              </button>
+            </div>
+          </>
+        )}
+
+        {steps === 3 && (
+          <>
+            <p className={`mt-4`}>Course Category</p>
+            <input
+              value={restInp.category}
+              ref={(ref) => addInputRef(ref)}
+              onKeyDown={(e) => handleKeyPress(e, 2)}
+              name="category"
+              onChange={handleInputChange}
+              type="text"
+              placeholder="Enter Course Category"
+              className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 active:outline-none  focus:outline-none`}
+            />
+            <p className={`mt-4`}>Course Price</p>
+            <input
+              value={restInp.price}
+              ref={(ref) => addInputRef(ref)}
+              onKeyDown={(e) => handleKeyPress(e, 3)}
+              onChange={handleInputChange}
+              name="price"
+              type="number"
+              min={0}
+              placeholder="Enter Course Price - $$"
+              className={`bg-black placeholder:text-white/50 py-2 px-4 text-sm rounded-md w-full mt-2 active:outline-none  focus:outline-none`}
+            />
+            <button
+              disabled={loading}
+              onClick={uploadAll}
+              className={`bg-[#5EF8BF] mt-4 py-2 px-4 text-sm rounded-md w-full text-black`}
+            >
+              Publish
+            </button>
+          </>
+        )}
+      </div>
+      <div
+        className={`flex w-[40%] select-none  mx-auto items-center mt-10 justify-between `}
+      >
+        <img
+          onClick={() => steps > 1 && setSteps((prev) => prev - 1)}
+          src={'asset/landing/back.png'}
+          alt="icon"
+          draggable="false"
+          className={` transition-all select-none duration-300 ease-linear w-10 rounded-full cursor-pointer `}
+        />
+        <img
+          onClick={() => steps < 3 && setSteps((prev) => prev + 1)}
+          src={'asset/landing/next.png'}
+          alt="icon"
+          className={`  transition-all select-none duration-300 ease-linear w-10 rounded-full cursor-pointer `}
+          draggable="false"
+        />
       </div>
     </div>
   )

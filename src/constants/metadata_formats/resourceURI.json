@@ -1,0 +1,8 @@
+{
+  "name": "String -  Title of the Resource(video) ",
+  "playbackId": "String - Livepeer Playback ID",
+  "description?": "String - Description of the current Video",
+  "image": "thumbnail of the video",
+  "assignmentURIs?": "Array of URI for assignment",
+  "externalURIs?": "Arrays of resources for the Video which users can see or download"
+}

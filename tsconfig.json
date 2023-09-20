@@ -2,11 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/src/*": ["src/*"],
-      "@/styles/*": ["src/styles/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/common/*": ["src/common/*"],
-      "@/modules/*": ["src/modules/*"]
+      "@/src/*": ["./src/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/common/*": ["./src/common/*"],
+      "@/modules/*": ["./src/modules/*"]
     },
     "target": "ES5",
     "lib": ["dom", "dom.iterable", "esnext"],

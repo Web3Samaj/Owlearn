@@ -19,7 +19,7 @@ type LectureProps = {
 
 export default function Home({ cid, index }: LectureProps): JSX.Element {
   const lectureContext = useContext(LectureContext)
-  const [lecture, setLecture] = useState<Lecture>()
+  const [lecture, setLecture] = useState<Lecture | null>(null)
 
   useEffect(() => {
     async function fetchLecture() {
