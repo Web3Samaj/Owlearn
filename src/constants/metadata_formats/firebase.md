@@ -16,6 +16,9 @@ Socials: { store the socialLinks }
 }
 
 courseID ## Address {
+"totalLectures" - Number,
+"totalStudentCompleted" - Number,
 "Rating" - "Number",
 "Sequence" - "ObjectId - nested Collection(object){ tokenID , title }"
+"progress" - UserAddr - nested Progress(object){ totalWatched , hasCompleted , rankToComplete}
 }
