@@ -51,3 +51,15 @@ export interface CourseData {
   description: string
   allvideos: Video[]
 }
+
+export type ViewCourseData = {
+  courseId: string
+  totalearnings: number
+  enrolledStudent: number
+  prize: number
+  rating: number
+  courseName: string
+  img: string
+  description: string
+  allvideos: { id: string; title: string }[]
+}
