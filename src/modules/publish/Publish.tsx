@@ -3,6 +3,14 @@ import Upload from './components/Upload'
 import { IUploadComp, IrestInput } from '@/src/utils/interface'
 import { useStore } from '@/src/store/store'
 import { uploadVideo } from './utils'
+import { NFTStorage, File, Blob } from 'nft.storage'
+import { useAccount, usePublicClient, useWalletClient } from 'wagmi'
+import { getAccount, getPublicClient, getWalletClient } from 'wagmi/actions'
+import {
+  COURSE_FACTORY_ADDRESS,
+  COURSE_FACTORY_ABI,
+} from '../../constants/courseFactory'
+import { decodeFunctionResult, getContract } from 'viem'
 
 const Publish = () => {
   const addingCourse = useStore((store) => store.setCourseData)
@@ -12,6 +20,16 @@ const Publish = () => {
   const [uploadComp, setUploadComp] = useState<IUploadComp[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [steps, setSteps] = useState<number>(1)
+  // useEffect(() => {
+  //   const run = async()=>{
+
+  //     const { address: account } = getAccount()
+  //     const publicClient = await getPublicClient()
+  //     const walletClient =  getWalletClient()
+  //   }
+  //   run()
+  // }, [])
+
   useEffect(() => {
     setUploadComp([
       {
@@ -56,8 +74,10 @@ const Publish = () => {
     if (e.target.name === 'thumbnail') {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (!file) return
+
       const src = URL.createObjectURL(file)
       preview.current = src
+
       setRestInp((prev) => {
         return {
           ...prev,
@@ -72,6 +92,16 @@ const Publish = () => {
         [e.target.name]: e.target.value,
       }
     })
+  }
+
+  const uploadthumbnail = async (file: File) => {
+    const client = new NFTStorage({
+      token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN as string,
+    })
+    console.log('uploading thumbnail....')
+    const imageFile = new File([file], file.name, { type: 'image/*' })
+    const metadata = await client.storeBlob(imageFile)
+    return 'https://ipfs.io/ipfs/' + metadata
   }
 
   function addUploads() {
@@ -146,18 +176,11 @@ const Publish = () => {
       }
     }
     setLoading(true)
-
-    // const courseRes = await fetch(
-    //   process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(restInp),
-    //   }
-    // )
-    // const { cid: courseCid } = await courseRes.json()
+    console.log('uploading ........')
+    // console.log(restInp);
+    const thumbUri = await uploadthumbnail(restInp.thumbnail as File)
+    console.log(thumbUri)
+    if (!thumbUri) return
 
     const lecturesUploaded = []
 
@@ -170,7 +193,7 @@ const Publish = () => {
         title: uploadComp[i].title,
         video: res.playbackId,
       }
-      console.log('jsonData : ', jsonData)
+      // console.log('jsonData : ', jsonData)
       const cidRes = await fetch(
         process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
         {
@@ -184,8 +207,85 @@ const Publish = () => {
       const { cid } = await cidRes.json()
       lecturesUploaded.push(cid)
     }
-    console.log('lecturesUploaded :', lecturesUploaded)
+
+    console.log(restInp.courseTitle)
+    const symb = createSymbol(restInp.courseTitle)
+    console.log(createSymbol(restInp.courseTitle))
+    //
+    console.log('lecturesUploaded :', lecturesUploaded) // this will b array of ipfs cids
+
+    const courseURItoIPFS = {
+      name: restInp.courseTitle,
+      description: restInp.description,
+      thumbnailURI: thumbUri,
+      language: 'English',
+      extraMetadataURI: 'some extrametada',
+      courseContent: 'tobedecided',
+      attributes: [{ abc: 'xyz' }],
+    }
+    const courseuriRes = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + '/upload-json-ipfs',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(courseURItoIPFS),
+      }
+    )
+    const { cid: courseCid } = await courseuriRes.json()
+    console.log('courseuri cid----', courseCid)
+
+    //  const hash = await createCourse( BigInt(1) , restInp.courseTitle , symb , "https://ipfs.io/ipfs"+courseCid  , lecturesUploaded , "Yet to be decided"  )
+    //  console.log(hash);
   }
+
+  function createSymbol(sentence: string): string {
+    const words = sentence.split(/\s+/).filter(Boolean)
+    const firstLetters = words.map((word) => word[0].toUpperCase())
+    return firstLetters.join('')
+  }
+  ///-----------------------------------------------
+  // contract interaction
+
+  // const createCourse = async (
+  //   creatorId: bigint,
+  //   courseName: string,
+  //   courseSymbol: string,    // a short form of nft like SBT or
+  //   courseURI: string,
+  //   courseNFTURIs: string[],  // array of cid ipfs://cid !!!not NFT but the uri of json resourseURI
+  //   certificateBaseURI: string
+  // ): Promise<[`0x${string}`, bigint] | undefined> => {
+  //   try {
+
+  //     const data = await publicClient.simulateContract({
+  //       account,
+  //       address: COURSE_FACTORY_ADDRESS,
+  //       abi: COURSE_FACTORY_ABI,
+  //       functionName: 'createCourse',
+  //       args: [
+  //         creatorId,
+  //         courseName,
+  //         courseSymbol,
+  //         courseURI,
+  //         courseNFTURIs,
+  //         certificateBaseURI,
+  //       ],
+  //     })
+  //     if (!walletClient) {
+  //       return
+  //     }
+  //     const tx = await walletClient.writeContract(data.request)
+  //     console.log('Transaction Sent')
+  //     const transaction = await publicClient.waitForTransactionReceipt({
+  //       hash: tx,
+  //     })
+  //     console.log(transaction)
+  //     console.log(data.result)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <div

@@ -242,7 +242,7 @@ const ManageCourse = () => {
                 <div key={vid.id}>
                   <Player
                     title="course"
-                    playbackId={vid.playbackId}
+                    playbackId={'89d622m0hiz3wdqj'}
                     loop
                     autoPlay
                     showTitle={false}

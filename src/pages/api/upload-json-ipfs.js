@@ -3,7 +3,9 @@ import { NFTStorage } from 'nft.storage'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const client = new NFTStorage({ token: process.env.NFT_STORAGE_TOKEN })
+    const client = new NFTStorage({
+      token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN,
+    })
     const jsonData = req.body
     const blob = new Blob([JSON.stringify(jsonData)], {
       type: 'application/json',
