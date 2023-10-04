@@ -20,7 +20,6 @@ export default function App({ Component, pageProps }: any) {
       <AuthContextProvider>
         <LivepeerConfig client={client}>
           <NextNProgress color={'#5EF8BF'} options={{ showSpinner: false }} />
-
           <Navbar />
           <Component {...pageProps} />
         </LivepeerConfig>
