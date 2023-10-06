@@ -18,12 +18,15 @@ export const owlearnId = async () => {
 
   const registerOwlearnId = async (userName: string) => {
     try {
+      const allowListProof: `0x${string}`[] = []
+      const blackListProof: `0x${string}`[] = []
+
       const data = await publicClient.simulateContract({
         account,
         address: OWLEARN_ID_ADDRESS,
         abi: OWLEARN_ID_ABI,
-        functionName: 'register',
-        args: [userName],
+        functionName: 'registerOwlId',
+        args: [userName, allowListProof, blackListProof],
       })
 
       if (!walletClient) {

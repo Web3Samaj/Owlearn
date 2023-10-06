@@ -1,5 +1,15 @@
 export const OWLEARN_ID_ADDRESS = '0x78eAE42Eb24d4794A8FA0E9dF9846aF65d87BF29'
 
+export const allowedAddressList: `0x${string}`[] = [
+  '0x62C43323447899acb61C18181e34168903E033Bf',
+  '0x898d0DBd5850e086E6C09D2c83A26Bb5F1ff8C33',
+  '0xBF17F859989A73C55c7BA5Fefb40e63715216B9b',
+  '0x4C131C0b663C7E15A7b6DF6695fEBC908E32E260',
+  '0xe22eCBbA8fB9C0124eeCb6AfE0bf6A487424989f',
+]
+
+export const usernameBlackList: string[] = ['nike', 'adidas', 'puma']
+
 export const OWLEARN_ID_ABI = [
   {
     inputs: [],
