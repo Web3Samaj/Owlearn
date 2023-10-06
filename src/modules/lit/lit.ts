@@ -2,6 +2,8 @@ import * as LitJsSdk from '@lit-protocol/lit-node-client'
 
 const chain = 'mumbai'
 const client = new LitJsSdk.LitNodeClient(chain)
+const infuraId = process.env.NEXT_PUBLIC_INFURA_ID
+const infuraSecret = process.env.NEXT_PUBLIC_API_SECRET_KEY
 
 class Lit {
   litNodeClient: any
@@ -94,6 +96,17 @@ class Lit {
     if (!this.litNodeClient) {
       await this.connect()
     }
+
+    if (!infuraId) {
+      console.log('INFURA ID MISSING')
+      return
+    }
+
+    if (!infuraSecret) {
+      console.log('INFURA API SECRET MISSING')
+      return
+    }
+
     const accessControlConditionsNFT = [
       {
         contractAddress: `${certificateAddress}`,
@@ -117,8 +130,8 @@ class Lit {
       string: ipfsCID,
       //   file, // If you want to encrypt a file instead of a string
       litNodeClient: this.litNodeClient,
-      infuraId: 'YOUR INFURA PROJECT ID',
-      infuraSecretKey: 'YOUR INFURA API-SECRET-KEY',
+      infuraId: infuraId,
+      infuraSecretKey: infuraSecret,
     })
   }
 
