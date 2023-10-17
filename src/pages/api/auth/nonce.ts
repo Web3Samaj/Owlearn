@@ -9,6 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case 'GET':
       req.session.nonce = generateNonce()
       await req.session.save()
+      console.log('req.session.nonce', req.session.nonce)
       res.setHeader('Content-Type', 'text/plain')
       res.send(req.session.nonce)
       break
