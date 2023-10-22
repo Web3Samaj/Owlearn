@@ -1,4 +1,14 @@
-export const OWLEARN_ID_ADDRESS = '0x2250F8D3202EbB641197A1451C68eF673E8d553f'
+export const OWLEARN_ID_ADDRESS = '0x78eAE42Eb24d4794A8FA0E9dF9846aF65d87BF29'
+
+export const allowedAddressList: `0x${string}`[] = [
+  '0x62C43323447899acb61C18181e34168903E033Bf',
+  '0x898d0DBd5850e086E6C09D2c83A26Bb5F1ff8C33',
+  '0xBF17F859989A73C55c7BA5Fefb40e63715216B9b',
+  '0x4C131C0b663C7E15A7b6DF6695fEBC908E32E260',
+  '0xe22eCBbA8fB9C0124eeCb6AfE0bf6A487424989f',
+]
+
+export const usernameBlackList: string[] = ['nike', 'adidas', 'puma']
 
 export const OWLEARN_ID_ABI = [
   {
@@ -25,6 +35,16 @@ export const OWLEARN_ID_ABI = [
   {
     inputs: [],
     name: 'Unauthorized',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'notAllowlisted',
+    type: 'error',
+  },
+  {
+    inputs: [],
+    name: 'usernameBlackListed',
     type: 'error',
   },
   {
@@ -251,6 +271,19 @@ export const OWLEARN_ID_ABI = [
   },
   {
     inputs: [],
+    name: 'ONE_LETTER_MULTIPLIER',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'PRICE_MULTIPLIER',
     outputs: [
       {
@@ -270,6 +303,32 @@ export const OWLEARN_ID_ABI = [
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'TWO_LETTER_MULTIPLIER',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'allowlistMerkleRoot',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
       },
     ],
     stateMutability: 'view',
@@ -307,6 +366,105 @@ export const OWLEARN_ID_ABI = [
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'blackListNameMerkleRoot',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32[]',
+        name: 'proof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'address',
+        name: 'user',
+        type: 'address',
+      },
+    ],
+    name: 'checkAllowlist',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: 'isAllowed',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32[]',
+        name: 'proof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'string',
+        name: '_username',
+        type: 'string',
+      },
+    ],
+    name: 'checkBlackListName',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: 'isAllowed',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_username',
+        type: 'string',
+      },
+    ],
+    name: 'checkHandle',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: 'isEligible',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'user',
+        type: 'address',
+      },
+    ],
+    name: 'checkLensHandle',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: 'ownsLensHandle',
+        type: 'bool',
       },
     ],
     stateMutability: 'view',
@@ -438,8 +596,47 @@ export const OWLEARN_ID_ABI = [
     inputs: [
       {
         internalType: 'string',
+        name: '_username',
+        type: 'string',
+      },
+      {
+        internalType: 'address',
+        name: 'user',
+        type: 'address',
+      },
+    ],
+    name: 'getPrice',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
         name: '_tld',
         type: 'string',
+      },
+      {
+        internalType: 'address',
+        name: '_lensHub',
+        type: 'address',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_allowListmerkleRoot',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_blackListNameMerkleRoot',
+        type: 'bytes32',
       },
     ],
     name: 'initialize',
@@ -466,6 +663,19 @@ export const OWLEARN_ID_ABI = [
         internalType: 'bool',
         name: '',
         type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'lensHub',
+    outputs: [
+      {
+        internalType: 'contract ILensHub',
+        name: '',
+        type: 'address',
       },
     ],
     stateMutability: 'view',
@@ -517,25 +727,6 @@ export const OWLEARN_ID_ABI = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_username',
-        type: 'string',
-      },
-    ],
-    name: 'price',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'proxiableUUID',
     outputs: [
@@ -555,8 +746,47 @@ export const OWLEARN_ID_ABI = [
         name: '_username',
         type: 'string',
       },
+      {
+        internalType: 'bytes32[]',
+        name: 'allowListProof',
+        type: 'bytes32[]',
+      },
+      {
+        internalType: 'bytes32[]',
+        name: 'blackListProof',
+        type: 'bytes32[]',
+      },
     ],
-    name: 'register',
+    name: 'registerOwlId',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'recordID',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'to',
+        type: 'address',
+      },
+      {
+        internalType: 'string',
+        name: '_username',
+        type: 'string',
+      },
+      {
+        internalType: 'bytes32[]',
+        name: 'proof',
+        type: 'bytes32[]',
+      },
+    ],
+    name: 'registerRestrictedNames',
     outputs: [
       {
         internalType: 'uint256',
@@ -739,6 +969,32 @@ export const OWLEARN_ID_ABI = [
       },
     ],
     name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_allowListmerkleRoot',
+        type: 'bytes32',
+      },
+    ],
+    name: 'updateAllowlistMerkleRoot',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_blackListNameMerkleRoot',
+        type: 'bytes32',
+      },
+    ],
+    name: 'updateBlacklistNameMerkleRoot',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
