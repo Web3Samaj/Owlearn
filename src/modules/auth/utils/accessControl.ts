@@ -20,7 +20,7 @@ export const checkEducator = async (
       userAddress,
       contractAddress
     )
-    console.log(response)
+    // console.log(response)
     return response
   } catch (error) {
     console.log(error)

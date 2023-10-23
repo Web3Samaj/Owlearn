@@ -6,7 +6,7 @@ import {
 } from '@web3auth/base'
 import { createContext, useEffect, useState, ReactNode } from 'react'
 import { providers } from 'ethers'
-import { privatePaths } from '@/src/constants/privatePaths'
+import { educatorPaths, privatePaths } from '@/src/constants/privatePaths'
 import { useRouter } from 'next/router'
 import { checkEducator } from '../utils/accessControl'
 
@@ -98,10 +98,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //   }
   function defaultOnConnectEvent(data: CONNECTED_EVENT_DATA) {
     if (web3auth && web3auth.provider) {
-      const provider = new providers.Web3Provider(web3auth.provider)
       setProvider(new providers.Web3Provider(web3auth.provider))
-      setAddress(provider.getSigner()._address)
-      authCheck(provider.getSigner()._address)
+
       setLoggedIn(true)
     }
   }
@@ -111,8 +109,33 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     setLoggedIn(false)
   }
 
-  const authCheck = async (address: string) => {
-    if (address && privatePaths.includes(router.asPath.split('?')[0])) {
+  const authCheck = async () => {
+    const address = await provider?.getSigner().getAddress()
+
+    // Check for the gatedPaths and allow only if the user has loggedIn
+    let isPrivatePath = false
+    privatePaths.forEach((value) => {
+      isPrivatePath = router.asPath.includes(value)
+      if (isPrivatePath) {
+        return
+      }
+    })
+    if (isPrivatePath && !address) {
+      void router.push({
+        pathname: '/', // direct
+      })
+    }
+    setAddress(address)
+
+    // Check for the educator Gated paths
+    let isEducatorPath = false
+    educatorPaths.forEach((value) => {
+      isEducatorPath = router.asPath.includes(value)
+      if (isEducatorPath) {
+        return
+      }
+    })
+    if (address && isEducatorPath) {
       /// perform check and assign authorisation
       const isEducator = await checkEducator(address)
       if (isEducator) {
@@ -122,13 +145,14 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
           pathname: '/', // direct
         })
       }
-      // dispatch(setRedirectLink({ goto: router.asPath }));
     }
+
+    // TODO : Check if the user has bought the course or not -> for course Path
   }
 
   useEffect(() => {
-    if (address) {
-      authCheck(address)
+    if (provider) {
+      authCheck()
     }
 
     const preventAccess = () => setAuthorised(false)
@@ -140,7 +164,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       router.events.off('routeChangeStart', preventAccess)
       router.events.off('routeChangeComplete', authCheck)
     }
-  }, [router, router.events, address, authorised])
+  }, [router, router.events, provider])
 
   return (
     <AuthContext.Provider
