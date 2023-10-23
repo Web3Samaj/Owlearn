@@ -5,7 +5,7 @@ const ALCHEMY_API_KEY: any = process.env.ALCHEMY_ID
 const contractAddress = EDUCATOR_BADGE_ADDRESS
 
 export const checkEducator = async (
-  userAddress: `0x${string}`
+  userAddress: string
 ): Promise<boolean | undefined> => {
   try {
     const settings = {

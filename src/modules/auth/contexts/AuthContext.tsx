@@ -37,7 +37,7 @@ interface AuthContextProviderProps {
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [web3auth, setWeb3Auth] = useState<Web3Auth | null>(null)
   const [provider, setProvider] = useState<providers.Web3Provider | null>(null)
-  const [address, setAddress] = useState<`0x${string}`>()
+  const [address, setAddress] = useState<string>()
   const [loggedIn, setLoggedIn] = useState<boolean>(false)
   const [authorised, setAuthorised] = useState<boolean>(false)
   const router = useRouter()
@@ -98,8 +98,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //   }
   function defaultOnConnectEvent(data: CONNECTED_EVENT_DATA) {
     if (web3auth && web3auth.provider) {
+      const provider = new providers.Web3Provider(web3auth.provider)
       setProvider(new providers.Web3Provider(web3auth.provider))
-      // setAddress()
+      setAddress(provider.getSigner()._address)
+      authCheck(provider.getSigner()._address)
       setLoggedIn(true)
     }
   }
@@ -109,7 +111,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     setLoggedIn(false)
   }
 
-  const authCheck = async () => {
+  const authCheck = async (address: string) => {
     if (address && privatePaths.includes(router.asPath.split('?')[0])) {
       /// perform check and assign authorisation
       const isEducator = await checkEducator(address)
@@ -125,7 +127,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   useEffect(() => {
-    authCheck()
+    if (address) {
+      authCheck(address)
+    }
 
     const preventAccess = () => setAuthorised(false)
 
