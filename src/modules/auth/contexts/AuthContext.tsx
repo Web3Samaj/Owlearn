@@ -8,7 +8,7 @@ import { createContext, useEffect, useState, ReactNode } from 'react'
 import { providers } from 'ethers'
 import { educatorPaths, privatePaths } from '@/src/constants/privatePaths'
 import { useRouter } from 'next/router'
-import { checkEducator } from '../utils/accessControl'
+import { checkCourseAccessStatus, checkEducator } from '../utils/accessControl'
 
 interface AuthContextProps {
   web3auth: Web3Auth | null
@@ -126,6 +126,24 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       })
     }
     setAddress(address)
+
+    // TODO : Need to check the Course Access Status function first , if it returns the right response or not
+
+    // let isCoursePath = router.asPath.includes('/course/')
+    // if (isCoursePath && address) {
+    //   const courseAddress = router.asPath.split('/')[1]
+    //   const isEnrolledInCourse = await checkCourseAccessStatus(
+    //     address,
+    //     courseAddress
+    //   )
+    //   if (isEnrolledInCourse) {
+    //     setAuthorised(isEnrolledInCourse)
+    //   } else {
+    //     void router.push({
+    //       pathname: '/', // direct
+    //     })
+    //   }
+    // }
 
     // Check for the educator Gated paths
     let isEducatorPath = false

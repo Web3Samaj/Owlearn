@@ -3,4 +3,5 @@ export const privatePaths = [
   'dashboard/educator',
   'course',
 ]
+
 export const educatorPaths = ['dashboard/educator']

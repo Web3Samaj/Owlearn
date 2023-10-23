@@ -4,6 +4,7 @@ import {
   allCourseSearchQuery,
   allEducatorQuery,
   allEnrolledCourseQuery,
+  checkEnrolledCourseQuery,
   indivCertificateQuery,
   indivCourseQuery,
   indivEducatorQuery,
@@ -152,6 +153,24 @@ export const getAllEducators = (eduToFetch: string) => {
       query: allEducatorQuery,
       variables: {
         id: eduToFetch,
+      },
+    })
+    .then((res) => {
+      console.log(res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      return err
+    })
+}
+
+export const getUserEnrolledCourses = async (studentId: string) => {
+  return await client
+    .query({
+      query: checkEnrolledCourseQuery,
+      variables: {
+        id: studentId,
       },
     })
     .then((res) => {
