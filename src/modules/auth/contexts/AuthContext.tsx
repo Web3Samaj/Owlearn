@@ -11,6 +11,8 @@ interface AuthContextProps {
   web3auth: Web3Auth | null
   provider: providers.Web3Provider | null
   loggedIn: boolean
+  owlearnId: string
+  setOwlearnId: (owlearnId: string) => void
   addOnConnectEvent: (event: (data: CONNECTED_EVENT_DATA) => void) => void
   removeAllOnConnectEvents: () => void
   addOnDisconnectEvent: (event: () => void) => void
@@ -21,6 +23,8 @@ const AuthContext = createContext<AuthContextProps>({
   web3auth: null,
   provider: null,
   loggedIn: false,
+  owlearnId: '',
+  setOwlearnId: () => {},
   addOnConnectEvent: () => {},
   removeAllOnConnectEvents: () => {},
   addOnDisconnectEvent: () => {},
@@ -35,6 +39,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [web3auth, setWeb3Auth] = useState<Web3Auth | null>(null)
   const [provider, setProvider] = useState<providers.Web3Provider | null>(null)
   const [loggedIn, setLoggedIn] = useState<boolean>(false)
+  const [owlearnId, setOwlearnId] = useState<string>('')
 
   useEffect(() => {
     // Initialize within your constructor
@@ -108,6 +113,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         web3auth,
         provider,
         loggedIn,
+        owlearnId,
+        setOwlearnId,
         addOnConnectEvent,
         removeAllOnConnectEvents,
         addOnDisconnectEvent,
