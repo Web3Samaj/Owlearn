@@ -18,6 +18,7 @@ module.exports = {
       animation: {
         slide: 'slide 20s linear infinite',
         blob: 'blob 4s infinite',
+        howery: 'howery 15s infinite',
       },
       keyframes: {
         slide: {
@@ -40,6 +41,20 @@ module.exports = {
           },
           '100%': {
             transform: ' translate(0px , 0px) scale(1)',
+          },
+        },
+        howery: {
+          '0%': {
+            transform: ' translate(0px , 0px) ',
+          },
+          '33%': {
+            transform: 'translate(10px , -12px) ',
+          },
+          '66%': {
+            transform: ' translate(-10px , -15px) ',
+          },
+          '100%': {
+            transform: ' translate(0px , 0px) ',
           },
         },
       },

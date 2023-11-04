@@ -4,7 +4,6 @@ import {
   ADAPTER_EVENTS,
   CONNECTED_EVENT_DATA,
 } from '@web3auth/base'
-
 import {
   createContext,
   useEffect,
@@ -63,12 +62,10 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [web3auth, setWeb3Auth] = useState<Web3Auth | null>(null)
-
   const [address, setAddress] = useState<string>()
   const [web3authConnector, setWeb3AuthConnector] =
     useState<Web3AuthConnector | null>(null)
   const [provider, setProvider] = useState<WalletClient | null>(null)
-
   const [loggedIn, setLoggedIn] = useState<boolean>(false)
   const [authorised, setAuthorised] = useState<boolean>(false)
   const router = useRouter()

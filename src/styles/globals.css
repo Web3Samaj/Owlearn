@@ -49,6 +49,34 @@
   .bookk .shape-fill {
     fill: #252525;
   }
+
+  .rotateY-180 {
+    transform: rotateY(180deg);
+  }
+
+  .bfvisibility {
+    backface-visibility: hidden;
+  }
+
+  .preserve3d {
+    transform-style: preserve-3d;
+  }
+
+  .prespective {
+    perspective: 70rem;
+  }
+
+  .card:hover ~ .moueF {
+    /* transform: translate(-50% -50%); */
+  }
+  .minter:hover ~ .mouseF {
+    scale: 2;
+
+    transition: scale 0.5s;
+    background-color: #ffd60a;
+    color: black;
+    /* transform: translate(-50% -50%); */
+  }
 }
 
 * {
