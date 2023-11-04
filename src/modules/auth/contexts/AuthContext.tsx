@@ -5,11 +5,6 @@ import {
   CONNECTED_EVENT_DATA,
 } from '@web3auth/base'
 
-import { providers } from 'ethers'
-import { educatorPaths, privatePaths } from '@/src/constants/privatePaths'
-import { useRouter } from 'next/router'
-import { checkCourseAccessStatus, checkEducator } from '../utils/accessControl'
-
 import {
   createContext,
   useEffect,
@@ -26,6 +21,10 @@ import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+
+import { educatorPaths, privatePaths } from '@/src/constants/privatePaths'
+import { useRouter } from 'next/router'
+import { checkCourseAccessStatus, checkEducator } from '../utils/accessControl'
 
 interface AuthContextProps {
   web3auth: Web3Auth | null
@@ -181,8 +180,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //   }
   function defaultOnConnectEvent(data: CONNECTED_EVENT_DATA) {
     if (web3auth && web3auth.provider) {
-      //       setProvider(new providers.Web3Provider(web3auth.provider))
-
       setProvider(
         createWalletClient({
           chain: polygonMumbai,
