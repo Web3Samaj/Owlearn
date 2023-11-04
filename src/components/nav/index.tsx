@@ -1,9 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import AuthButton from '@/modules/auth/components/AuthButton'
+import { getEducatorId } from '@/src/services/contracts/educatorBadge'
+import { useAccount } from 'wagmi'
 
 const Navbar = () => {
+  const { address } = useAccount()
   const [open, setOpen] = useState<boolean>(false)
+  const [educatorId, setEducatorId] = useState<bigint | undefined>()
+  const isEducator = !!educatorId && educatorId != BigInt(0)
+
+  useEffect(() => {
+    if (address) {
+      getEducatorId().then((id) => {
+        setEducatorId(id)
+      })
+    }
+  }, [address])
 
   return (
     <div
@@ -68,29 +81,32 @@ const Navbar = () => {
               Home
             </span>
           </Link>
-          <Link
-            onClick={() => setOpen(false)}
-            className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
-            href={'/dashboard'}
-          >
-            <img
-              src={'/asset/nav/dash.png'}
-              alt="icon"
-              className={` group-hover:scale-110  transition-all duration-300 ease-linear w-8 z-20 `}
-            />
-            <span
-              className={` bg-black w-full text-center z-10 mt-1 group-hover:bg-white group-hover:text-black rounded-md mx-2 transition-all duration-300 ease-linear ${
-                open ? 'block' : 'scale-0 hidden'
-              }`}
+
+          {isEducator && (
+            <Link
+              onClick={() => setOpen(false)}
+              className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
+              href={`/dashboard/${educatorId}`}
             >
-              Dashboard
-            </span>
-          </Link>
+              <img
+                src={'/asset/nav/dash.png'}
+                alt="icon"
+                className={` group-hover:scale-110  transition-all duration-300 ease-linear w-8 z-20 `}
+              />
+              <span
+                className={` bg-black w-full text-center z-10 mt-1 group-hover:bg-white group-hover:text-black rounded-md mx-2 transition-all duration-300 ease-linear ${
+                  open ? 'block' : 'scale-0 hidden'
+                }`}
+              >
+                Dashboard
+              </span>
+            </Link>
+          )}
 
           <Link
             onClick={() => setOpen(false)}
             className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
-            href={'/MyCourses'}
+            href={'/my-courses'}
           >
             <img
               src={'/asset/nav/book.png'}

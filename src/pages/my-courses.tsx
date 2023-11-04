@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
-const Student = () => {
+const MyCourses = () => {
   const router = useRouter()
   // {router?.query?.id}
   const slides = useRef<HTMLDivElement>(null!)
@@ -327,6 +327,4 @@ const Student = () => {
   )
 }
 
-export default Student
-
-// className={``}
+export default MyCourses
