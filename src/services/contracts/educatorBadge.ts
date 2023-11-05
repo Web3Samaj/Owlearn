@@ -7,7 +7,6 @@ import {
 import { decodeFunctionResult, getContract } from 'viem'
 
 const getEducatorId = async (): Promise<bigint | undefined> => {
-  return BigInt(1)
   try {
     const { address: account } = getAccount()
     const publicClient = getPublicClient()

@@ -66,7 +66,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const connectors = [...(web3authConnector ? [web3authConnector as any] : [])]
 
   const config = createConfig({
-    autoConnect: false, // Throws error if trying to connect after disconnecting the wallet while it's true ( untill and unless it's false again )
+    autoConnect: true,
     connectors: connectors,
     publicClient,
     webSocketPublicClient,
@@ -87,9 +87,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         chainId: '0x13881',
       },
       uiConfig: {
-        theme: 'dark',
         appName: 'Owlearn',
-        appLogo: '/asset/nav/owl.png',
+        logoDark: '/asset/nav/owl.png',
       },
     })
 
