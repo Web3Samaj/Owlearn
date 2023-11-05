@@ -56,14 +56,20 @@ export type SearchCourseResult = {
   symbol: string
 }
 
+export type SearchCourseResultData = {
+  courses: SearchCourseResult[]
+}
+
 export const searchCourses = async (
-  courseToFetch: number,
+  first: number,
+  skip: number,
   searchQuery: string
-): Promise<ApolloQueryResult<SearchCourseResult[]>> => {
+): Promise<ApolloQueryResult<SearchCourseResultData>> => {
   return await client.query({
     query: allCourseSearchQuery,
     variables: {
-      first: courseToFetch,
+      first: first,
+      skip: skip,
       search: searchQuery,
     },
   })
