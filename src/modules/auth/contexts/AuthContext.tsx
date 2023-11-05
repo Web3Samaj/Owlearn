@@ -21,6 +21,10 @@ import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
+import { educatorPaths, privatePaths } from '@/src/constants/privatePaths'
+import { useRouter } from 'next/router'
+import { checkCourseAccessStatus, checkEducator } from '../utils/accessControl'
+
 interface AuthContextProps {
   web3auth: Web3Auth | null
   web3authConnector: Web3AuthConnector | null
@@ -58,10 +62,13 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [web3auth, setWeb3Auth] = useState<Web3Auth | null>(null)
+  const [address, setAddress] = useState<string>()
   const [web3authConnector, setWeb3AuthConnector] =
     useState<Web3AuthConnector | null>(null)
   const [provider, setProvider] = useState<WalletClient | null>(null)
   const [loggedIn, setLoggedIn] = useState<boolean>(false)
+  const [authorised, setAuthorised] = useState<boolean>(false)
+  const router = useRouter()
 
   const connectors = [...(web3authConnector ? [web3authConnector as any] : [])]
 
@@ -184,6 +191,83 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     setProvider(null)
     setLoggedIn(false)
   }
+
+  const authCheck = async () => {
+    const addresses = await provider?.getAddresses()
+    if (!addresses) return
+    const address = addresses[0]
+
+    // Check for the gatedPaths and allow only if the user has loggedIn
+    let isPrivatePath = false
+    privatePaths.forEach((value) => {
+      isPrivatePath = router.asPath.includes(value)
+      if (isPrivatePath) {
+        return
+      }
+    })
+    if (isPrivatePath && !address) {
+      void router.push({
+        pathname: '/', // direct
+      })
+    }
+    setAddress(address)
+
+    // TODO : Need to check the Course Access Status function first , if it returns the right response or not
+
+    // let isCoursePath = router.asPath.includes('/course/')
+    // if (isCoursePath && address) {
+    //   const courseAddress = router.asPath.split('/')[1]
+    //   const isEnrolledInCourse = await checkCourseAccessStatus(
+    //     address,
+    //     courseAddress
+    //   )
+    //   if (isEnrolledInCourse) {
+    //     setAuthorised(isEnrolledInCourse)
+    //   } else {
+    //     void router.push({
+    //       pathname: '/', // direct
+    //     })
+    //   }
+    // }
+
+    // Check for the educator Gated paths
+    let isEducatorPath = false
+    educatorPaths.forEach((value) => {
+      isEducatorPath = router.asPath.includes(value)
+      if (isEducatorPath) {
+        return
+      }
+    })
+    if (address && isEducatorPath) {
+      /// perform check and assign authorisation
+      const isEducator = await checkEducator(address)
+      if (isEducator) {
+        setAuthorised(isEducator)
+      } else {
+        void router.push({
+          pathname: '/', // direct
+        })
+      }
+    }
+
+    // TODO : Check if the user has bought the course or not -> for course Path
+  }
+
+  useEffect(() => {
+    if (provider) {
+      authCheck()
+    }
+
+    const preventAccess = () => setAuthorised(false)
+
+    router.events.on('routeChangeStart', preventAccess)
+    router.events.on('routeChangeComplete', authCheck)
+
+    return () => {
+      router.events.off('routeChangeStart', preventAccess)
+      router.events.off('routeChangeComplete', authCheck)
+    }
+  }, [router, router.events, provider])
 
   return (
     <AuthContext.Provider
