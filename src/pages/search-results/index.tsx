@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import Card, { Icard } from '@/src/components/landing/Card'
+import { SearchCourseResult, searchCourses } from '@/src/services/graph/graph'
+import { CourseMetadata } from '@/src/constants/metadata_formats'
 
 const fakeCourseData: Icard[] = [
   {
@@ -85,16 +87,46 @@ const fakeCourseData: Icard[] = [
   },
 ]
 
+type Course = {
+  id: `0x${string}`
+  uri: string
+  title: string
+  creatorId: string
+  mintModule: string | null
+}
+
 const SearchResults = () => {
   const router = useRouter()
   const [input, setInput] = React.useState<string>('')
+  const [courses, setCourses] = React.useState<Course[]>([])
 
   useEffect(() => {
     const query = router.query.query
     if (query) {
       setInput(query as string)
     }
+    fetchCourses()
   }, [router.query.query])
+
+  async function fetchCourses() {
+    const query = router.query.query
+    if (query) {
+      const res = await searchCourses(10, query as string)
+      const courseData = res.data
+      if (courseData) {
+        const courses = courseData.map((course) => {
+          return {
+            id: course.id,
+            uri: course.courseURI,
+            title: course.name,
+            creatorId: course.creatorId,
+            mintModule: course.mintModule,
+          }
+        })
+        setCourses(courses)
+      }
+    }
+  }
 
   return (
     <div
@@ -118,7 +150,7 @@ const SearchResults = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              router.push(`/search-results/${input}`)
+              router.push(`/search-results?query=${input}`)
             }
           }}
           placeholder="Patrik Collins Blockchain Course"
@@ -127,8 +159,11 @@ const SearchResults = () => {
       </div>
 
       <div className="md:w-[90%] w-full mx-auto px-10 grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 mt-10 items-center gap-y-10">
-        {fakeCourseData?.map((data, idx) => {
+        {/* {fakeCourseData?.map((data, idx) => {
           return <Card key={data.id} {...data} />
+        })} */}
+        {courses.map((course) => {
+          return <SearchCard key={course.id} course={course} />
         })}
       </div>
 
@@ -146,9 +181,9 @@ const SearchResults = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M13 5H1m0 0 4 4M1 5l4-4"
             />
           </svg>
@@ -168,9 +203,9 @@ const SearchResults = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M1 5h12m0 0L9 1m4 4L9 9"
             />
           </svg>
@@ -178,6 +213,27 @@ const SearchResults = () => {
       </div>
     </div>
   )
+}
+
+function SearchCard({ course }: { course: Course }) {
+  const [courseData, setCourseData] = React.useState<Icard | null>(null)
+
+  useEffect(() => {
+    async function fetchCourseData() {
+      const res = await fetch(course.uri)
+      const data: CourseMetadata = await res.json()
+      setCourseData({
+        id: course.id,
+        src: data.thumbnailURI,
+        title: data.name,
+        author: course.creatorId,
+        rating: 4.7,
+        price: course.mintModule ? 10 : 0,
+      })
+    }
+    fetchCourseData()
+  }, [])
+  return <></>
 }
 
 export default SearchResults

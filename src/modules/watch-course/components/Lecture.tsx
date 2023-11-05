@@ -22,8 +22,13 @@ export default function Home({ cid, index }: LectureProps): JSX.Element {
   const [lecture, setLecture] = useState<Lecture | null>(null)
 
   useEffect(() => {
+    console.log('FETCHING', cid)
     async function fetchLecture() {
       const res = await getJSONFromIPFS<cidResponse>(cid)
+      console.log({
+        res,
+        index,
+      })
       const lecture = {
         title: res.title,
         playbackId: res.video,

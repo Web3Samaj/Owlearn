@@ -9,8 +9,8 @@ dependencies:
     specifier: ^3.8.3
     version: 3.8.3(graphql@16.8.0)(react-dom@18.2.0)(react@18.2.0)
   '@livepeer/react':
-    specifier: ^2.8.0
-    version: 2.8.0(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+    specifier: ^3.0.2
+    version: 3.0.2(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
   '@rainbow-me/rainbowkit':
     specifier: ^0.12.1
     version: 0.12.1(@types/react@18.2.12)(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(wagmi@1.4.1)
@@ -19,10 +19,10 @@ dependencies:
     version: 7.1.0(@babel/runtime@7.23.1)
   '@web3auth/modal':
     specifier: ^7.1.1
-    version: 7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.1)(@walletconnect/utils@2.10.1)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+    version: 7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.4)(@walletconnect/utils@2.10.4)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
   '@web3auth/web3auth-wagmi-connector':
     specifier: ^5.0.1
-    version: 5.0.1(@wagmi/core@1.4.2)(@web3auth/base@7.1.0)(@web3auth/modal@7.1.1)(@web3auth/no-modal@7.0.1)(@web3auth/openlogin-adapter@7.0.1)(viem@1.10.7)
+    version: 5.0.1(@wagmi/core@1.4.2)(@web3auth/base@7.1.0)(@web3auth/modal@7.1.1)(@web3auth/no-modal@7.1.1)(@web3auth/openlogin-adapter@7.1.1)(viem@1.10.7)
   eslint:
     specifier: 8.35.0
     version: 8.35.0
@@ -61,7 +61,7 @@ dependencies:
     version: 1.10.7(typescript@5.1.3)(zod@3.22.2)
   wagmi:
     specifier: ^1.4.1
-    version: 1.4.1(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2)
+    version: 1.4.1(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2)
   zustand:
     specifier: ^4.3.9
     version: 4.3.9(react@18.2.0)
@@ -3810,28 +3810,52 @@ packages:
       '@lit-labs/ssr-dom-shim': 1.1.1
     dev: false
 
-  /@livepeer/core-react@1.8.6(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0):
-    resolution: {integrity: sha512-zAvWmmcz5QUW2i4oswlrLaASypKsBm6kq8B+Dq8XSNqRrmfEao4zHOA4fERoln0gcT2wha5fDP+g4BcoSZoubQ==}
+  /@livepeer/core-react@2.0.2(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0):
+    resolution: {integrity: sha512-OYNJ80mvKmuQMg8TXaRZ7lL9mTV15zO84qjgpje7/R8H2JWn0XIuYf/rBRbnhur13SGz86+rkcvvJNF4GWpT1A==}
     peerDependencies:
       react: '>=17.0.0'
     dependencies:
-      '@livepeer/core': 1.8.6(react@18.2.0)
+      '@livepeer/core': 2.0.2(@types/react@18.2.12)(react@18.2.0)
       '@tanstack/query-async-storage-persister': 4.29.23
       '@tanstack/query-core': 4.29.23
       '@tanstack/react-query': 4.29.23(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.29.23(@tanstack/react-query@4.29.23)
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
-      zustand: 4.3.9(react@18.2.0)
+      zustand: 4.4.2(@types/react@18.2.12)(react@18.2.0)
     transitivePeerDependencies:
+      - '@types/react'
       - encoding
       - immer
       - react-dom
       - react-native
     dev: false
 
-  /@livepeer/core@1.8.6(react@18.2.0):
-    resolution: {integrity: sha512-VWMHaHMzNCr8YuC9hD87Ju+fwnpldEoe3y9CqOXrQPyyIgiAWfraZBA6Ard67f09X9UBGaaRcAMgMcCUs9HtKA==}
+  /@livepeer/core-web@3.0.2(@types/react@18.2.12)(react@18.2.0):
+    resolution: {integrity: sha512-5RLRpVb2VLVeG016b0XQ87rhhZ/EQXWoqZCdH5pv/3HoeiXFCrGhW4EW5GCW1NUfS1Zxx5WtqDnQSnOqZh84HQ==}
+    peerDependencies:
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      '@livepeer/core': 2.0.2(@types/react@18.2.12)(react@18.2.0)
+      '@stitches/core': 1.2.8
+      core-js: 3.32.2
+      cross-fetch: 4.0.0
+      hls.js: 1.4.12
+      ms: 3.0.0-canary.1
+      react: 18.2.0
+      tus-js-client: 3.1.1
+      zustand: 4.4.2(@types/react@18.2.12)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - encoding
+      - immer
+    dev: false
+
+  /@livepeer/core@2.0.2(@types/react@18.2.12)(react@18.2.0):
+    resolution: {integrity: sha512-S5WeQF+C18oYXdB9DKk2vUKYrCfXQ9VPdiUfEN0lqQOerQAN6YA7gowri16MVm3j9HFDykz5euTgNA+hX6SnIg==}
     peerDependencies:
       react: '>=17.0.0'
     peerDependenciesMeta:
@@ -3843,14 +3867,15 @@ packages:
       multiformats: 9.9.0
       react: 18.2.0
       tus-js-client: 3.1.1
-      zustand: 4.3.9(react@18.2.0)
+      zustand: 4.4.2(@types/react@18.2.12)(react@18.2.0)
     transitivePeerDependencies:
+      - '@types/react'
       - encoding
       - immer
     dev: false
 
-  /@livepeer/react@2.8.0(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0):
-    resolution: {integrity: sha512-ttQ6ggndZaGUboMHZxHS5NMMTBjZdn+SbXroMFo+Z+jiAB5TQCklYQXgsYazTE4GxtGePOLU0LndoJ0viDAJEw==}
+  /@livepeer/react@3.0.2(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0):
+    resolution: {integrity: sha512-1+uJwTefkQVQlIz42UZtXpk6gwzfzhG/pF/S/f5vVwmyvv84IxWnZridj6xlNly9u+++oeVvR1CfXfg3ezydbw==}
     peerDependencies:
       react: '>=17.0.0'
       react-dom: '>=17.0.0'
@@ -3858,16 +3883,16 @@ packages:
       react-dom:
         optional: true
     dependencies:
-      '@livepeer/core-react': 1.8.6(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+      '@livepeer/core-react': 2.0.2(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+      '@livepeer/core-web': 3.0.2(@types/react@18.2.12)(react@18.2.0)
       '@radix-ui/react-dialog': 1.0.4(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-popover': 1.0.6(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-select': 1.2.2(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
       '@stitches/react': 1.2.8(react@18.2.0)
       core-js: 3.32.2
-      livepeer: 2.8.0(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      zustand: 4.3.9(react@18.2.0)
+      zustand: 4.4.2(@types/react@18.2.12)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - '@types/react-dom'
@@ -4797,7 +4822,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-remove-scroll: 2.5.4(@types/react@18.2.12)(react@18.2.0)
-      wagmi: 1.4.1(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2)
+      wagmi: 1.4.1(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -5608,29 +5633,6 @@ packages:
       base64url: 3.0.1
     dev: false
 
-  /@toruslabs/openlogin@5.1.1(@babel/runtime@7.23.1):
-    resolution: {integrity: sha512-ESEXZoG9o98/jiL454AclfK5YYmY+q+KW8Ru1aklcnTN9jH097zqwkYdB5BOEJjzu9RlmT7PRH+oIj9bWJT5zw==}
-    engines: {node: '>=18.x', npm: '>=9.x'}
-    peerDependencies:
-      '@babel/runtime': 7.x
-    dependencies:
-      '@babel/runtime': 7.23.1
-      '@toruslabs/broadcast-channel': 8.0.0
-      '@toruslabs/eccrypto': 4.0.0
-      '@toruslabs/metadata-helpers': 5.0.0(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-session-manager': 3.0.0(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-utils': 5.1.0(@babel/runtime@7.23.1)
-      bowser: 2.11.0
-      events: 3.3.0
-      loglevel: 1.8.1
-      ts-custom-error: 3.3.1
-    transitivePeerDependencies:
-      - '@sentry/types'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /@toruslabs/openlogin@6.0.0(@babel/runtime@7.23.1):
     resolution: {integrity: sha512-gfdjsOOwMbtjotmxzLO/+V7Kc6n0iMAkpSI/Wf3GfOTRcV5kHoLDOTOOwrTDvY0fAWS5uv6fFlARadm0i9E2xg==}
     engines: {node: '>=18.x', npm: '>=9.x'}
@@ -6128,7 +6130,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.1(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2):
+  /@wagmi/core@1.4.1(@types/react@18.2.12)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2):
     resolution: {integrity: sha512-b6LDFL0vZSCNcIHjnJzv++hakavTTt1/2WEQg2S5eEnaHTp7UoQlwfCyjKeiBhRih4yF34N06ea8cyEVjyjXrw==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -6142,9 +6144,10 @@ packages:
       eventemitter3: 4.0.7
       typescript: 5.1.3
       viem: 1.10.7(typescript@5.1.3)(zod@3.22.2)
-      zustand: 4.3.9(react@18.2.0)
+      zustand: 4.4.2(@types/react@18.2.12)(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
+      - '@types/react'
       - bufferutil
       - encoding
       - immer
@@ -6814,19 +6817,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/base-plugin@7.0.1(@babel/runtime@7.23.1):
-    resolution: {integrity: sha512-BAwqZcEoDClXGIStAjhWsf+lguzifZ8hYz/wvcwE0ZOfhkXVNls96wSr/C7Cx+s94Hir8kN1zM2OROBM8f7YNQ==}
-    engines: {node: '>=18.x', npm: '>=9.x'}
-    dependencies:
-      '@web3auth/base': 7.0.1(@babel/runtime@7.23.1)
-    transitivePeerDependencies:
-      - '@babel/runtime'
-      - '@sentry/types'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /@web3auth/base-plugin@7.1.0(@babel/runtime@7.23.1):
     resolution: {integrity: sha512-ZFIEtDtdpXpsUV5SRRKspFzqX9EpXptfhnYPTv3723RYl6TXRD6vSGQ8etkrsKxVKoRG3rawkMo4VvuxTrtneA==}
     engines: {node: '>=18.x', npm: '>=9.x'}
@@ -6836,26 +6826,6 @@ packages:
       - '@babel/runtime'
       - '@sentry/types'
       - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  /@web3auth/base-provider@7.0.1(@babel/runtime@7.23.1):
-    resolution: {integrity: sha512-8ggJtsD/1MbpMEbe+uBSS3mrqE/nqEKpRLyIjuyfobPs4Zu/VI2Exdjz6wcUIzwEB1iYyjFt29/gyIXufMyCgA==}
-    engines: {node: '>=18.x', npm: '>=9.x'}
-    peerDependencies:
-      '@babel/runtime': 7.x
-    dependencies:
-      '@babel/runtime': 7.23.1
-      '@metamask/rpc-errors': 6.0.0
-      '@toruslabs/base-controllers': 4.2.0(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-jrpc': 5.1.0(@babel/runtime@7.23.1)
-      '@web3auth/base': 7.0.1(@babel/runtime@7.23.1)
-      json-rpc-random-id: 1.0.1
-    transitivePeerDependencies:
-      - '@sentry/types'
-      - bufferutil
-      - c-kzg
       - supports-color
       - utf-8-validate
     dev: false
@@ -6889,27 +6859,6 @@ packages:
       '@babel/runtime': 7.23.1
       '@web3auth/base': 7.1.0(@babel/runtime@7.23.1)
       bs58: 5.0.0
-    transitivePeerDependencies:
-      - '@sentry/types'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  /@web3auth/base@7.0.1(@babel/runtime@7.23.1):
-    resolution: {integrity: sha512-6ft4XAD37tobOxgkZhideiBMqoVJTpvAvYD0R99IDmpazpIrX8b4RBgwLQ/gIlNmGZhkU1UoTzub19xTWI9h6w==}
-    engines: {node: '>=18.x', npm: '>=9.x'}
-    peerDependencies:
-      '@babel/runtime': ^7.x
-    dependencies:
-      '@babel/runtime': 7.23.1
-      '@toruslabs/http-helpers': 5.0.0(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin': 5.1.1(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-jrpc': 5.1.0(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-utils': 5.1.0(@babel/runtime@7.23.1)
-      jwt-decode: 3.1.2
-      loglevel: 1.8.1
-      ts-custom-error: 3.3.1
     transitivePeerDependencies:
       - '@sentry/types'
       - bufferutil
@@ -6988,7 +6937,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/modal@7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.1)(@walletconnect/utils@2.10.1)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0):
+  /@web3auth/modal@7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.4)(@walletconnect/utils@2.10.4)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0):
     resolution: {integrity: sha512-gFJ6Fhdim+7zTZwZh22UAVVWv34D+jhTujWh4HyWm/XUpB1lyy41WXQmL7mrWsAP71eKPGJfVwiQwU+TMFMKyQ==}
     engines: {node: '>=18.x', npm: '>=9.x'}
     peerDependencies:
@@ -7008,7 +6957,7 @@ packages:
       '@web3auth/torus-evm-adapter': 7.1.0(@babel/runtime@7.23.1)
       '@web3auth/torus-solana-adapter': 7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)
       '@web3auth/ui': 7.1.0(@babel/runtime@7.23.1)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
-      '@web3auth/wallet-connect-v2-adapter': 7.1.1(@babel/runtime@7.23.1)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.1)(@walletconnect/utils@2.10.1)
+      '@web3auth/wallet-connect-v2-adapter': 7.1.1(@babel/runtime@7.23.1)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.4)(@walletconnect/utils@2.10.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - '@sentry/types'
@@ -7027,27 +6976,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/no-modal@7.0.1(@babel/runtime@7.23.1):
-    resolution: {integrity: sha512-1QQwLInofozN4SBRWNcT7d/HNDR0t2H2KVyzkyPQFR601GetBgGD9vSKFO/xpr6SLlGNaQSbVXhVPXf/l3iIHA==}
-    engines: {node: '>=18.x', npm: '>=9.x'}
-    peerDependencies:
-      '@babel/runtime': ^7.x
-    dependencies:
-      '@babel/runtime': 7.23.1
-      '@toruslabs/openlogin': 5.1.1(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-jrpc': 5.1.0(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-utils': 5.1.0(@babel/runtime@7.23.1)
-      '@web3auth/base': 7.0.1(@babel/runtime@7.23.1)
-      '@web3auth/base-plugin': 7.0.1(@babel/runtime@7.23.1)
-      '@web3auth/base-provider': 7.0.1(@babel/runtime@7.23.1)
-    transitivePeerDependencies:
-      - '@sentry/types'
-      - bufferutil
-      - c-kzg
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   /@web3auth/no-modal@7.1.1(@babel/runtime@7.23.1):
     resolution: {integrity: sha512-mZNLyfcliDClDLY5/hWFuq96fTu/8Vq80vonNZG7q2SV7SyYkk1XN6cTseXd97Yfb9zQke693QJYPNCGXffD1w==}
     engines: {node: '>=18.x', npm: '>=9.x'}
@@ -7061,28 +6989,6 @@ packages:
       '@web3auth/base': 7.1.0(@babel/runtime@7.23.1)
       '@web3auth/base-plugin': 7.1.0(@babel/runtime@7.23.1)
       '@web3auth/base-provider': 7.1.1(@babel/runtime@7.23.1)
-    transitivePeerDependencies:
-      - '@sentry/types'
-      - bufferutil
-      - c-kzg
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  /@web3auth/openlogin-adapter@7.0.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5):
-    resolution: {integrity: sha512-dameu4c762P+0MjNryBkrClbPDLxgU0N92iNtGbzHND3ZQILofDxqu6Gfopr915xpwbkk9OdLfx9Ib9ezc4o1A==}
-    engines: {node: '>=18.x', npm: '>=9.x'}
-    peerDependencies:
-      '@babel/runtime': ^7.x
-      '@solana/web3.js': ^1.x
-    dependencies:
-      '@babel/runtime': 7.23.1
-      '@solana/web3.js': 1.78.5
-      '@toruslabs/openlogin': 5.1.1(@babel/runtime@7.23.1)
-      '@toruslabs/openlogin-utils': 5.1.0(@babel/runtime@7.23.1)
-      '@web3auth/base': 7.0.1(@babel/runtime@7.23.1)
-      '@web3auth/base-provider': 7.0.1(@babel/runtime@7.23.1)
-      lodash.merge: 4.6.2
     transitivePeerDependencies:
       - '@sentry/types'
       - bufferutil
@@ -7234,7 +7140,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/wallet-connect-v2-adapter@7.1.1(@babel/runtime@7.23.1)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.1)(@walletconnect/utils@2.10.1):
+  /@web3auth/wallet-connect-v2-adapter@7.1.1(@babel/runtime@7.23.1)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.4)(@walletconnect/utils@2.10.4):
     resolution: {integrity: sha512-TsJAi0wZwbyDTAJ6CsqWSH12bNAW08xZlH+I1iMhYdMuS1F2Bmx4wE1CX0XNqMyyj2Uejn9upfl3DbtExnLScw==}
     engines: {node: '>=18.x', npm: '>=9.x'}
     peerDependencies:
@@ -7245,8 +7151,8 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.1
       '@walletconnect/sign-client': 2.10.1
-      '@walletconnect/types': 2.10.1
-      '@walletconnect/utils': 2.10.1
+      '@walletconnect/types': 2.10.4
+      '@walletconnect/utils': 2.10.4
       '@web3auth/base': 7.1.0(@babel/runtime@7.23.1)
       '@web3auth/base-evm-adapter': 7.1.0(@babel/runtime@7.23.1)
       '@web3auth/ethereum-provider': 7.1.1(@babel/runtime@7.23.1)
@@ -7262,7 +7168,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@web3auth/web3auth-wagmi-connector@5.0.1(@wagmi/core@1.4.2)(@web3auth/base@7.1.0)(@web3auth/modal@7.1.1)(@web3auth/no-modal@7.0.1)(@web3auth/openlogin-adapter@7.0.1)(viem@1.10.7):
+  /@web3auth/web3auth-wagmi-connector@5.0.1(@wagmi/core@1.4.2)(@web3auth/base@7.1.0)(@web3auth/modal@7.1.1)(@web3auth/no-modal@7.1.1)(@web3auth/openlogin-adapter@7.1.1)(viem@1.10.7):
     resolution: {integrity: sha512-6DuOannVDBdjcO2dgyO1h5Snb+MwPSrPQIu0UhcieMgBfa8IbAYdSfvrpahdfTfQr7nY2u+FwewMaHWx4BeVSA==}
     engines: {node: '>=18.x', npm: '>=9.x'}
     peerDependencies:
@@ -7278,9 +7184,9 @@ packages:
     dependencies:
       '@wagmi/core': 1.4.2(@types/react@18.2.12)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2)
       '@web3auth/base': 7.1.0(@babel/runtime@7.23.1)
-      '@web3auth/modal': 7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.1)(@walletconnect/utils@2.10.1)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
-      '@web3auth/no-modal': 7.0.1(@babel/runtime@7.23.1)
-      '@web3auth/openlogin-adapter': 7.0.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)
+      '@web3auth/modal': 7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)(@walletconnect/sign-client@2.10.1)(@walletconnect/types@2.10.4)(@walletconnect/utils@2.10.4)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
+      '@web3auth/no-modal': 7.1.1(@babel/runtime@7.23.1)
+      '@web3auth/openlogin-adapter': 7.1.1(@babel/runtime@7.23.1)(@solana/web3.js@1.78.5)
       viem: 1.10.7(typescript@5.1.3)(zod@3.22.2)
     dev: false
 
@@ -11076,10 +10982,6 @@ packages:
       object.values: 1.1.7
     dev: false
 
-  /jwt-decode@3.1.2:
-    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
-    dev: false
-
   /jwt-decode@4.0.0:
     resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
     engines: {node: '>=18'}
@@ -11217,28 +11119,6 @@ packages:
       '@lit/reactive-element': 1.6.3
       lit-element: 3.3.3
       lit-html: 2.8.0
-    dev: false
-
-  /livepeer@2.8.0(react@18.2.0):
-    resolution: {integrity: sha512-ZYw/bew356VZ1MZE6T7NBV6xgQ6yukqutb/GiSk9Yz+vjJvxy2npu4sEhgZ1pkHFVVczcGVwjZidWWaZ+oMwGg==}
-    peerDependencies:
-      react: '>=17.0.0'
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dependencies:
-      '@livepeer/core': 1.8.6(react@18.2.0)
-      '@stitches/core': 1.2.8
-      core-js: 3.32.2
-      cross-fetch: 4.0.0
-      hls.js: 1.4.12
-      ms: 3.0.0-canary.1
-      react: 18.2.0
-      tus-js-client: 3.1.1
-      zustand: 4.3.9(react@18.2.0)
-    transitivePeerDependencies:
-      - encoding
-      - immer
     dev: false
 
   /localforage@1.10.0:
@@ -14667,7 +14547,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /wagmi@1.4.1(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2):
+  /wagmi@1.4.1(@types/react@18.2.12)(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2):
     resolution: {integrity: sha512-v3xd+uYZfLCAs1I4fLU7U9hg/gCw+Ud005J7kNR0mi20BcFAEU1EDN1LxHxpjUV0qKhOzSlMlrLjJyBCmSYhFA==}
     peerDependencies:
       react: '>=17.0.0'
@@ -14680,7 +14560,7 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.35.3
       '@tanstack/react-query': 4.35.3(react-dom@18.2.0)(react-native@0.72.5)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.35.5(@tanstack/react-query@4.35.3)
-      '@wagmi/core': 1.4.1(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2)
+      '@wagmi/core': 1.4.1(@types/react@18.2.12)(react@18.2.0)(typescript@5.1.3)(viem@1.10.7)(zod@3.22.2)
       abitype: 0.8.7(typescript@5.1.3)(zod@3.22.2)
       react: 18.2.0
       typescript: 5.1.3
@@ -14688,6 +14568,7 @@ packages:
       viem: 1.10.7(typescript@5.1.3)(zod@3.22.2)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
+      - '@types/react'
       - bufferutil
       - encoding
       - immer

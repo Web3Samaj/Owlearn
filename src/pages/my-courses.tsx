@@ -237,7 +237,7 @@ const MyCourses = () => {
             {studentData.boughtCourses.map((val) => {
               return (
                 <Link
-                  href={`/`}
+                  href={`/watch-course/${val.id}`}
                   key={val.id}
                   className={`md:w-[70%] w-[90%] px-4 md:px-0 group rounded-md mt-3 overflow-hidden bg-stone-700 flex items-center flex-wrap hover:-translate-y-1 hover:shadow-lg hover:shadow-black transition-all duration-200 ease-linear justify-between text-xl`}
                 >

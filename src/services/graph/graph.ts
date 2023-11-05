@@ -1,4 +1,9 @@
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloQueryResult,
+  InMemoryCache,
+  gql,
+} from '@apollo/client'
 import {
   allCourseQuery,
   allCourseSearchQuery,
@@ -37,23 +42,31 @@ export const getAllCourses = (courseToFetch: number) => {
     })
 }
 
-export const searchCourses = (courseToFetch: number, searchQuery: string) => {
-  client
-    .query({
-      query: allCourseSearchQuery,
-      variables: {
-        first: courseToFetch,
-        search: searchQuery,
-      },
-    })
-    .then((res) => {
-      console.log(res.data)
-      return res.data
-    })
-    .catch((err) => {
-      console.error(err)
-      return err
-    })
+export type SearchCourseResult = {
+  __typename: 'Course'
+  id: `0x${string}`
+  creatorId: string
+  courseId: string
+  address: `0x${string}`
+  certificateAddress: `0x${string}`
+  courseURI: string
+  mintModule: string | null
+  name: string
+  resourceAddress: `0x${string}`
+  symbol: string
+}
+
+export const searchCourses = async (
+  courseToFetch: number,
+  searchQuery: string
+): Promise<ApolloQueryResult<SearchCourseResult[]>> => {
+  return await client.query({
+    query: allCourseSearchQuery,
+    variables: {
+      first: courseToFetch,
+      search: searchQuery,
+    },
+  })
 }
 
 export const getCourse = (courseId: string) => {
