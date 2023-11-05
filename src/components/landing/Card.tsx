@@ -1,6 +1,8 @@
+import Link from 'next/link'
 import React from 'react'
 
 export interface Icard {
+  id: string
   src: string
   title: string
   author: string
@@ -8,7 +10,15 @@ export interface Icard {
   price: number
   description?: string
 }
-const Card = ({ src, title, author, rating, price, description }: Icard) => {
+const Card = ({
+  id,
+  src,
+  title,
+  author,
+  rating,
+  price,
+  description,
+}: Icard) => {
   function giveStars(num: number) {
     if (num > 4.5) return '⭐️⭐️⭐️⭐️⭐️'
     if (num > 3.5) return '⭐️⭐️⭐️⭐️'
@@ -27,12 +37,18 @@ const Card = ({ src, title, author, rating, price, description }: Icard) => {
         className={`w-full h-[7rem]`}
       />
       <div className={`w-full px-4 `}>
-        <h1
-          className={`w-full  text-md font-bold  pt-2 tracking- truncate font-jakarta    `}
+        <Link href={`/course/${id}`}>
+          <h1
+            className={`w-full  text-md font-bold  pt-2 tracking- truncate font-jakarta hover:cursor-pointer`}
+          >
+            {title}
+          </h1>
+        </Link>
+        <p
+          className={`text-sm text-white/80 font-reeni pt-1 hover:cursor-pointer`}
         >
-          {title}
-        </h1>
-        <p className={`text-sm text-white/80 font-reeni pt-1`}>{author}</p>
+          {author}
+        </p>
         <p className={`text-xs font-bold py-1 mb-1`}>
           {giveStars(rating)} {rating}
         </p>

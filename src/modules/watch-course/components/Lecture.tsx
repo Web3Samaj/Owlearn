@@ -41,29 +41,31 @@ export default function Home({ cid, index }: LectureProps): JSX.Element {
   }, [lectureContext.lectureIndex, lecture])
 
   return (
-    <div
-      className="w-full flex justify-between border rounded-md p-2 hover:bg-gray-700 cursor-pointer"
-      onClick={() => {
-        lectureContext.setLectureIndex(index)
-      }}
-    >
-      <p
-        className="flex-1 w-full text-white/50"
-        style={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
+    <div>
+      <div
+        onClick={() => {
+          lectureContext.setLectureIndex(index)
         }}
+        className={`hover:-translate-y-0.5 hover:shadow-md hover:shadow-black transition-all duration-200 ease-linear mb-2 ${
+          lectureContext.lectureIndex === index
+            ? 'bg-[#5EF8BF] text-black'
+            : ' bg-stone-700'
+        } rounded-md  cursor-pointer  w-full flex items-center justify-between py-2 px-4 `}
       >
-        {lecture?.title}
-      </p>
-      <input
-        className="flex-none"
-        type="checkbox"
-        defaultChecked={
-          lectureContext.completed.has(index) &&
-          lectureContext.completed.get(index)
-        }
-      />
+        <span className={`truncate  `}>{lecture?.title}</span>
+        <input
+          className={`text-xs ${
+            lectureContext.lectureIndex === index
+              ? ' text-black'
+              : ' text-white/50'
+          }  `}
+          type="checkbox"
+          defaultChecked={
+            lectureContext.completed.has(index) &&
+            lectureContext.completed.get(index)
+          }
+        />
+      </div>
     </div>
   )
 }

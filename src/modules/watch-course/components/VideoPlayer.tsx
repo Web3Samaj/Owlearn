@@ -10,11 +10,11 @@ export default function Home(): JSX.Element {
         title={lectureContext.title}
         playbackId={lectureContext.playbackId}
         showPipButton
-        objectFit="cover"
+        objectFit="contain"
         priority
-        autoPlay
+        aspectRatio="16to9"
       />
-      <div className="p-2">
+      <div className="p-2 self-center">
         <p className="text-white/50 text-3xl">{lectureContext.title}</p>
       </div>
     </div>

@@ -1,0 +1,13 @@
+.open {
+  right: calc(50% - 20px);
+}
+
+.close {
+  right: 0;
+}
+
+@media (min-width: 768px) {
+  .open {
+    right: calc(25% - 20px);
+  }
+}
