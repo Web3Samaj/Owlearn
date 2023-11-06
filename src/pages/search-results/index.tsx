@@ -19,7 +19,7 @@ const DEFAULT_SEARCH_RESULT_AMOUNT = 10
 
 const SearchResults = () => {
   const router = useRouter()
-  const [query, setQuery] = React.useState<string>()
+  const [query, setQuery] = React.useState<string>('')
   const [pageNumber, setPageNumber] = React.useState<number>()
   const [input, setInput] = React.useState<string>('')
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
@@ -130,7 +130,7 @@ const SearchResults = () => {
       <div className="flex w-full mx-auto justify-center pt-10">
         {!isFirstPage && (
           <a
-            href="#"
+            href={`?query=${query}&page=${pageNumber! - 1}`}
             className="flex items-center justify-center px-4 h-10 mr-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             <svg
@@ -153,7 +153,7 @@ const SearchResults = () => {
         )}
         {!isLastPage && (
           <a
-            href="#"
+            href={`?query=${query}&page=${pageNumber! + 1}`}
             className="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             Next
