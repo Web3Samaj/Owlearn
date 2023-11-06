@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
-import Card, { Icard } from '@/src/components/landing/Card'
+import { useEffect, useState } from 'react'
+import Card from '@/src/components/landing/Card'
 import { searchCourses } from '@/src/services/graph/graph'
-import { CourseMetadata } from '@/src/constants/metadata_formats'
 import { fetchCourseData } from '@/src/utils'
 
 type Course = {
@@ -13,6 +12,15 @@ type Course = {
   mintModule: string | null
 }
 
+type CourseCard = {
+  id: string
+  uri: string
+  title: string
+  author: string
+  rating: number
+  price: number
+}
+
 // TODO: These temp value are for temporary use until we resolved the way to get these datas
 const TEMP_PRICE = 10
 const TEMP_RATING = 4.5
@@ -20,17 +28,17 @@ const DEFAULT_SEARCH_RESULT_AMOUNT = 10
 
 const SearchResults = () => {
   const router = useRouter()
-  const [query, setQuery] = React.useState<string>('')
-  const [pageNumber, setPageNumber] = React.useState<number>()
-  const [input, setInput] = React.useState<string>('')
-  const [isLoading, setIsLoading] = React.useState<boolean>(true)
-  const [courses, setCourses] = React.useState<Icard[]>([])
+  const [query, setQuery] = useState<string>('')
+  const [pageNumber, setPageNumber] = useState<number>()
+  const [input, setInput] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [courses, setCourses] = useState<CourseCard[]>([])
   const isEmpty = courses.length === 0
   const isFirstPage = pageNumber === 1
   const isLastPage = courses.length < DEFAULT_SEARCH_RESULT_AMOUNT
 
   const courseCards = courses.map((course) => {
-    return <Card key={course.id} {...course} />
+    return <CourseCard key={course.id} {...course} />
   })
 
   useEffect(() => {
@@ -62,35 +70,20 @@ const SearchResults = () => {
     )
     const courseData = res.data.courses
     if (courseData) {
-      const coursesRes = await Promise.allSettled(
-        courseData.map((course) =>
-          setCourseData({
+      setCourses(
+        courseData.map((course) => {
+          return {
             id: course.id,
             uri: course.courseURI,
             title: course.name,
-            creatorId: course.creatorId,
-            mintModule: course.mintModule,
-          })
-        )
+            author: course.educator.username,
+            price: course.mintModule ? TEMP_PRICE : 0,
+            rating: TEMP_RATING,
+          } as CourseCard
+        })
       )
-      const courses = coursesRes.filter(
-        (course) => course.status === 'fulfilled'
-      ) as PromiseFulfilledResult<Icard>[]
-      setCourses(courses.map((course) => course.value))
     }
     setIsLoading(false)
-  }
-
-  async function setCourseData(course: Course) {
-    const data = await fetchCourseData(course.uri)
-    return {
-      id: course.id,
-      src: data.thumbnailURI,
-      title: course.title,
-      author: course.creatorId,
-      rating: TEMP_RATING,
-      price: course.mintModule ? TEMP_PRICE : 0,
-    }
   }
 
   return (
@@ -176,6 +169,30 @@ const SearchResults = () => {
         )}
       </div>
     </div>
+  )
+}
+
+function CourseCard(course: CourseCard) {
+  const [src, setSrc] = useState<string>('')
+  useEffect(() => {
+    fetchCourseData(course.uri)
+      .then((data) => {
+        setSrc(data.thumbnailURI)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [course.uri])
+
+  return (
+    <Card
+      id={course.id}
+      src={src}
+      title={course.title}
+      author={course.author}
+      rating={course.rating}
+      price={course.price}
+    />
   )
 }
 

@@ -4,6 +4,7 @@ import Playlist from '@/modules/watch-course/components/Playlist'
 import { LectureContextProvider } from '@/modules/watch-course/contexts/LectureContext'
 import Image from 'next/image'
 import styles from '@/styles/WatchCourse.module.css'
+import { getCourse } from '@/src/services/graph/graph'
 
 const defaultCids = [
   'bafkreifami5tmfbt2glxioar5x7gbtm7wdswbcjans2lqy4ur6efrpwpua',
@@ -13,6 +14,7 @@ const defaultCids = [
 const WatchCourse = () => {
   const [cids, setCids] = React.useState<string[]>([...defaultCids])
   const [open, setOpen] = React.useState<boolean>(true)
+  getCourse('')
   return (
     <LectureContextProvider>
       <div className="w-full h-full flex relative">

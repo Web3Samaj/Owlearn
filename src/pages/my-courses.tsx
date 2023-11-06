@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { getEnrolledCourses } from '@/src/services/graph/graph'
 import { useAccount } from 'wagmi'
@@ -62,6 +61,7 @@ const MyCourses = () => {
     if (!slides.current) return
     slides.current.style.transform = `translateX(${val * -100}%)`
   }
+
   return (
     <div className=" flex flex-col items-center justify-start w-full font-jakarta min-h-screen md:py-20 py-16 md:px-10 px-5  bg-[#252525]">
       <div className=" flex flex-wrap items-center justify-center w-full gap-5  ">

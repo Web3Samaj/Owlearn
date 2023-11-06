@@ -47,7 +47,7 @@ const Card = ({
         <p
           className={`text-sm text-white/80 font-reeni pt-1 hover:cursor-pointer`}
         >
-          {author}
+          By {author}
         </p>
         <p className={`text-xs font-bold py-1 mb-1`}>
           {giveStars(rating)} {rating}

@@ -45,7 +45,10 @@ export const getAllCourses = (courseToFetch: number) => {
 export type SearchCourseResult = {
   __typename: 'Course'
   id: `0x${string}`
-  creatorId: string
+  educator: {
+    __typename: 'Educator'
+    username: string
+  }
   courseId: string
   address: `0x${string}`
   certificateAddress: `0x${string}`
@@ -129,22 +132,33 @@ export const getCertificate = (certificateId: string) => {
     })
 }
 
-export const getEducator = (educatorId: string) => {
-  client
-    .query({
-      query: indivEducatorQuery,
-      variables: {
-        id: educatorId,
-      },
-    })
-    .then((res) => {
-      console.log(res.data)
-      return res.data
-    })
-    .catch((err) => {
-      console.error(err)
-      return err
-    })
+type EducatorResult = {
+  educatorId: string
+  id: string
+  username: string
+  address: `0x${string}`
+  courses: {
+    __typename: 'Course'
+    address: `0x${string}`
+    courseId: string
+    name: string
+    courseURI: string
+  }[]
+}
+
+type EducatorResultData = {
+  educator: EducatorResult | null
+}
+
+export const getEducator = async (
+  educatorId: string
+): Promise<ApolloQueryResult<EducatorResultData>> => {
+  return await client.query({
+    query: indivEducatorQuery,
+    variables: {
+      id: educatorId,
+    },
+  })
 }
 
 export type EnrolledCourseResult = {
@@ -156,7 +170,7 @@ export type EnrolledCourseResult = {
     __typename: 'Course'
     id: `0x${string}`
     certificate: {
-      __typename: 'Certificate' // NOT SURE
+      __typename: 'Certificate'
       certificateName: string
       certificateBaseURI: string
     }

@@ -28,7 +28,9 @@ export const allCourseSearchQuery = gql`
       where: { name_contains_nocase: $search }
     ) {
       id
-      creatorId
+      educator {
+        username
+      }
       courseId
       address
       certificateAddress
