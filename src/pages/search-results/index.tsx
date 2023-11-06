@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import Card, { Icard } from '@/src/components/landing/Card'
 import { searchCourses } from '@/src/services/graph/graph'
 import { CourseMetadata } from '@/src/constants/metadata_formats'
+import { fetchCourseData } from '@/src/utils'
 
 type Course = {
   id: `0x${string}`
@@ -63,7 +64,7 @@ const SearchResults = () => {
     if (courseData) {
       const coursesRes = await Promise.allSettled(
         courseData.map((course) =>
-          fetchCourseData({
+          setCourseData({
             id: course.id,
             uri: course.courseURI,
             title: course.name,
@@ -80,9 +81,8 @@ const SearchResults = () => {
     setIsLoading(false)
   }
 
-  async function fetchCourseData(course: Course) {
-    const res = await fetch(course.uri)
-    const data: CourseMetadata = await res.json()
+  async function setCourseData(course: Course) {
+    const data = await fetchCourseData(course.uri)
     return {
       id: course.id,
       src: data.thumbnailURI,

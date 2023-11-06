@@ -147,22 +147,37 @@ export const getEducator = (educatorId: string) => {
     })
 }
 
-export const getEnrolledCourses = (studentId: string) => {
-  client
-    .query({
-      query: allEnrolledCourseQuery,
-      variables: {
-        id: studentId,
-      },
-    })
-    .then((res) => {
-      console.log(res.data)
-      return res.data
-    })
-    .catch((err) => {
-      console.error(err)
-      return err
-    })
+export type EnrolledCourseResult = {
+  __typename: 'User'
+  username: string
+  owlId: string
+  address: `0x${string}`
+  enrolledCourses: {
+    __typename: 'Course'
+    id: `0x${string}`
+    certificate: {
+      __typename: 'Certificate' // NOT SURE
+      certificateName: string
+      certificateBaseURI: string
+    }
+    courseURI: string
+    name: string
+  }[]
+}
+
+export type EnrolledCourseResultData = {
+  user: EnrolledCourseResult | null
+}
+
+export const getEnrolledCourses = async (
+  studentId: string
+): Promise<ApolloQueryResult<EnrolledCourseResultData>> => {
+  return await client.query({
+    query: allEnrolledCourseQuery,
+    variables: {
+      id: studentId,
+    },
+  })
 }
 
 export const getAllEducators = (eduToFetch: string) => {

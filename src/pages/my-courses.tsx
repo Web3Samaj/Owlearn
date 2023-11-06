@@ -1,84 +1,62 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { getEnrolledCourses } from '@/src/services/graph/graph'
+import { useAccount } from 'wagmi'
+import { fetchCourseData } from '../utils'
+
+type Course = {
+  id: `0x${string}`
+  title: string
+  uri: string
+  progress: number
+  certificateURI: string
+}
+
+// TODO: This page should be gated
+// TODO: These temp value are for temporary use until we resolved the way to get these datas
+const TEMP_EMAIL = 'merini@gmail.com'
+const TEMP_PFP =
+  'https://live.staticflickr.com/5252/5403292396_0804de9bcf_b.jpg'
+const TEMP_ASSIGNMENTS = [
+  {
+    id: 'mhiv',
+    pdf: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-xTSC6LxkBGTT-nosr6sb_MekBIBbN4GxJg&usqp=CAUhnks',
+  },
+  {
+    id: 'adkbjc',
+    pdf: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-xTSC6LxkBGTT-nosr6sb_MekBIBbN4GxJg&usqp=CAUskjhd',
+  },
+  {
+    id: 'dsgan',
+    pdf: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-xTSC6LxkBGTT-nosr6sb_MekBIBbN4GxJg&usqp=CAUsdkh',
+  },
+]
 
 const MyCourses = () => {
-  const router = useRouter()
-  // {router?.query?.id}
+  const { address } = useAccount()
+  const [name, setName] = useState<string>('')
+  const [courses, setCourses] = useState<Course[]>([])
+  useEffect(() => {
+    if (!address) return
+    getEnrolledCourses(address).then((res) => {
+      if (!res.data.user) return
+      setName(res.data.user.username)
+      const data = res.data.user.enrolledCourses.map((course) => {
+        return {
+          id: course.id,
+          title: course.name,
+          uri: course.courseURI,
+          progress: 0,
+          certificateURI: course.certificate.certificateBaseURI,
+        } as Course
+      })
+      if (data && data.length > 0) {
+        setCourses(data)
+      }
+    })
+  }, [address])
   const slides = useRef<HTMLDivElement>(null!)
-  const studentData = {
-    name: 'Marry Marlow',
-    email: 'merini@gmail.com',
-    pfp: 'https://live.staticflickr.com/5252/5403292396_0804de9bcf_b.jpg',
-    boughtCourses: [
-      {
-        id: 'djklj', // ormaybe only id and rest of the thing we can fetch from the db
-        name: 'The Blockchain Course ',
-        img: 'https://assets-global.website-files.com/5f75fe1dce99248be5a892db/643fca2691c09c6e05c64a03_Understanding-Blockchain-Scalability-Banner_V1.png',
-        progress: 90,
-      },
-      {
-        id: 'aljh',
-        name: 'The python Course ',
-        img: 'https://d.line-scdn.net/stf/linecorp/ja/pr/LINEBlockchain_main.png',
-        progress: 19,
-      },
-      {
-        id: 'ndai',
-        name: 'The foundry Course ',
-        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3E4uV4XLjClPiysUJ9IKbM5xf-zPfjlM7ew&usqp=CAU',
-        progress: 40,
-      },
-      {
-        id: 'gdiia',
-        name: 'The Chainlink Course ',
-        img: 'https://academy-public.coinmarketcap.com/optimized-uploads/2b6ccf98473b4996b7317829328f112c.png',
-        progress: 80,
-      },
-    ],
-
-    nfts: [
-      {
-        id: 'dsjkhf',
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe7788HkJ6QXoBor0X_1Ec5-jP5XIOsa_XbBZN_TEMSrdJFqERToeh_QIvJaK8WmENaWc&usqp=CAU',
-      },
-      {
-        id: 'iygd9',
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1_CrApoIREnsaRDYP08wm5uUccAAFi_pi6w&usqp=CAU',
-      },
-      {
-        id: 'ia8b',
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4Bc7yghhkM_ktrSmjdu5FRlB0uG5xLN4inw&usqp=CAU',
-      },
-      {
-        id: 'dsjdakhf',
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1F_9vEZt_WKNQNDYaF28G7dNjazLK-0pHsw&usqp=CAU',
-      },
-      {
-        id: '8dys',
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Yaqd33gypx-saKrKnml_numj3bE6MBgUxBbEJ_yFggA-ibc8wA7kQaJCcY_7W2dKdBs&usqp=CAU',
-      },
-      {
-        id: 'jaks',
-        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-xTSC6LxkBGTT-nosr6sb_MekBIBbN4GxJg&usqp=CAU',
-      },
-    ],
-
-    assignments: [
-      {
-        id: 'mhiv',
-        pdf: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-xTSC6LxkBGTT-nosr6sb_MekBIBbN4GxJg&usqp=CAUhnks',
-      },
-      {
-        id: 'adkbjc',
-        pdf: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-xTSC6LxkBGTT-nosr6sb_MekBIBbN4GxJg&usqp=CAUskjhd',
-      },
-      {
-        id: 'dsgan',
-        pdf: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-xTSC6LxkBGTT-nosr6sb_MekBIBbN4GxJg&usqp=CAUsdkh',
-      },
-    ],
-  }
 
   function manageSlides(val: number) {
     if (!slides.current) return
@@ -88,18 +66,13 @@ const MyCourses = () => {
     <div className=" flex flex-col items-center justify-start w-full font-jakarta min-h-screen md:py-20 py-16 md:px-10 px-5  bg-[#252525]">
       <div className=" flex flex-wrap items-center justify-center w-full gap-5  ">
         <img
-          src={studentData.pfp}
+          src={TEMP_PFP}
           alt="pfp"
           className={` transition-all duration-300 ease-linear  h-16 w-16  rounded-full  `}
         />
         <div>
-          <h1 className=" md:text-3xl text-2xl  ">
-            {' '}
-            Hello!, {studentData.name}
-          </h1>
-          <h1 className=" md:text-sm text-xs text-white/60  ">
-            {studentData.email}
-          </h1>
+          <h1 className=" md:text-3xl text-2xl  "> Hello!, {name}</h1>
+          <h1 className=" md:text-sm text-xs text-white/60  ">{TEMP_EMAIL}</h1>
         </div>
 
         <div
@@ -158,13 +131,8 @@ const MyCourses = () => {
 
           <div className=" flex  items-center md:justify-around justify-between  mt-2 w-full ">
             <p className=" truncate md:text-4xl text-4xl  font-bold ">
-              {studentData.boughtCourses.length} Courses
+              {courses.length} Courses
             </p>
-            {/* <img
-              src={`/asset/manageCourse/chart.png`}
-              alt="chart"
-              className={` invert  lg:h-20 h-12   p-2.5   rounded-md`}
-            /> */}
           </div>
         </div>
 
@@ -186,13 +154,8 @@ const MyCourses = () => {
 
           <div className=" flex  items-center md:justify-around justify-between  mt-2 w-full ">
             <p className=" truncate md:text-3xl text-xl  font-bold ">
-              {studentData.nfts.length} NFTs & Certificates
+              {courses.length} NFTs & Certificates
             </p>
-            {/* <img
-              src={`/asset/manageCourse/chart.png`}
-              alt="chart"
-              className={` invert  lg:h-20 h-12   p-2.5   rounded-md`}
-            /> */}
           </div>
         </div>
 
@@ -216,11 +179,6 @@ const MyCourses = () => {
 
           <div className=" flex  items-center md:justify-around justify-between  mt-2 w-full ">
             <p className=" truncate md:text-4xl text-4xl  font-bold ">8 PDFs</p>
-            {/* <img
-              src={`/asset/manageCourse/chart.png`}
-              alt="chart"
-              className={` invert  lg:h-20 h-12   p-2.5   rounded-md`}
-            /> */}
           </div>
         </div>
       </div>
@@ -234,7 +192,7 @@ const MyCourses = () => {
             Your Courses
           </p>
           <div className={`flex w-full flex-col items-center`}>
-            {studentData.boughtCourses.map((val) => {
+            {courses.map((val) => {
               return (
                 <Link
                   href={`/watch-course/${val.id}`}
@@ -244,14 +202,8 @@ const MyCourses = () => {
                   <div
                     className={`flex md:w-[30%] w-full justify-center md:justify-start mb-3 md:mb-0 mt-2 md:mt-0 items-center gap-5 `}
                   >
-                    <img
-                      src={val.img}
-                      alt="courseimg"
-                      loading="lazy"
-                      draggable="false"
-                      className={` md:rounded-md rounded-xl px-2 w-[5rem]`}
-                    />
-                    <p className="truncate text-base ">{val.name}</p>
+                    <CourseThumbnail uri={val.uri} />
+                    <p className="truncate text-base ">{val.title}</p>
                   </div>
                   <div className="flex items-center justify-between w-full md:w-[70%]">
                     <div
@@ -294,11 +246,11 @@ const MyCourses = () => {
           <div
             className={`w-full grid overflow-y-scroll md:grid-cols-4 auto-rows-max  md:px-20 px-10  grid-cols-2`}
           >
-            {studentData.nfts.map((data) => {
+            {courses.map((data) => {
               return (
                 <div key={data.id} className={`w-full py-2   `}>
                   <img
-                    src={data.url}
+                    src={data.certificateURI}
                     alt="icon"
                     className={` w-[90%] mx-auto cursor-pointer transition-all duration-200 ease-linear hover:-translate-y-1 hover:shadow-lg hover:shadow-black `}
                     draggable="false"
@@ -313,7 +265,7 @@ const MyCourses = () => {
             Saved Assignments
           </p>
           <div className={`w-full flex flex-col md:px-20 px-10  grid-cols-2`}>
-            {studentData.assignments.map((data) => {
+            {TEMP_ASSIGNMENTS.map((data) => {
               return (
                 <div key={data.id} className={`w-full py-2  `}>
                   <p className={`text-xs text-white     `}>{data.pdf}</p>
@@ -324,6 +276,24 @@ const MyCourses = () => {
         </div>
       </div>
     </div>
+  )
+}
+
+function CourseThumbnail({ uri }: { uri: string }) {
+  const [src, setSrc] = useState<string>('')
+  useEffect(() => {
+    fetchCourseData(uri).then((res) => {
+      setSrc(res.thumbnailURI)
+    })
+  }, [uri])
+  return (
+    <img
+      src={src}
+      alt="courseimg"
+      loading="lazy"
+      draggable="false"
+      className={` md:rounded-md rounded-xl px-2 w-[5rem]`}
+    />
   )
 }
 
