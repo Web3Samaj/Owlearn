@@ -181,9 +181,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (!address) {
         return false
       }
-      const signer = provider.getSigner()
-      const userAddress = await signer.getAddress()
-      return userAddress === address
+      const userAddresses = await provider.getAddresses()
+      return userAddresses.includes(address)
     } catch (error) {
       console.error(error)
       return false
@@ -199,17 +198,20 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         process.env.NEXT_PUBLIC_API_URL + '/auth/nonce'
       )
       const nonce = await nonceRes.text()
-      const signer = provider.getSigner()
+      const address = (await provider.getAddresses())[0]
       const message = new SiweMessage({
         domain: window.location.host,
-        address: await signer.getAddress(),
+        address: address,
         statement: 'Sign in with Ethereum to the app.',
         uri: window.location.origin,
         version: '1',
-        chainId: (await provider.getNetwork()).chainId,
+        chainId: await provider.getChainId(),
         nonce: nonce,
       })
-      const signature = await signer.signMessage(message.prepareMessage())
+      const signature = await provider.signMessage({
+        account: address,
+        message: message.prepareMessage(),
+      })
       const verifyRes = await fetch(
         process.env.NEXT_PUBLIC_API_URL + '/auth/verify',
         {
