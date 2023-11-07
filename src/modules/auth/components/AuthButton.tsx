@@ -6,23 +6,11 @@ export default function Home(): JSX.Element {
   const authContext = useContext(AuthContext)
 
   async function handleLogin() {
-    if (
-      !authContext.web3auth ||
-      authContext.web3auth.status === ADAPTER_STATUS.NOT_READY
-    ) {
-      return
-    }
-    await authContext.web3auth.connect()
+    await authContext.login()
   }
 
   async function handleLogout() {
-    if (
-      !authContext.web3auth ||
-      authContext.web3auth.status === ADAPTER_STATUS.NOT_READY
-    ) {
-      return
-    }
-    await authContext.web3auth.logout()
+    await authContext.logout()
   }
 
   return (
