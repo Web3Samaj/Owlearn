@@ -1,8 +1,8 @@
 import { CourseMetadata } from '../constants/metadata_formats'
+import { getJSONFromIPFS } from '../modules/ipfs/utils'
 
 async function fetchCourseData(uri: string) {
-  const res = await fetch(uri)
-  const data: CourseMetadata = await res.json()
+  const data = await getJSONFromIPFS<CourseMetadata>(uri)
   return data
 }
 

@@ -78,22 +78,50 @@ export const searchCourses = async (
   })
 }
 
-export const getCourse = (courseId: string) => {
-  client
-    .query({
-      query: indivCourseQuery,
-      variables: {
-        id: courseId,
-      },
-    })
-    .then((res) => {
-      console.log(res.data)
-      return res.data
-    })
-    .catch((err) => {
-      console.error(err)
-      return err
-    })
+export type CourseResult = {
+  __typename: 'Course'
+  address: `0x${string}`
+  certificateAddress: `0x${string}`
+  certificate: {
+    __typename: 'Certificate'
+    certificateBaseURI: string
+    certificateName: string
+    certificateSymbol: string
+  }
+  courseId: string
+  courseURI: string
+  creatorId: string
+  educator: {
+    __typename: 'Educator'
+    educatorId: string
+    username: string
+    address: string
+  }
+  id: string
+  mintModule: string | null
+  name: string
+  symbol: string
+  resourceAddress: `0x${string}`
+  resources: {
+    __typename: 'Resource'
+    resourceId: string
+    resourceURI: string
+  }[]
+}
+
+export type CourseResultData = {
+  course: CourseResult | null
+}
+
+export const getCourse = async (
+  courseAddress: `0x${string}`
+): Promise<ApolloQueryResult<CourseResultData>> => {
+  return await client.query({
+    query: indivCourseQuery,
+    variables: {
+      id: courseAddress,
+    },
+  })
 }
 
 export const getResource = (resorceId: string) => {

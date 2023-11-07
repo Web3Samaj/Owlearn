@@ -45,7 +45,7 @@ export const allCourseSearchQuery = gql`
 
 export const indivCourseQuery = gql`
   query ($id: String) {
-    course(id: "") {
+    course(id: $id) {
       address
       certificateAddress
       certificate {

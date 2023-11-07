@@ -1,20 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import VideoPlayer from '@/modules/watch-course/components/VideoPlayer'
 import Playlist from '@/modules/watch-course/components/Playlist'
 import { LectureContextProvider } from '@/modules/watch-course/contexts/LectureContext'
 import Image from 'next/image'
 import styles from '@/styles/WatchCourse.module.css'
 import { getCourse } from '@/src/services/graph/graph'
+import { useRouter } from 'next/router'
 
 const defaultCids = [
   'bafkreifami5tmfbt2glxioar5x7gbtm7wdswbcjans2lqy4ur6efrpwpua',
   'bafkreidxbfshubnuz32rzfo4op5nlmbhbt7tfsx2ztvpvtgrt5ow6ll6ii',
 ]
 
+// TODO: This page should be gated
 const WatchCourse = () => {
-  const [cids, setCids] = React.useState<string[]>([...defaultCids])
-  const [open, setOpen] = React.useState<boolean>(true)
-  getCourse('')
+  const router = useRouter()
+  const [cids, setCids] = useState<string[]>([])
+  const [open, setOpen] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (router.query.id) {
+      getCourse(router.query.id as `0x${string}`).then((res) => {
+        setCids(res.data.course?.resources?.map((r) => r.resourceURI) || [])
+      })
+    }
+  }, [router.query])
+
   return (
     <LectureContextProvider>
       <div className="w-full h-full flex relative">
