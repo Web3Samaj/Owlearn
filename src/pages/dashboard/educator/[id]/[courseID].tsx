@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Player } from '@livepeer/react'
 import { CourseData } from '@/src/utils/interface'
+import AuthContext from '@/modules/auth/contexts/AuthContext'
 
 const ManageCourse = () => {
-  const router = useRouter()
+  const authContext = useContext(AuthContext)
   const textAreaRef = useRef<HTMLTextAreaElement>(null!)
   const [editSlide, setEditSlide] = useState<string | null>(null)
   const [data, setData] = useState<CourseData>({
@@ -153,7 +154,7 @@ const ManageCourse = () => {
     })
   }
 
-  console.log(data)
+  // getCookie('owlearn_auth_cookie')
 
   return (
     <div className="  overflow-hidden w-full min-h-screen bg-[#252525] text-white py-20 md:px-20 px-10 ">
@@ -243,6 +244,7 @@ const ManageCourse = () => {
                   <Player
                     title="course"
                     playbackId={vid.playbackId}
+                    accessKey={authContext.getJwtToken() || ''}
                     loop
                     autoPlay
                     showTitle={false}
