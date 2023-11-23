@@ -124,6 +124,17 @@ export const allEnrolledCourseQuery = gql`
   }
 `
 
+// Query all the enrolled courses for the student
+export const checkEnrolledCourseQuery = gql`
+  query ($id: String) {
+    user(id: $id) {
+      enrolledCourses {
+        id
+      }
+    }
+  }
+`
+
 // Query all educators
 export const allEducatorQuery = gql`
   query ($first: Int) {

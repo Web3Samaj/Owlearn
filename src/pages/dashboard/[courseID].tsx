@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { Player } from '@livepeer/react'
 import { CourseData } from '@/src/utils/interface'
+import AuthContext from '@/modules/auth/contexts/AuthContext'
 
 const ManageCourse = () => {
-  const router = useRouter()
+  const authContext = useContext(AuthContext)
   const textAreaRef = useRef<HTMLTextAreaElement>(null!)
   const [editSlide, setEditSlide] = useState<string | null>(null)
   const [data, setData] = useState<CourseData>({
@@ -153,8 +154,6 @@ const ManageCourse = () => {
     })
   }
 
-  console.log(data)
-
   return (
     <div className="  overflow-hidden w-full min-h-screen bg-[#252525] text-white py-20 md:px-20 px-10 ">
       <div className={` w-full  flex flex-col`}>
@@ -242,7 +241,8 @@ const ManageCourse = () => {
                 <div key={vid.id}>
                   <Player
                     title="course"
-                    playbackId={'89d622m0hiz3wdqj'}
+                    playbackId={vid.playbackId}
+                    accessKey={authContext.getJwtToken() || ''}
                     loop
                     autoPlay
                     showTitle={false}

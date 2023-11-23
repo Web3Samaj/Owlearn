@@ -1,3 +1,7 @@
+export type WebhookContext = {
+  courseId: string
+}
+
 type requestUploadResponse = {
   url: string
   tusEndpoint: string
@@ -14,13 +18,21 @@ type requestUploadResponse = {
     source: {
       type: string
     }
+    playbackPolicy: {
+      type: 'webhook' | 'public' | 'jwt'
+      webhookId: string
+    } & WebhookContext
   }
   task: {
     id: string
   }
 }
 
-export const uploadVideo = async (title: string, file: File) => {
+export const uploadVideo = async (
+  courseId: string,
+  title: string,
+  file: File
+) => {
   const url = 'https://livepeer.studio/api/asset/request-upload'
   const response = await fetch(url, {
     method: 'POST',
@@ -30,31 +42,17 @@ export const uploadVideo = async (title: string, file: File) => {
     },
     body: JSON.stringify({
       name: title,
+      playbackPolicy: {
+        type: 'webhook',
+        webhookId: process.env.NEXT_PUBLIC_LIVEPEER_WEBHOOK_ID as string,
+        webhookContext: {
+          courseId: courseId,
+        } as WebhookContext,
+      },
     }),
   })
   console.log('response', response)
   const data: requestUploadResponse = await response.json()
-  //   {
-  //     "url": "https://origin.livepeer.com/api/asset/upload/direct?token=XYZ",
-  //     "tusEndpoint": "https://origin.livepeer.com/api/asset/upload/tus?token=XYZ",
-  //     "asset": {
-  //         "id": "123",
-  //         "playbackId": "456", // this is the id you need to play the video
-  //         "userId": "213-45",
-  //         "createdAt": 1692356553929,
-  //         "status": {
-  //             "phase": "uploading",
-  //             "updatedAt": 1692356553929
-  //         },
-  //         "name": "Mountain",
-  //         "source": {
-  //             "type": "directUpload"
-  //         }
-  //     },
-  //     "task": {
-  //         "id": "123-gfd-34s"
-  //     }
-  // }
   const uploadResponse = await fetch(data.url, {
     method: 'PUT',
     headers: {
