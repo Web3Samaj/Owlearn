@@ -1,68 +1,61 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { getAllEducators, getEducator } from '@/src/services/graph/graph'
+import { CourseThumbnail } from '@/src/modules/course/CourseThumbnail'
+
+type Course = {
+  address: string
+  name: string
+  earned: number
+  rating: number
+  courseUri: string
+}
+
+// TODO: This page should be gated
+// TODO: These temp value are for temporary use until we resolved the way to get these datas
+const TEMP_EARNED = 7500
+const TEMP_RATING = 4.8
+const TEMP_TOTAL_STUDENTS = 9000
 
 const Educator = () => {
-  const data = {
-    id: 'abc',
-    name: 'Patrik Collins',
-    totalCourses: 5,
-    totalStudents: 8998,
-    walletAddr: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
-
-    courses: [
-      {
-        id: 7863,
-        name: 'Blockchain 32hr Course',
-        courseid: 9543849,
-
-        earned: 8000,
-        rating: 4.8,
-        previewimg:
-          'https://assets-global.website-files.com/5f75fe1dce99248be5a892db/643fca2691c09c6e05c64a03_Understanding-Blockchain-Scalability-Banner_V1.png',
-      },
-      {
-        id: 5726,
-        name: 'Auditing Course',
-        courseid: 923474,
-        earned: 4000,
-        rating: 4.2,
-        previewimg:
-          'https://d.line-scdn.net/stf/linecorp/ja/pr/LINEBlockchain_main.png',
-      },
-      {
-        id: 3874,
-        name: 'Foundry Course',
-        courseid: 3894765,
-        earned: 5600,
-        rating: 3.8,
-        previewimg:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3E4uV4XLjClPiysUJ9IKbM5xf-zPfjlM7ew&usqp=CAU',
-      },
-      {
-        id: 9844,
-        name: 'Python Course',
-        courseid: 740938,
-        earned: 5800,
-        rating: 4.4,
-        previewimg:
-          'https://academy-public.coinmarketcap.com/optimized-uploads/2b6ccf98473b4996b7317829328f112c.png',
-      },
-      {
-        id: 3984,
-        name: 'Chainlink Course',
-        courseid: 64378,
-        earned: 4600,
-        rating: 4.1,
-        previewimg: 'https://i.ytimg.com/vi/Zw3O_QEVOKg/maxresdefault.jpg',
-      },
-    ],
-  }
+  const [loading, setLoading] = React.useState(true)
+  const [educatorName, setEducatorName] = React.useState('')
+  const [educatorWalletAddr, setEducatorWalletAddr] = React.useState('')
+  const [educatorCourses, setEducatorCourses] = React.useState<Course[]>([])
+  const totalCourses = educatorCourses.length
   const router = useRouter()
+
+  useEffect(() => {
+    if (!router.query?.id) {
+      return
+    }
+    getEducator(router.query.id as `0x${string}`).then((res) => {
+      if (!res.data.educator) {
+        router.push('/404')
+        setLoading(false)
+        return
+      }
+      setEducatorName(res.data.educator.username as string)
+      setEducatorWalletAddr(res.data.educator.address as `0x${string}`)
+      setEducatorCourses(
+        res.data.educator.courses.map((val) => {
+          return {
+            address: val.address,
+            name: val.name,
+            earned: TEMP_EARNED,
+            rating: TEMP_RATING,
+            courseUri: val.courseURI,
+          }
+        })
+      )
+      setLoading(false)
+    })
+  }, [router.query?.id])
 
   function getEarnings() {
     // WILL have to make this a async function and will update later
-    const earnArr = data.courses.map((val) => val.earned)
+    const earnArr = educatorCourses.map((val) => val.earned)
     return earnArr.reduce((acc, val) => acc + val, 0)
   }
   //have to make a useeffect to route to a 404 page if someone else other than xtry to access the page
@@ -70,7 +63,7 @@ const Educator = () => {
   return (
     <div className=" flex flex-col bg-[#252525] text-white items-center font-jakarta justify-center w-full min-h-screen py-20 relative overflow-hidden">
       <h1 className={`w-full pl-[10%] text-xl `}>Hii,</h1>
-      <h1 className={`w-full pl-[10%] text-4xl `}>{data?.name}</h1>
+      <h1 className={`w-full pl-[10%] text-4xl `}>{educatorName}</h1>
       <div className={`   w-full pl-[10%] mt-5 `}>
         <Link
           className={`  w-max cursor-pointer flex items-center justify-center gap-3 bg-lime-900 py-2 px-4 rounded-lg hover:bg-lime-800 hover:-translate-y-0.5 transition-all duration-200 ease-linear hover:shadow-md hover:shadow-black `}
@@ -90,7 +83,7 @@ const Educator = () => {
       >
         <div className={` flex flex-col items-center`}>
           <p className="truncate md:text-lg te  text-white/50">Your Courses</p>
-          <p>{data.totalCourses} 📖</p>
+          <p>{totalCourses} 📖</p>
         </div>
         <div className={` flex flex-col items-center`}>
           <p className="truncate md:text-lg te  text-white/50">
@@ -102,28 +95,22 @@ const Educator = () => {
           <p className="truncate md:text-lg te  text-white/50">
             Total Students{' '}
           </p>
-          <p>{data.totalStudents} 👩🏻‍🎓</p>
+          <p>{TEMP_TOTAL_STUDENTS} 👩🏻‍🎓</p>
         </div>
       </div>
 
       <div className={`flex w-full flex-col items-center`}>
-        {data.courses.map((val) => {
+        {educatorCourses.map((val) => {
           return (
             <Link
-              href={`/dashboard/educator/${router.query?.id}/${val.courseid}`}
-              key={val.id}
+              href={`/dashboard/${router.query?.id}/${val.address}`}
+              key={val.address}
               className={`md:w-[70%] w-[90%] px-4 md:px-0 group rounded-md mt-3 overflow-hidden bg-stone-700 flex items-center flex-wrap hover:-translate-y-1 hover:shadow-lg hover:shadow-black transition-all duration-200 ease-linear justify-between text-xl`}
             >
               <div
                 className={`flex md:w-[30%] w-full justify-center md:justify-start mb-3 md:mb-0 mt-2 md:mt-0 items-center gap-5 `}
               >
-                <img
-                  src={val.previewimg}
-                  alt="courseimg"
-                  loading="lazy"
-                  draggable="false"
-                  className={` md:rounded-md rounded-xl px-2 w-[5rem]`}
-                />
+                <CourseThumbnail uri={val.courseUri} />
                 <p className="truncate text-base ">{val.name}</p>
               </div>
               <div className="flex items-center justify-between w-full md:w-[70%]">

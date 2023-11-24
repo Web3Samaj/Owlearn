@@ -180,12 +180,12 @@ type EducatorResultData = {
 }
 
 export const getEducator = async (
-  educatorId: string
+  educatorAddress: `0x${string}`
 ): Promise<ApolloQueryResult<EducatorResultData>> => {
   return await client.query({
     query: indivEducatorQuery,
     variables: {
-      id: educatorId,
+      id: educatorAddress,
     },
   })
 }

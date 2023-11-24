@@ -31,8 +31,9 @@ interface Resource {
   rlinks: string
 }
 
-interface Video {
+type Video = {
   id: string
+  uri: string
   title: string
   playbackId: string
   vdescription: string
@@ -40,8 +41,8 @@ interface Video {
   resources: Resource[]
 }
 
-export interface CourseData {
-  courseId?: string
+export type CourseData = {
+  courseId: string
   totalearnings: number
   enrolledStudent: number
   prize: number

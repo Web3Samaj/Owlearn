@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getEnrolledCourses } from '@/src/services/graph/graph'
 import { useAccount } from 'wagmi'
 import { fetchCourseData } from '../utils'
+import { CourseThumbnail } from '../modules/course/CourseThumbnail'
 
 type Course = {
   id: `0x${string}`
@@ -276,24 +277,6 @@ const MyCourses = () => {
         </div>
       </div>
     </div>
-  )
-}
-
-function CourseThumbnail({ uri }: { uri: string }) {
-  const [src, setSrc] = useState<string>('')
-  useEffect(() => {
-    fetchCourseData(uri).then((res) => {
-      setSrc(res.thumbnailURI)
-    })
-  }, [uri])
-  return (
-    <img
-      src={src}
-      alt="courseimg"
-      loading="lazy"
-      draggable="false"
-      className={` md:rounded-md rounded-xl px-2 w-[5rem]`}
-    />
   )
 }
 

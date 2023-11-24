@@ -3,9 +3,28 @@ import { useRouter } from 'next/router'
 import { Player } from '@livepeer/react'
 import { CourseData } from '@/src/utils/interface'
 import AuthContext from '@/modules/auth/contexts/AuthContext'
+import { getCourse } from '@/src/services/graph/graph'
+import { getJSONFromIPFS } from '@/src/modules/ipfs/utils'
+import {
+  CourseMetadata,
+  ResourceMetadata,
+} from '@/src/constants/metadata_formats'
+
+// TODO: This page should be gated
+// TODO: These temp value are for temporary use until we resolved the way to get these datas
+const TEMP_TOTAL_EARNING = 7500
+const TEMP_RATING = 4.8
+const TEMP_ENROLLED_STUDENTS = 9000
+const TEMP_PRICE = 10
 
 const ManageCourse = () => {
   const authContext = useContext(AuthContext)
+  const router = useRouter()
+  const [loading, setLoading] = useState<boolean>(true) // This is for loading state of whole page
+  const [resourcesLoaded, setResourcesLoaded] = useState<Map<string, boolean>>(
+    new Map()
+  )
+  const [loadingResource, setLoadingResource] = useState<boolean>(false) // This is for loading state of resource (video ) of a particular slide when it's clicked
   const textAreaRef = useRef<HTMLTextAreaElement>(null!)
   const [editSlide, setEditSlide] = useState<string | null>(null)
   const [data, setData] = useState<CourseData>({
@@ -20,6 +39,7 @@ const ManageCourse = () => {
     allvideos: [
       {
         id: '',
+        uri: '',
         title: '',
         playbackId: '',
         vdescription: '',
@@ -39,8 +59,8 @@ const ManageCourse = () => {
     ],
   })
 
-  const courseData = {
-    // courseId: router.query.courseID as string ,
+  const testCourseData = {
+    courseId: router.query.courseID as `0x${string}`,
     totalearnings: 9074,
     enrolledStudent: 938433,
     prize: 23,
@@ -52,6 +72,7 @@ const ManageCourse = () => {
     allvideos: [
       {
         id: 'jsdaj',
+        uri: 'abc',
         title: 'The Introduction',
         playbackId:
           'bafybeigtqixg4ywcem3p6sitz55wy6xvnr565s6kuwhznpwjices3mmxoe',
@@ -82,6 +103,7 @@ const ManageCourse = () => {
       },
       {
         id: 'sgdi',
+        uri: 'abc',
         title: 'The second vid',
         playbackId: 'f5eese9wwl88k4g8',
         vdescription:
@@ -113,8 +135,96 @@ const ManageCourse = () => {
   }
 
   useEffect(() => {
-    setData(courseData)
-  }, [])
+    // setData(testCourseData)
+    if (!router.query.courseID) return
+    getCourse(router.query.id as `0x${string}`).then((res) => {
+      console.log({ res })
+      if (!res.data.course) {
+        router.push('/404')
+        return
+      }
+      setData({
+        courseId: res.data.course.id as string,
+        totalearnings: TEMP_TOTAL_EARNING,
+        enrolledStudent: TEMP_ENROLLED_STUDENTS,
+        prize: TEMP_PRICE,
+        rating: TEMP_RATING,
+        courseName: res.data.course.name as string,
+        img: '',
+        description: '',
+        allvideos: res.data.course?.resources.map((vid) => {
+          return {
+            id: vid.resourceId as string,
+            uri: vid.resourceURI as string,
+            title: '',
+            playbackId: '',
+            vdescription: '',
+            assignments: [],
+            resources: [],
+          }
+        }),
+      })
+      ;(async () => {
+        const result = await getJSONFromIPFS<CourseMetadata>(
+          res.data.course!.courseURI
+        )
+        setData((prev) => {
+          return {
+            ...prev,
+            img: result.thumbnailURI,
+            description: result.description,
+          }
+        })
+        setLoading(false)
+      })()
+    })
+  }, [router.query.courseID])
+
+  async function loadResource(id: string, cid: string) {
+    const result = await getJSONFromIPFS<ResourceMetadata>(cid)
+    setData((prev) => {
+      const temp = { ...prev }
+      const index = temp.allvideos.findIndex((val) => val.id === id)
+      temp.allvideos[index].title = result.name
+      temp.allvideos[index].vdescription = result.description || ''
+      temp.allvideos[index].playbackId = result.playbackId
+      temp.allvideos[index].assignments =
+        result.assignmentURIs?.map((assign, index) => {
+          return {
+            id: index.toString(),
+            alinks: assign,
+          }
+        }) || []
+      temp.allvideos[index].resources =
+        result.externalURIs?.map((rec, index) => {
+          return {
+            id: index.toString(),
+            rlinks: rec,
+          }
+        }) || []
+      return {
+        ...temp,
+      }
+    })
+    setResourcesLoaded((prev) => {
+      const temp = new Map(prev)
+      temp.set(id, true)
+      return temp
+    })
+  }
+
+  useEffect(() => {
+    if (!editSlide) return
+    setLoadingResource(true)
+    if (resourcesLoaded.has(editSlide as string)) {
+      setLoadingResource(false)
+      return
+    }
+    const index = data.allvideos.findIndex((val) => val.id === editSlide)
+    const cid = data.allvideos[index].uri
+    loadResource(editSlide as string, cid)
+    setLoadingResource(false)
+  }, [editSlide])
 
   useEffect(() => {
     if (!textAreaRef.current) return
@@ -157,7 +267,11 @@ const ManageCourse = () => {
   return (
     <div className="  overflow-hidden w-full min-h-screen bg-[#252525] text-white py-20 md:px-20 px-10 ">
       <div className={` w-full  flex flex-col`}>
-        <img src={courseData.img} alt="img" className={`w-full rounded-md`} />
+        <img
+          src={testCourseData.img}
+          alt="img"
+          className={`w-full rounded-md`}
+        />
 
         <div className={` flex flex-col md:text-6xl text-4xl items-start pt-5`}>
           <p className="truncate text-lg   text-white/50">Total Earnings</p>
@@ -188,13 +302,13 @@ const ManageCourse = () => {
           </div>
           <div className={` flex flex-col items-center`}>
             <p className="truncate md:text-lg te  text-white/50">Rating</p>
-            <p> {courseData?.rating} </p>
+            <p> {testCourseData?.rating} </p>
           </div>
           <div className={` flex flex-col items-center`}>
             <p className="truncate md:text-lg te  text-white/50">
               Total Students{' '}
             </p>
-            <p>{courseData?.enrolledStudent} 👩🏻‍🎓</p>
+            <p>{testCourseData?.enrolledStudent} 👩🏻‍🎓</p>
           </div>
         </div>
 
