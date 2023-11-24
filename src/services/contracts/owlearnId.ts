@@ -6,6 +6,7 @@ import {
   prepareAllowListMerkleProof,
   prepareBlackListMerkleProof,
 } from '../utils/merkleProof'
+import { polygonMumbai } from 'wagmi/chains'
 
 const getPrice = async (
   userName: string,
@@ -111,6 +112,7 @@ const checkUsernameEligibility = async (
         functionName: 'checkBlackListName',
         args: [blackListProof, username],
       })
+      // console.log(blackListResult)
 
       const availableHandleResult = await publicClient.readContract({
         account,
@@ -119,6 +121,7 @@ const checkUsernameEligibility = async (
         functionName: 'checkHandle',
         args: [username],
       })
+      // console.log(availableHandleResult)
 
       return {
         isEligible: !blackListResult && availableHandleResult,
@@ -153,11 +156,10 @@ const registerOwlearnId = async (
     const walletClient = await getWalletClient()
     if (!walletClient) return
     if (!account) return
-    console.log(walletClient)
-    console.log(publicClient)
 
     const data = await publicClient.simulateContract({
       account,
+      chain: polygonMumbai,
       address: OWLEARN_ID_ADDRESS,
       abi: OWLEARN_ID_ABI,
       functionName: 'registerOwlId',
