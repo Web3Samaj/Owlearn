@@ -86,7 +86,7 @@ const Navbar = () => {
             <Link
               onClick={() => setOpen(false)}
               className={`  cursor-pointer w-full my-7 flex items-center justify-center  group `}
-              href={`/dashboard/${educatorId}`}
+              href={`/dashboard/${address}`}
             >
               <img
                 src={'/asset/nav/dash.png'}
