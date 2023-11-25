@@ -1,5 +1,5 @@
 export const EDUCATOR_BADGE_ADDRESS =
-  '0x67ef530a7E7C3755Ea9323663d7c178d7300DE27'
+  '0xB26dfA3f1F78083aAbc9B4e07A659CE25BDf8135'
 
 export const EDUCATOR_BADGE_ABI = [
   {
@@ -621,6 +621,19 @@ export const EDUCATOR_BADGE_ABI = [
       },
     ],
     name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'contract OwlearnId',
+        name: 'owlearnIdNew',
+        type: 'address',
+      },
+    ],
+    name: 'updateOwlearnId',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
