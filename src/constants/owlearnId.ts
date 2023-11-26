@@ -1,4 +1,4 @@
-export const OWLEARN_ID_ADDRESS = '0x78eAE42Eb24d4794A8FA0E9dF9846aF65d87BF29'
+export const OWLEARN_ID_ADDRESS = '0x003069002550be7164e2Fbcf6b94F7979AC11c58'
 
 export const allowedAddressList: `0x${string}`[] = [
   '0x62C43323447899acb61C18181e34168903E033Bf',
@@ -645,6 +645,19 @@ export const OWLEARN_ID_ABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'isAllowListEnabled',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
@@ -658,6 +671,32 @@ export const OWLEARN_ID_ABI = [
       },
     ],
     name: 'isApprovedForAll',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'isBlackListEnabled',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'isFeeEnabled',
     outputs: [
       {
         internalType: 'bool',
@@ -890,6 +929,45 @@ export const OWLEARN_ID_ABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bool',
+        name: '_isAllowListEnabled',
+        type: 'bool',
+      },
+    ],
+    name: 'switchIsAllowlistEnabled',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bool',
+        name: '_isBlackListEnabled',
+        type: 'bool',
+      },
+    ],
+    name: 'switchIsBlackListEnabled',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bool',
+        name: '_isFeeEnabled',
+        type: 'bool',
+      },
+    ],
+    name: 'switchIsFeeEnabled',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
