@@ -21,9 +21,9 @@ export const courseFactory = async () => {
   const createCourse = async (
     creatorId: bigint,
     courseName: string,
-    courseSymbol: string,
+    courseSymbol: string, // a short form of nft like SBT or
     courseURI: string,
-    courseNFTURIs: string[],
+    courseNFTURIs: string[], // array of cid ipfs://cid !!!not NFT but the uri of json resourseURI
     certificateBaseURI: string
   ): Promise<[`0x${string}`, bigint] | undefined> => {
     try {

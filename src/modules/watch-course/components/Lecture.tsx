@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { getJSONFromIPFS } from '@/modules/ipfs/utils'
 import LectureContext from '@/modules/watch-course/contexts/LectureContext'
+import { ResourceMetadata } from '@/src/constants/metadata_formats'
 
 type Lecture = {
   title: string
@@ -23,10 +24,10 @@ export default function Home({ cid, index }: LectureProps): JSX.Element {
 
   useEffect(() => {
     async function fetchLecture() {
-      const res = await getJSONFromIPFS<cidResponse>(cid)
+      const res = await getJSONFromIPFS<ResourceMetadata>(cid)
       const lecture = {
-        title: res.title,
-        playbackId: res.video,
+        title: res.name,
+        playbackId: res.playbackId,
       }
       setLecture(lecture)
     }

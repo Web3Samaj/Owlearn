@@ -21,10 +21,16 @@ export const allCourseQuery = gql`
 // query the courses when serarched , pass the string
 // Have to assign how many records we want
 export const allCourseSearchQuery = gql`
-  query ($first: Int, $search: String) {
-    courses(first: $first, where: { name_contains_nocase: $search }) {
+  query ($first: Int, $skip: Int, $search: String) {
+    courses(
+      first: $first
+      skip: $skip
+      where: { name_contains_nocase: $search }
+    ) {
       id
-      creatorId
+      educator {
+        username
+      }
       courseId
       address
       certificateAddress
@@ -39,7 +45,7 @@ export const allCourseSearchQuery = gql`
 
 export const indivCourseQuery = gql`
   query ($id: String) {
-    course(id: "") {
+    course(id: $id) {
       address
       certificateAddress
       certificate {

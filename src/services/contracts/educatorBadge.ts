@@ -6,6 +6,28 @@ import {
 } from '../../constants/educatorBadge'
 import { decodeFunctionResult, getContract } from 'viem'
 
+const getEducatorId = async (): Promise<bigint | undefined> => {
+  try {
+    const { address: account } = getAccount()
+    const publicClient = getPublicClient()
+    if (!account || !publicClient) {
+      return
+    }
+    const result = await publicClient.readContract({
+      account,
+      address: EDUCATOR_BADGE_ADDRESS,
+      abi: EDUCATOR_BADGE_ABI,
+      functionName: 'creatorIdByAddress',
+      args: [account],
+    })
+    return result
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { getEducatorId }
+
 export const educatorBadge = async () => {
   const { address: account } = getAccount()
   const publicClient = getPublicClient()

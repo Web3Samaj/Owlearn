@@ -117,7 +117,7 @@ const CoursesOffer = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  router.push(`/search-results/${input}`)
+                  router.push(`/search-results?query=${input}`)
                 }
               }}
               placeholder="Patrik Collins Blockchain Course"
