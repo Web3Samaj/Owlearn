@@ -1,9 +1,98 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import {
+  checkAddressEligibility,
+  checkUsernameEligibility,
+  registerOwlearnId,
+} from '../services/contracts/owlearnId'
+import { useAccount } from 'wagmi'
+import AuthButton from '@/modules/auth/components/AuthButton'
 
 const Minter = () => {
   const followMouse = useRef<HTMLDivElement>(null!)
+  const { address: account } = useAccount()
+  const [addressState, setAddressState] = useState<
+    | {
+        isEligible: boolean
+        isAllowListEnabled: boolean
+        allowListProof?: string[]
+      }
+    | undefined
+  >()
+  const [userNameState, setUsernameState] = useState<
+    | {
+        isEligible: boolean
+        isBlackListEnabled: boolean
+        blackListProof?: string[]
+      }
+    | undefined
+  >()
 
-  useEffect(() => {}, [])
+  const [username, setUsername] = useState<string>()
+  // fetch the user Address
+
+  // Also fetch Price only if it's enabled
+  // Prepare the Mint tx with all the parameters
+
+  // check if they are Whitelisted ,  do we have to sign-in ??
+  const checkUserEligibility = async () => {
+    if (!account) {
+      console.log('No Address found')
+      return
+    }
+    const data = await checkAddressEligibility(account)
+    if (data) {
+      setAddressState(data)
+
+      // show the alert messages according to the respective case
+    } else {
+      console.log('No Response')
+    }
+  }
+
+  // Then Get the username , check if it's valid
+  const checkUsername = async () => {
+    if (!username) {
+      console.log('No Username found')
+      return
+    }
+    if (!account) {
+      console.log('No Address found')
+      return
+    }
+
+    const data = await checkUsernameEligibility(username)
+    if (data) {
+      console.log(data)
+      setUsernameState(data)
+    }
+  }
+
+  const mintOwlId = async () => {
+    if (!username) {
+      console.log('No Username found')
+      return
+    }
+    if (!account) {
+      console.log('No Address found')
+      return
+    }
+
+    if (addressState && userNameState) {
+      await registerOwlearnId(
+        username,
+        addressState.isAllowListEnabled,
+        userNameState.isBlackListEnabled,
+        addressState.allowListProof,
+        userNameState.blackListProof
+      )
+    }
+  }
+
+  useEffect(() => {
+    if (!addressState && account) {
+      checkUserEligibility()
+    }
+  }, [account])
 
   function mover(e: React.MouseEvent) {
     if (!followMouse.current) return
@@ -70,19 +159,46 @@ const Minter = () => {
               <br /> OR if you&apos;d like to add a personal touch, Feel free to
               use <br />
               <br /> 🍀 Lens.ID. 🍀
+              <br /> {account}
             </p>
             <input
               type="text"
               name="eth"
-              value={'0xadgfjhgsfkdasasgdjfhgdjf98479hjdsfj'}
-              // onChange={(e) => manageEdits(e, idx)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className={`w-[80%] bg-transparent focus:outline-none md:text-xl text-base rounded-md mt-8 p-2 text-center truncate`}
             />
-            <button
-              className={`hover:-translate-y-1 hover:shadow-xl hover:shadow-black transition-all duration-200 ease-linear bg-[#5EF8BF] text-black py-2 px-4 rounded-xl mt-3 font-semibold tracking-widest`}
-            >
-              Mint
-            </button>
+
+            {!account ? (
+              <AuthButton />
+            ) : (
+              <>
+                {addressState?.isEligible ? (
+                  <button
+                    className={`hover:-translate-y-1 hover:shadow-xl hover:shadow-black transition-all duration-200 ease-linear bg-[#5EF8BF] text-black py-2 px-4 rounded-xl mt-3 font-semibold tracking-widest`}
+                    onClick={() => {
+                      if (
+                        addressState?.isEligible &&
+                        userNameState?.isEligible
+                      ) {
+                        mintOwlId()
+                      } else if (
+                        addressState?.isEligible &&
+                        !userNameState?.isEligible
+                      ) {
+                        checkUsername()
+                      }
+                    }}
+                  >
+                    {addressState?.isEligible && userNameState?.isEligible
+                      ? 'Mint'
+                      : 'Check'}
+                  </button>
+                ) : (
+                  <a>User not whitelisted</a>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
